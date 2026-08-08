@@ -19,10 +19,14 @@ jobs:
           java-version: '21'
 
       - name: Set up Flutter
+        id: flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.44.8'
           channel: 'stable'
+
+      - name: Create local.properties
+        run: echo "flutter.sdk=${{ env.FLUTTER_ROOT }}" > android/local.properties
 
       - name: Install dependencies
         run: flutter pub get
