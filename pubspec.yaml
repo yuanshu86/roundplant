@@ -35,7 +35,7 @@ dependencies:
   flutter_local_notifications: ^17.2.0
   # 网络请求（调咱们自己的后端代理，APP 不持第三方 key）
   http: ^1.2.1
-  http_parser: ^1.0.0
+  http_parser: ^4.1.2
 
 dev_dependencies:
   flutter_test:
