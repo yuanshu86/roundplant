@@ -16,7 +16,7 @@ class DatabaseHelper {
 
   Database? _db;
   static const _dbName = 'circle_plant.db';
-  static const _dbVersion = 3;
+  static const _dbVersion = 4;
   static const _uuid = Uuid();
 
   Future<Database> get database async {
@@ -66,6 +66,9 @@ class DatabaseHelper {
         pruning_frequency INTEGER DEFAULT 30,
         last_pruned TEXT,
         next_pruning TEXT,
+        server_id TEXT,
+        sync_status TEXT DEFAULT 'local',
+        owner_id TEXT,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
@@ -90,6 +93,10 @@ class DatabaseHelper {
         extra_image_paths TEXT DEFAULT '[]',
         note TEXT,
         created_at TEXT NOT NULL,
+        server_id TEXT,
+        sync_status TEXT DEFAULT 'local',
+        owner_id TEXT,
+        updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (plant_id) REFERENCES plants(id) ON DELETE CASCADE
       )
     ''');
@@ -280,6 +287,19 @@ class DatabaseHelper {
     if (oldVersion < 3) {
       await db.execute(
           'ALTER TABLE diary_entries ADD COLUMN extra_image_paths TEXT DEFAULT \'[]\'');
+    }
+    if (oldVersion < 4) {
+      // 云同步预埋列（P3 真实社交 / 云同步），旧数据 sync_status 默认 'local'
+      await db.execute('ALTER TABLE plants ADD COLUMN server_id TEXT');
+      await db.execute(
+          "ALTER TABLE plants ADD COLUMN sync_status TEXT DEFAULT 'local'");
+      await db.execute('ALTER TABLE plants ADD COLUMN owner_id TEXT');
+      await db.execute('ALTER TABLE diary_entries ADD COLUMN server_id TEXT');
+      await db.execute(
+          "ALTER TABLE diary_entries ADD COLUMN sync_status TEXT DEFAULT 'local'");
+      await db.execute('ALTER TABLE diary_entries ADD COLUMN owner_id TEXT');
+      await db.execute(
+          'ALTER TABLE diary_entries ADD COLUMN updated_at TEXT DEFAULT CURRENT_TIMESTAMP');
     }
   }
 

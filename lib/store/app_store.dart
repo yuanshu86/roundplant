@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import '../models/plant.dart';
 import '../db/database_helper.dart';
+import '../repository/plant_repository.dart';
+import '../repository/diary_repository.dart';
 import '../services/notification_service.dart';
 
 /// 全局状态管理 — 管理植物列表、任务列表、日记列表、SQLite 持久化
 class AppStore extends ChangeNotifier {
   final _db = DatabaseHelper();
+  final _plantRepo = PlantRepository();
+  final _diaryRepo = DiaryRepository();
   static const _uuid = Uuid();
 
   List<Plant> _plants = [];
@@ -54,10 +58,9 @@ class AppStore extends ChangeNotifier {
 
     try {
       // 首次启动插入示例数据
-      await _db.seedSampleData();
+      await _plantRepo.seedIfEmpty();
       // 加载植物列表
-      final plantRows = await _db.getAllPlants();
-      _plants = plantRows.map(Plant.fromMap).toList();
+      _plants = await _plantRepo.getAll();
       // 加载日记列表
       await _loadDiaries();
       // 确保今日任务已生成
@@ -130,7 +133,7 @@ class AppStore extends ChangeNotifier {
 
   /// 从数据库加载全部日记（JOIN 植物名）
   Future<void> _loadDiaries() async {
-    final rows = await _db.getAllDiaries();
+    final rows = await _diaryRepo.getAllJoined();
     _diaries = rows.map(DiaryEntry.fromMap).toList();
     _diaries.sort((a, b) => b.createdAt.compareTo(a.createdAt));
   }
@@ -162,7 +165,7 @@ class AppStore extends ChangeNotifier {
 
     () async {
       try {
-        await _db.insertDiary(diary);
+        await _diaryRepo.insert(diary);
       } catch (e) {
         debugPrint('addDiary persist error: $e');
       }
@@ -206,7 +209,7 @@ class AppStore extends ChangeNotifier {
     // 异步持久化 (fire-and-forget，UI 已即时更新)
     () async {
       try {
-        await _db.updatePlant(updatedPlant);
+        await _plantRepo.update(updatedPlant);
         await _db.insertWateringRecord(plantId, now);
         if (taskId != null) await _db.completeTask(taskId);
         // 自动添加浇水日记
@@ -217,7 +220,7 @@ class AppStore extends ChangeNotifier {
           note: '给${updatedPlant.name}浇了水',
           createdAt: now,
         );
-        await _db.insertDiary(diary);
+        await _diaryRepo.insert(diary);
         _diaries.insert(0, diary);
         notifyListeners();
       } catch (e) {
@@ -260,7 +263,7 @@ class AppStore extends ChangeNotifier {
 
     () async {
       try {
-        await _db.updatePlant(updated);
+        await _plantRepo.update(updated);
         if (taskType == 'watering') {
           await _db.insertWateringRecord(plantId, now);
         }
@@ -277,7 +280,7 @@ class AppStore extends ChangeNotifier {
           note: action,
           createdAt: now,
         );
-        await _db.insertDiary(diary);
+        await _diaryRepo.insert(diary);
         _diaries.insert(0, diary);
         notifyListeners();
       } catch (e) {
@@ -332,7 +335,7 @@ class AppStore extends ChangeNotifier {
 
     () async {
       try {
-        await _db.insertPlant(plant);
+        await _plantRepo.insert(plant);
         await _ensureTodayTasks();
         await _loadTodayTasks();
         notifyListeners();
@@ -351,7 +354,7 @@ class AppStore extends ChangeNotifier {
 
     () async {
       try {
-        await _db.updatePlant(plant);
+        await _plantRepo.update(plant);
         await _loadTodayTasks();
         notifyListeners();
       } catch (e) {
@@ -369,7 +372,7 @@ class AppStore extends ChangeNotifier {
 
     () async {
       try {
-        await _db.deletePlant(id);
+        await _plantRepo.delete(id);
       } catch (e) {
         debugPrint('removePlant persist error: $e');
       }

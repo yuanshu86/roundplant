@@ -24,6 +24,11 @@ class Plant {
   final String humidityRange;
   final int careDays;
   final int points;
+  // === 云同步预埋字段（P3 真实社交 / 云同步用，本地阶段恒为默认值） ===
+  final String? serverId; // 云端 ID（Supabase row id），本地为空
+  final String syncStatus; // 'local' 仅本地 | 'synced' 已同步 | 'pending' 待上传 | 'conflict' 冲突
+  final String? ownerId; // 所属用户 ID，本地为空
+  final DateTime updatedAt; // 最后更新时间（用于增量同步）
 
   Plant({
     required this.id,
@@ -45,7 +50,11 @@ class Plant {
     required this.humidityRange,
     this.careDays = 1,
     this.points = 0,
-  });
+    this.serverId,
+    this.syncStatus = 'local',
+    this.ownerId,
+    DateTime? updatedAt,
+  }) : updatedAt = updatedAt ?? DateTime.now();
 
   /// 完整 copyWith — 支持编辑所有字段
   Plant copyWith({
@@ -67,6 +76,10 @@ class Plant {
     String? humidityRange,
     int? careDays,
     int? points,
+    String? serverId,
+    String? syncStatus,
+    String? ownerId,
+    DateTime? updatedAt,
   }) {
     return Plant(
       id: id,
@@ -88,6 +101,10 @@ class Plant {
       humidityRange: humidityRange ?? this.humidityRange,
       careDays: careDays ?? this.careDays,
       points: points ?? this.points,
+      serverId: serverId ?? this.serverId,
+      syncStatus: syncStatus ?? this.syncStatus,
+      ownerId: ownerId ?? this.ownerId,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
@@ -104,6 +121,10 @@ class Plant {
     'humidity_range': humidityRange,
     'care_days': careDays,
     'points': points,
+    'server_id': serverId,
+    'sync_status': syncStatus,
+    'owner_id': ownerId,
+    'updated_at': updatedAt.toIso8601String(),
     'last_watered': lastWatered.toIso8601String(),
     'next_watering': nextWatering.toIso8601String(),
     'fertilizing_frequency': fertilizingFrequency,
@@ -126,6 +147,12 @@ class Plant {
     humidityRange: map['humidity_range'] as String? ?? '50-70%',
     careDays: (map['care_days'] as int?) ?? 1,
     points: (map['points'] as int?) ?? 0,
+    serverId: map['server_id'] as String?,
+    syncStatus: (map['sync_status'] as String?) ?? 'local',
+    ownerId: map['owner_id'] as String?,
+    updatedAt: map['updated_at'] != null
+        ? DateTime.parse(map['updated_at'] as String)
+        : DateTime.now(),
     lastWatered: map['last_watered'] != null
         ? DateTime.parse(map['last_watered'] as String)
         : DateTime.now(),
@@ -169,6 +196,10 @@ class Plant {
     'humidityRange': humidityRange,
     'careDays': careDays,
     'points': points,
+    'serverId': serverId,
+    'syncStatus': syncStatus,
+    'ownerId': ownerId,
+    'updatedAt': updatedAt.toIso8601String(),
   };
 
   factory Plant.fromJson(Map<String, dynamic> json) => Plant(
@@ -191,6 +222,12 @@ class Plant {
     humidityRange: json['humidityRange'] as String,
     careDays: json['careDays'] as int? ?? 1,
     points: json['points'] as int? ?? 0,
+    serverId: json['serverId'] as String?,
+    syncStatus: json['syncStatus'] as String? ?? 'local',
+    ownerId: json['ownerId'] as String?,
+    updatedAt: json['updatedAt'] != null
+        ? DateTime.parse(json['updatedAt'] as String)
+        : DateTime.now(),
   );
 
   // === 业务逻辑 ===
@@ -342,6 +379,11 @@ class DiaryEntry {
   final List<String> extraImagePaths; // 附加图，一次记录可存多张
   final String? note;
   final DateTime createdAt;
+  // === 云同步预埋字段 ===
+  final String? serverId;
+  final String syncStatus;
+  final String? ownerId;
+  final DateTime updatedAt;
 
   DiaryEntry({
     required this.id,
@@ -350,7 +392,11 @@ class DiaryEntry {
     this.extraImagePaths = const [],
     this.note,
     required this.createdAt,
-  });
+    this.serverId,
+    this.syncStatus = 'local',
+    this.ownerId,
+    DateTime? updatedAt,
+  }) : updatedAt = updatedAt ?? DateTime.now();
 
   /// 所有图片路径（主图 + 附加图）
   List<String> get allImagePaths => imagePath.isNotEmpty
@@ -364,6 +410,10 @@ class DiaryEntry {
     'extra_image_paths': jsonEncode(extraImagePaths),
     'note': note,
     'created_at': createdAt.toIso8601String(),
+    'server_id': serverId,
+    'sync_status': syncStatus,
+    'owner_id': ownerId,
+    'updated_at': updatedAt.toIso8601String(),
   };
 
   factory DiaryEntry.fromMap(Map<String, dynamic> map) {
@@ -386,6 +436,12 @@ class DiaryEntry {
       extraImagePaths: extraPaths,
       note: map['note'] as String?,
       createdAt: DateTime.parse(map['created_at'] as String),
+      serverId: map['server_id'] as String?,
+      syncStatus: (map['sync_status'] as String?) ?? 'local',
+      ownerId: map['owner_id'] as String?,
+      updatedAt: map['updated_at'] != null
+          ? DateTime.parse(map['updated_at'] as String)
+          : DateTime.now(),
     );
   }
 }
