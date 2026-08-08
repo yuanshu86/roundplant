@@ -45,9 +45,8 @@ jobs:
           if [ -f build/app/outputs/flutter-apk/app-release.apk ]; then
             echo "BUILD SUCCESS"
           else
-            echo "BUILD FAILED"
-            echo "=== tail of build log ==="
-            tail -n 300 build.log
+            echo "BUILD FAILED - 下面是错误日志:"
+            sed 's/\x1b\[[0-9;]*m//g' build.log 2>/dev/null | tail -n 250 || echo "no build.log"
             exit 1
           fi
 
