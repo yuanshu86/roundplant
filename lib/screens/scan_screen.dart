@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_colors.dart';
@@ -53,6 +55,8 @@ class _ScanScreenState extends State<ScanScreen> {
 
   Future<void> _capture(ImageSource source) async {
     if (_isScanning) return;
+    final granted = await _ensurePermission(source);
+    if (!granted) return;
     final XFile? file = await _picker.pickImage(
       source: source,
       imageQuality: 80,
@@ -60,6 +64,59 @@ class _ScanScreenState extends State<ScanScreen> {
     );
     if (file == null) return;
     await _identify(file);
+  }
+
+  /// 打开相机/相册前先请求权限；被永久拒绝则引导去系统设置开启
+  Future<bool> _ensurePermission(ImageSource source) async {
+    final perm =
+        source == ImageSource.camera ? Permission.camera : Permission.photos;
+    PermissionStatus status = await perm.status;
+    if (status.isGranted) return true;
+
+    status = await perm.request();
+    if (status.isGranted) return true;
+
+    if (status.isPermanentlyDenied || status.isRestricted) {
+      _showOpenSettingsDialog(perm);
+      return false;
+    }
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('需要${_permLabel(perm)}权限才能'
+              '${source == ImageSource.camera ? "拍照" : "选择图片"}'),
+        ),
+      );
+    }
+    return false;
+  }
+
+  String _permLabel(Permission p) => p == Permission.camera ? '相机' : '相册';
+
+  void _showOpenSettingsDialog(Permission perm) {
+    if (!mounted) return;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('需要${_permLabel(perm)}权限'),
+        content: Text('${_permLabel(perm)}权限已被永久拒绝，'
+            '请到系统设置中手动开启后重试。'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('取消'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              openAppSettings();
+            },
+            child: const Text('去设置'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _identify(XFile file) async {
@@ -104,8 +161,13 @@ class _ScanScreenState extends State<ScanScreen> {
       } else {
         setState(() => _error = '服务异常 (${resp.statusCode})');
       }
-    } catch (_) {
-      setState(() => _error = '网络错误，请检查网络或稍后再试');
+    } on TimeoutException catch (_) {
+      setState(() => _error = '识别超时，请检查网络或稍后再试');
+    } on SocketException catch (_) {
+      setState(() => _error = '网络连接失败，请检查网络权限或稍后重试');
+    } catch (e) {
+      debugPrint('AI 识别异常: $e');
+      setState(() => _error = '网络错误 (${e.runtimeType})');
     } finally {
       if (mounted) setState(() => _isScanning = false);
     }
