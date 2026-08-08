@@ -33,6 +33,9 @@ dependencies:
   path: ^1.9.0
   # 本地通知（每日养护提醒，非侵入式，绝不做弹窗广告）
   flutter_local_notifications: ^17.2.0
+  # 网络请求（调咱们自己的后端代理，APP 不持第三方 key）
+  http: ^1.2.1
+  http_parser: ^1.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,0 +1,15 @@
+{
+  "name": "roundplant-ai-proxy",
+  "version": "1.0.0",
+  "description": "圆形植物 AI 识花后端代理 — 持有 Pl@ntNet key，APP 不直接接触 key",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "multer": "^2.0.1"
+  }
+}

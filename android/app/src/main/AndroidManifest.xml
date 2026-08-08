@@ -1,6 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Android 13+ 本地通知权限（每日养护提醒需要） -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- 拍照识别植物需要 -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- 从相册选图需要（Android 13+） -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <!-- 兼容 Android 12 及以下相册读取 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>
     <application
         android:label="circle_plant"
         android:name="${applicationName}"
