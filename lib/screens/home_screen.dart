@@ -72,7 +72,23 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const AppLogo(size: 64),
+            Container(
+              width: 72,
+              height: 72,
+              padding: const EdgeInsets.all(6),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x1A15803D),
+                    blurRadius: 16,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: const AppLogo(size: 60),
+            ),
           ],
         ),
       ),

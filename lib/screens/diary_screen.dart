@@ -34,16 +34,20 @@ class _DiaryScreenState extends State<DiaryScreen> {
     return Consumer<AppStore>(
       builder: (context, store, _) {
         final diaries = _filteredDiaries(store);
-        return Column(
-          children: [
-            _buildHeader(store),
-            if (diaries.isNotEmpty) _buildFilterChips(store),
-            Expanded(
-              child: diaries.isEmpty
-                  ? _buildEmpty(store)
-                  : _buildTimeline(diaries, store),
-            ),
-          ],
+        return Container(
+          color: AppColors.bg,
+          child: Column(
+            children: [
+              const SizedBox(height: 40),
+              _buildHeader(store),
+              if (diaries.isNotEmpty) _buildFilterChips(store),
+              Expanded(
+                child: diaries.isEmpty
+                    ? _buildEmpty(store)
+                    : _buildTimeline(diaries, store),
+              ),
+            ],
+          ),
         );
       },
     );
@@ -51,7 +55,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
 
   Widget _buildHeader(AppStore store) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+      padding: const EdgeInsets.fromLTRB(20, 32, 20, 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
