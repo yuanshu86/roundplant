@@ -37,7 +37,19 @@ jobs:
         run: flutter pub get
 
       - name: Build release APK
-        run: flutter build apk --release
+        run: flutter build apk --release | tee build.log
+        continue-on-error: true
+
+      - name: Check build result
+        run: |
+          if [ -f build/app/outputs/flutter-apk/app-release.apk ]; then
+            echo "BUILD SUCCESS"
+          else
+            echo "BUILD FAILED"
+            echo "=== tail of build log ==="
+            tail -n 300 build.log
+            exit 1
+          fi
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
