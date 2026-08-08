@@ -14,8 +14,12 @@ class NotificationService {
     const settings = InitializationSettings(android: android, iOS: darwin);
     await _plugin.initialize(settings);
     _initialized = true;
+    await requestPermission();
+  }
 
-    // Android 13+ 需动态申请通知权限
+  /// 申请通知权限（可在首启引导中主动调用，也可由系统权限弹窗触发）
+  static Future<void> requestPermission() async {
+    if (!_initialized) return;
     await _plugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()

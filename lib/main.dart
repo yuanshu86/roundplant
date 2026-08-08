@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'theme/app_colors.dart';
 import 'store/app_store.dart';
 import 'screens/main_shell.dart';
@@ -8,17 +9,21 @@ import 'screens/detail_screen.dart';
 import 'screens/scan_screen.dart';
 import 'screens/share_sheet.dart';
 import 'screens/nearby_screen.dart';
+import 'screens/onboarding_screen.dart';
 import 'models/plant.dart';
 import 'services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService.init();
-  runApp(const CirclePlantApp());
+  final prefs = await SharedPreferences.getInstance();
+  final seen = prefs.getBool('onboarded') ?? false;
+  runApp(CirclePlantApp(initialRoute: seen ? '/' : '/onboarding'));
 }
 
 class CirclePlantApp extends StatelessWidget {
-  const CirclePlantApp({super.key});
+  final String initialRoute;
+  const CirclePlantApp({super.key, this.initialRoute = '/'});
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +50,13 @@ class CirclePlantApp extends StatelessWidget {
             elevation: 0,
           ),
         ),
-        initialRoute: '/',
+        initialRoute: initialRoute,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(builder: (_) => const MainShell());
+            case '/onboarding':
+              return MaterialPageRoute(builder: (_) => const OnboardingScreen());
             case '/detail':
               final plant = settings.arguments as Plant;
               return MaterialPageRoute(

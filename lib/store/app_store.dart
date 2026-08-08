@@ -82,6 +82,15 @@ class AppStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// 重新排程每日养护提醒（待办数量变化时调用，非侵入：每天仅一条）
+  void _rescheduleReminder() {
+    try {
+      NotificationService.scheduleDailyReminder(dueCareCount);
+    } catch (e) {
+      debugPrint('reschedule reminder error: $e');
+    }
+  }
+
   /// 为到期但未生成今日任务的植物，按类型（浇水/施肥/修剪）创建任务
   Future<void> _ensureTodayTasks() async {
     for (final plant in _plants) {
@@ -205,6 +214,7 @@ class AppStore extends ChangeNotifier {
     }
 
     notifyListeners();
+    _rescheduleReminder();
 
     // 异步持久化 (fire-and-forget，UI 已即时更新)
     () async {
@@ -260,6 +270,7 @@ class AppStore extends ChangeNotifier {
     if (tIdx != -1) _tasks[tIdx].isCompleted = true;
 
     notifyListeners();
+    _rescheduleReminder();
 
     () async {
       try {
@@ -332,6 +343,7 @@ class AppStore extends ChangeNotifier {
   void addPlant(Plant plant) {
     _plants.add(plant);
     notifyListeners();
+    _rescheduleReminder();
 
     () async {
       try {
@@ -351,6 +363,7 @@ class AppStore extends ChangeNotifier {
     if (idx == -1) return;
     _plants[idx] = plant;
     notifyListeners();
+    _rescheduleReminder();
 
     () async {
       try {
@@ -369,6 +382,7 @@ class AppStore extends ChangeNotifier {
     _tasks.removeWhere((t) => t.plantId == id);
     _diaries.removeWhere((d) => d.plantId == id);
     notifyListeners();
+    _rescheduleReminder();
 
     () async {
       try {
