@@ -1,0 +1,1744 @@
+/C:/flutter/bin/flutter:24:31: Error: String starting with ' must end with '.
+# On Mac OS, readlink -f doesn't work, so follow_links traverses the path one
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/C:/flutter/bin/flutter:28:63: Error: String starting with ' must end with '.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                                                              ^^^^^^^^^^^^^^
+/C:/flutter/bin/flutter:40:14: Error: A '$' has special meaning inside a string, and must be followed by an identifier or an expression in curly braces ({}).
+Try adding a backslash (\) to escape the '$'.
+  cd -P -- "$(dirname -- "$1")"
+             ^
+/C:/flutter/bin/flutter:41:15: Error: A '$' has special meaning inside a string, and must be followed by an identifier or an expression in curly braces ({}).
+Try adding a backslash (\) to escape the '$'.
+  file="$PWD/$(basename -- "$1")"
+              ^
+/C:/flutter/bin/flutter:43:16: Error: A '$' has special meaning inside a string, and must be followed by an identifier or an expression in curly braces ({}).
+Try adding a backslash (\) to escape the '$'.
+    cd -P -- "$(dirname -- "$file")"
+               ^
+/C:/flutter/bin/flutter:44:12: Error: A '$' has special meaning inside a string, and must be followed by an identifier or an expression in curly braces ({}).
+Try adding a backslash (\) to escape the '$'.
+    file="$(readlink -- "$file")"
+           ^
+/C:/flutter/bin/flutter:45:16: Error: A '$' has special meaning inside a string, and must be followed by an identifier or an expression in curly braces ({}).
+Try adding a backslash (\) to escape the '$'.
+    cd -P -- "$(dirname -- "$file")"
+               ^
+/C:/flutter/bin/flutter:46:17: Error: A '$' has special meaning inside a string, and must be followed by an identifier or an expression in curly braces ({}).
+Try adding a backslash (\) to escape the '$'.
+    file="$PWD/$(basename -- "$file")"
+                ^
+/C:/flutter/bin/flutter:51:13: Error: A '$' has special meaning inside a string, and must be followed by an identifier or an expression in curly braces ({}).
+Try adding a backslash (\) to escape the '$'.
+PROG_NAME="$(follow_links "${BASH_SOURCE[0]}")"
+            ^
+/C:/flutter/bin/flutter:52:11: Error: A '$' has special meaning inside a string, and must be followed by an identifier or an expression in curly braces ({}).
+Try adding a backslash (\) to escape the '$'.
+BIN_DIR="$(cd -P -- "${PROG_NAME%/*}" ; pwd -P)"
+          ^
+/C:/flutter/bin/flutter:52:34: Error: Comment starting with '/*' must end with '*/'.
+BIN_DIR="$(cd -P -- "${PROG_NAME%/*}" ; pwd -P)"
+                                 ^
+/C:/flutter/bin/flutter:52:23: Error: Can't find '}' to match '{'.
+BIN_DIR="$(cd -P -- "${PROG_NAME%/*}" ; pwd -P)"
+                      ^
+/C:/flutter/bin/flutter:2:1: Error: Expected a declaration, but got '#'.
+# Copyright 2014 The Flutter Authors. All rights reserved.
+^
+/C:/flutter/bin/flutter:2:3: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# Copyright 2014 The Flutter Authors. All rights reserved.
+  ^^^^^^^^^
+/C:/flutter/bin/flutter:2:3: Error: Expected ';' after this.
+# Copyright 2014 The Flutter Authors. All rights reserved.
+  ^^^^^^^^^
+/C:/flutter/bin/flutter:2:13: Error: Expected a declaration, but got '2014'.
+# Copyright 2014 The Flutter Authors. All rights reserved.
+            ^^^^
+/C:/flutter/bin/flutter:2:22: Error: Expected ';' after this.
+# Copyright 2014 The Flutter Authors. All rights reserved.
+                     ^^^^^^^
+/C:/flutter/bin/flutter:2:43: Error: Expected ';' after this.
+# Copyright 2014 The Flutter Authors. All rights reserved.
+                                          ^^^^^^
+/C:/flutter/bin/flutter:2:50: Error: A function declaration needs an explicit list of parameters.
+Try adding a parameter list to the function declaration.
+# Copyright 2014 The Flutter Authors. All rights reserved.
+                                                 ^^^^^^^^
+/C:/flutter/bin/flutter:2:58: Error: Expected '{' before this.
+# Copyright 2014 The Flutter Authors. All rights reserved.
+                                                         ^
+/C:/flutter/bin/flutter:2:58: Error: Expected a declaration, but got '.'.
+# Copyright 2014 The Flutter Authors. All rights reserved.
+                                                         ^
+/C:/flutter/bin/flutter:3:1: Error: Expected a declaration, but got '#'.
+# Use of this source code is governed by a BSD-style license that can be
+^
+/C:/flutter/bin/flutter:3:7: Error: Expected ';' after this.
+# Use of this source code is governed by a BSD-style license that can be
+      ^^
+/C:/flutter/bin/flutter:3:10: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# Use of this source code is governed by a BSD-style license that can be
+         ^^^^
+/C:/flutter/bin/flutter:3:10: Error: 'this' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# Use of this source code is governed by a BSD-style license that can be
+         ^^^^
+/C:/flutter/bin/flutter:3:10: Error: Expected ';' after this.
+# Use of this source code is governed by a BSD-style license that can be
+         ^^^^
+/C:/flutter/bin/flutter:3:22: Error: Expected ';' after this.
+# Use of this source code is governed by a BSD-style license that can be
+                     ^^^^
+/C:/flutter/bin/flutter:3:27: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# Use of this source code is governed by a BSD-style license that can be
+                          ^^
+/C:/flutter/bin/flutter:3:27: Error: 'is' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# Use of this source code is governed by a BSD-style license that can be
+                          ^^
+/C:/flutter/bin/flutter:3:27: Error: Expected ';' after this.
+# Use of this source code is governed by a BSD-style license that can be
+                          ^^
+/C:/flutter/bin/flutter:3:39: Error: Expected ';' after this.
+# Use of this source code is governed by a BSD-style license that can be
+                                      ^^
+/C:/flutter/bin/flutter:3:44: Error: Expected ';' after this.
+# Use of this source code is governed by a BSD-style license that can be
+                                           ^^^
+/C:/flutter/bin/flutter:3:47: Error: Expected a declaration, but got '-'.
+# Use of this source code is governed by a BSD-style license that can be
+                                              ^
+/C:/flutter/bin/flutter:3:54: Error: Expected ';' after this.
+# Use of this source code is governed by a BSD-style license that can be
+                                                     ^^^^^^^
+/C:/flutter/bin/flutter:3:67: Error: Expected ';' after this.
+# Use of this source code is governed by a BSD-style license that can be
+                                                                  ^^^
+/C:/flutter/bin/flutter:3:71: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# Use of this source code is governed by a BSD-style license that can be
+                                                                      ^^
+/C:/flutter/bin/flutter:3:71: Error: Expected ';' after this.
+# Use of this source code is governed by a BSD-style license that can be
+                                                                      ^^
+/C:/flutter/bin/flutter:4:1: Error: Expected a declaration, but got '#'.
+# found in the LICENSE file.
+^
+/C:/flutter/bin/flutter:4:3: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# found in the LICENSE file.
+  ^^^^^
+/C:/flutter/bin/flutter:4:3: Error: Expected ';' after this.
+# found in the LICENSE file.
+  ^^^^^
+/C:/flutter/bin/flutter:4:9: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# found in the LICENSE file.
+        ^^
+/C:/flutter/bin/flutter:4:9: Error: 'in' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# found in the LICENSE file.
+        ^^
+/C:/flutter/bin/flutter:4:9: Error: Expected ';' after this.
+# found in the LICENSE file.
+        ^^
+/C:/flutter/bin/flutter:4:16: Error: Expected ';' after this.
+# found in the LICENSE file.
+               ^^^^^^^
+/C:/flutter/bin/flutter:4:24: Error: A function declaration needs an explicit list of parameters.
+Try adding a parameter list to the function declaration.
+# found in the LICENSE file.
+                       ^^^^
+/C:/flutter/bin/flutter:4:28: Error: Expected '{' before this.
+# found in the LICENSE file.
+                           ^
+/C:/flutter/bin/flutter:4:28: Error: Expected a declaration, but got '.'.
+# found in the LICENSE file.
+                           ^
+/C:/flutter/bin/flutter:6:1: Error: Expected a declaration, but got '#'.
+# ---------------------------------- NOTE ---------------------------------- #
+^
+/C:/flutter/bin/flutter:6:3: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+  ^^
+/C:/flutter/bin/flutter:6:5: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+    ^^
+/C:/flutter/bin/flutter:6:7: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+      ^^
+/C:/flutter/bin/flutter:6:9: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+        ^^
+/C:/flutter/bin/flutter:6:11: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+          ^^
+/C:/flutter/bin/flutter:6:13: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+            ^^
+/C:/flutter/bin/flutter:6:15: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+              ^^
+/C:/flutter/bin/flutter:6:17: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                ^^
+/C:/flutter/bin/flutter:6:19: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                  ^^
+/C:/flutter/bin/flutter:6:21: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                    ^^
+/C:/flutter/bin/flutter:6:23: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                      ^^
+/C:/flutter/bin/flutter:6:25: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                        ^^
+/C:/flutter/bin/flutter:6:27: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                          ^^
+/C:/flutter/bin/flutter:6:29: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                            ^^
+/C:/flutter/bin/flutter:6:31: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                              ^^
+/C:/flutter/bin/flutter:6:33: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                ^^
+/C:/flutter/bin/flutter:6:35: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                  ^^
+/C:/flutter/bin/flutter:6:38: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                     ^^^^
+/C:/flutter/bin/flutter:6:38: Error: Expected ';' after this.
+# ---------------------------------- NOTE ---------------------------------- #
+                                     ^^^^
+/C:/flutter/bin/flutter:6:43: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                          ^^
+/C:/flutter/bin/flutter:6:45: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                            ^^
+/C:/flutter/bin/flutter:6:47: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                              ^^
+/C:/flutter/bin/flutter:6:49: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                ^^
+/C:/flutter/bin/flutter:6:51: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                  ^^
+/C:/flutter/bin/flutter:6:53: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                    ^^
+/C:/flutter/bin/flutter:6:55: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                      ^^
+/C:/flutter/bin/flutter:6:57: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                        ^^
+/C:/flutter/bin/flutter:6:59: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                          ^^
+/C:/flutter/bin/flutter:6:61: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                            ^^
+/C:/flutter/bin/flutter:6:63: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                              ^^
+/C:/flutter/bin/flutter:6:65: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                                ^^
+/C:/flutter/bin/flutter:6:67: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                                  ^^
+/C:/flutter/bin/flutter:6:69: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                                    ^^
+/C:/flutter/bin/flutter:6:71: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                                      ^^
+/C:/flutter/bin/flutter:6:73: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                                        ^^
+/C:/flutter/bin/flutter:6:75: Error: Expected a declaration, but got '--'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                                          ^^
+/C:/flutter/bin/flutter:6:78: Error: Expected a declaration, but got '#'.
+# ---------------------------------- NOTE ---------------------------------- #
+                                                                             ^
+/C:/flutter/bin/flutter:7:1: Error: Expected a declaration, but got '#'.
+#
+^
+/C:/flutter/bin/flutter:8:1: Error: Expected a declaration, but got '#'.
+# Please keep the logic in this file consistent with the logic in the
+^
+/C:/flutter/bin/flutter:8:10: Error: Expected ';' after this.
+# Please keep the logic in this file consistent with the logic in the
+         ^^^^
+/C:/flutter/bin/flutter:8:19: Error: Expected ';' after this.
+# Please keep the logic in this file consistent with the logic in the
+                  ^^^^^
+/C:/flutter/bin/flutter:8:25: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# Please keep the logic in this file consistent with the logic in the
+                        ^^
+/C:/flutter/bin/flutter:8:25: Error: 'in' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# Please keep the logic in this file consistent with the logic in the
+                        ^^
+/C:/flutter/bin/flutter:8:25: Error: Expected ';' after this.
+# Please keep the logic in this file consistent with the logic in the
+                        ^^
+/C:/flutter/bin/flutter:8:28: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# Please keep the logic in this file consistent with the logic in the
+                           ^^^^
+/C:/flutter/bin/flutter:8:28: Error: 'this' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# Please keep the logic in this file consistent with the logic in the
+                           ^^^^
+/C:/flutter/bin/flutter:8:28: Error: Expected ';' after this.
+# Please keep the logic in this file consistent with the logic in the
+                           ^^^^
+/C:/flutter/bin/flutter:8:38: Error: Expected ';' after this.
+# Please keep the logic in this file consistent with the logic in the
+                                     ^^^^^^^^^^
+/C:/flutter/bin/flutter:8:49: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# Please keep the logic in this file consistent with the logic in the
+                                                ^^^^
+/C:/flutter/bin/flutter:8:49: Error: 'with' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# Please keep the logic in this file consistent with the logic in the
+                                                ^^^^
+/C:/flutter/bin/flutter:8:49: Error: Expected ';' after this.
+# Please keep the logic in this file consistent with the logic in the
+                                                ^^^^
+/C:/flutter/bin/flutter:8:58: Error: Expected ';' after this.
+# Please keep the logic in this file consistent with the logic in the
+                                                         ^^^^^
+/C:/flutter/bin/flutter:8:64: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# Please keep the logic in this file consistent with the logic in the
+                                                               ^^
+/C:/flutter/bin/flutter:8:64: Error: 'in' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# Please keep the logic in this file consistent with the logic in the
+                                                               ^^
+/C:/flutter/bin/flutter:8:64: Error: Expected ';' after this.
+# Please keep the logic in this file consistent with the logic in the
+                                                               ^^
+/C:/flutter/bin/flutter:8:67: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# Please keep the logic in this file consistent with the logic in the
+                                                                  ^^^
+/C:/flutter/bin/flutter:8:67: Error: Expected ';' after this.
+# Please keep the logic in this file consistent with the logic in the
+                                                                  ^^^
+/C:/flutter/bin/flutter:9:1: Error: Expected a declaration, but got '#'.
+# `flutter.bat` script in the same directory to ensure that Flutter
+^
+/C:/flutter/bin/flutter:9:3: Error: Expected a declaration, but got '`'.
+# `flutter.bat` script in the same directory to ensure that Flutter
+  ^
+/C:/flutter/bin/flutter:9:4: Error: A function declaration needs an explicit list of parameters.
+Try adding a parameter list to the function declaration.
+# `flutter.bat` script in the same directory to ensure that Flutter
+   ^^^^^^^
+/C:/flutter/bin/flutter:9:11: Error: Expected '{' before this.
+# `flutter.bat` script in the same directory to ensure that Flutter
+          ^
+/C:/flutter/bin/flutter:9:11: Error: Expected a declaration, but got '.'.
+# `flutter.bat` script in the same directory to ensure that Flutter
+          ^
+/C:/flutter/bin/flutter:9:12: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# `flutter.bat` script in the same directory to ensure that Flutter
+           ^^^
+/C:/flutter/bin/flutter:9:12: Error: Expected ';' after this.
+# `flutter.bat` script in the same directory to ensure that Flutter
+           ^^^
+/C:/flutter/bin/flutter:9:15: Error: Expected a declaration, but got '`'.
+# `flutter.bat` script in the same directory to ensure that Flutter
+              ^
+/C:/flutter/bin/flutter:9:17: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                ^^^^^^
+/C:/flutter/bin/flutter:9:17: Error: Expected ';' after this.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                ^^^^^^
+/C:/flutter/bin/flutter:9:24: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                       ^^
+/C:/flutter/bin/flutter:9:24: Error: 'in' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                       ^^
+/C:/flutter/bin/flutter:9:24: Error: Expected ';' after this.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                       ^^
+/C:/flutter/bin/flutter:9:31: Error: Expected ';' after this.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                              ^^^^
+/C:/flutter/bin/flutter:9:46: Error: Expected ';' after this.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                                             ^^
+/C:/flutter/bin/flutter:9:56: Error: Expected ';' after this.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                                                       ^^^^
+/C:/flutter/bin/flutter:9:61: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                                                            ^^^^^^^
+/C:/flutter/bin/flutter:9:61: Error: Expected ';' after this.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                                                            ^^^^^^^
+/C:/flutter/bin/flutter:10:1: Error: Expected a declaration, but got '#'.
+# continues to work across all platforms!
+^
+/C:/flutter/bin/flutter:10:13: Error: Expected ';' after this.
+# continues to work across all platforms!
+            ^^
+/C:/flutter/bin/flutter:10:21: Error: Expected ';' after this.
+# continues to work across all platforms!
+                    ^^^^^^
+/C:/flutter/bin/flutter:10:32: Error: Expected ';' after this.
+# continues to work across all platforms!
+                               ^^^^^^^^^
+/C:/flutter/bin/flutter:10:41: Error: Expected a declaration, but got '!'.
+# continues to work across all platforms!
+                                        ^
+/C:/flutter/bin/flutter:11:1: Error: Expected a declaration, but got '#'.
+#
+^
+/C:/flutter/bin/flutter:12:1: Error: Expected a declaration, but got '#'.
+# -------------------------------------------------------------------------- #
+^
+/C:/flutter/bin/flutter:12:3: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+  ^^
+/C:/flutter/bin/flutter:12:5: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+    ^^
+/C:/flutter/bin/flutter:12:7: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+      ^^
+/C:/flutter/bin/flutter:12:9: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+        ^^
+/C:/flutter/bin/flutter:12:11: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+          ^^
+/C:/flutter/bin/flutter:12:13: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+            ^^
+/C:/flutter/bin/flutter:12:15: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+              ^^
+/C:/flutter/bin/flutter:12:17: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                ^^
+/C:/flutter/bin/flutter:12:19: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                  ^^
+/C:/flutter/bin/flutter:12:21: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                    ^^
+/C:/flutter/bin/flutter:12:23: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                      ^^
+/C:/flutter/bin/flutter:12:25: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                        ^^
+/C:/flutter/bin/flutter:12:27: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                          ^^
+/C:/flutter/bin/flutter:12:29: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                            ^^
+/C:/flutter/bin/flutter:12:31: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                              ^^
+/C:/flutter/bin/flutter:12:33: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                ^^
+/C:/flutter/bin/flutter:12:35: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                  ^^
+/C:/flutter/bin/flutter:12:37: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                    ^^
+/C:/flutter/bin/flutter:12:39: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                      ^^
+/C:/flutter/bin/flutter:12:41: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                        ^^
+/C:/flutter/bin/flutter:12:43: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                          ^^
+/C:/flutter/bin/flutter:12:45: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                            ^^
+/C:/flutter/bin/flutter:12:47: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                              ^^
+/C:/flutter/bin/flutter:12:49: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                                ^^
+/C:/flutter/bin/flutter:12:51: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                                  ^^
+/C:/flutter/bin/flutter:12:53: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                                    ^^
+/C:/flutter/bin/flutter:12:55: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                                      ^^
+/C:/flutter/bin/flutter:12:57: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                                        ^^
+/C:/flutter/bin/flutter:12:59: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                                          ^^
+/C:/flutter/bin/flutter:12:61: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                                            ^^
+/C:/flutter/bin/flutter:12:63: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                                              ^^
+/C:/flutter/bin/flutter:12:65: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                                                ^^
+/C:/flutter/bin/flutter:12:67: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                                                  ^^
+/C:/flutter/bin/flutter:12:69: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                                                    ^^
+/C:/flutter/bin/flutter:12:71: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                                                      ^^
+/C:/flutter/bin/flutter:12:73: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                                                        ^^
+/C:/flutter/bin/flutter:12:75: Error: Expected a declaration, but got '--'.
+# -------------------------------------------------------------------------- #
+                                                                          ^^
+/C:/flutter/bin/flutter:12:78: Error: Expected a declaration, but got '#'.
+# -------------------------------------------------------------------------- #
+                                                                             ^
+/C:/flutter/bin/flutter:14:1: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+set -e
+^^^
+/C:/flutter/bin/flutter:14:1: Error: Expected an identifier, but got 'set'.
+Try inserting an identifier before 'set'.
+set -e
+^^^
+/C:/flutter/bin/flutter:12:78: Error: Expected ';' after this.
+# -------------------------------------------------------------------------- #
+                                                                             ^
+/C:/flutter/bin/flutter:14:1: Error: Expected a declaration, but got 'set'.
+set -e
+^^^
+/C:/flutter/bin/flutter:14:5: Error: Expected a declaration, but got '-'.
+set -e
+    ^
+/C:/flutter/bin/flutter:14:6: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+set -e
+     ^
+/C:/flutter/bin/flutter:14:6: Error: Expected ';' after this.
+set -e
+     ^
+/C:/flutter/bin/flutter:16:1: Error: Expected a declaration, but got '#'.
+# To debug the tool, you can uncomment the following lines to enable debug
+^
+/C:/flutter/bin/flutter:16:6: Error: Expected ';' after this.
+# To debug the tool, you can uncomment the following lines to enable debug
+     ^^^^^
+/C:/flutter/bin/flutter:16:22: Error: Expected ';' after this.
+# To debug the tool, you can uncomment the following lines to enable debug
+                     ^^^
+/C:/flutter/bin/flutter:16:30: Error: Expected ';' after this.
+# To debug the tool, you can uncomment the following lines to enable debug
+                             ^^^^^^^^^
+/C:/flutter/bin/flutter:16:44: Error: Expected ';' after this.
+# To debug the tool, you can uncomment the following lines to enable debug
+                                           ^^^^^^^^^
+/C:/flutter/bin/flutter:16:60: Error: Expected ';' after this.
+# To debug the tool, you can uncomment the following lines to enable debug
+                                                           ^^
+/C:/flutter/bin/flutter:16:70: Error: Expected ';' after this.
+# To debug the tool, you can uncomment the following lines to enable debug
+                                                                     ^^^^^
+/C:/flutter/bin/flutter:17:1: Error: Expected a declaration, but got '#'.
+# mode and set a VM service port:
+^
+/C:/flutter/bin/flutter:17:8: Error: Expected ';' after this.
+# mode and set a VM service port:
+       ^^^
+/C:/flutter/bin/flutter:17:16: Error: A function declaration needs an explicit list of parameters.
+Try adding a parameter list to the function declaration.
+# mode and set a VM service port:
+               ^
+/C:/flutter/bin/flutter:17:18: Error: Expected '{' before this.
+# mode and set a VM service port:
+                 ^^
+/C:/flutter/bin/flutter:17:21: Error: Expected ';' after this.
+# mode and set a VM service port:
+                    ^^^^^^^
+/C:/flutter/bin/flutter:17:29: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# mode and set a VM service port:
+                            ^^^^
+/C:/flutter/bin/flutter:17:29: Error: Expected ';' after this.
+# mode and set a VM service port:
+                            ^^^^
+/C:/flutter/bin/flutter:17:33: Error: Expected a declaration, but got ':'.
+# mode and set a VM service port:
+                                ^
+/C:/flutter/bin/flutter:18:1: Error: Expected a declaration, but got '#'.
+# FLUTTER_TOOL_ARGS="--enable-asserts $FLUTTER_TOOL_ARGS"
+^
+/C:/flutter/bin/flutter:18:3: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# FLUTTER_TOOL_ARGS="--enable-asserts $FLUTTER_TOOL_ARGS"
+  ^^^^^^^^^^^^^^^^^
+/C:/flutter/bin/flutter:18:57: Error: Expected ';' after this.
+# FLUTTER_TOOL_ARGS="--enable-asserts $FLUTTER_TOOL_ARGS"
+                                                        ^
+/C:/flutter/bin/flutter:19:1: Error: Expected a declaration, but got '#'.
+# FLUTTER_TOOL_ARGS="$FLUTTER_TOOL_ARGS --observe=65432"
+^
+/C:/flutter/bin/flutter:19:3: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# FLUTTER_TOOL_ARGS="$FLUTTER_TOOL_ARGS --observe=65432"
+  ^^^^^^^^^^^^^^^^^
+/C:/flutter/bin/flutter:19:40: Error: Expected ';' after this.
+# FLUTTER_TOOL_ARGS="$FLUTTER_TOOL_ARGS --observe=65432"
+                                       ^^^^^^^^^^^^^^^^^
+/C:/flutter/bin/flutter:21:1: Error: Expected a declaration, but got '#'.
+# Needed because if it is set, cd may print the path it changed to.
+^
+/C:/flutter/bin/flutter:21:10: Error: Expected ';' after this.
+# Needed because if it is set, cd may print the path it changed to.
+         ^^^^^^^
+/C:/flutter/bin/flutter:21:18: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# Needed because if it is set, cd may print the path it changed to.
+                 ^^
+/C:/flutter/bin/flutter:21:18: Error: 'if' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# Needed because if it is set, cd may print the path it changed to.
+                 ^^
+/C:/flutter/bin/flutter:21:18: Error: Expected ';' after this.
+# Needed because if it is set, cd may print the path it changed to.
+                 ^^
+/C:/flutter/bin/flutter:21:21: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# Needed because if it is set, cd may print the path it changed to.
+                    ^^
+/C:/flutter/bin/flutter:21:21: Error: Expected ';' after this.
+# Needed because if it is set, cd may print the path it changed to.
+                    ^^
+/C:/flutter/bin/flutter:21:24: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# Needed because if it is set, cd may print the path it changed to.
+                       ^^
+/C:/flutter/bin/flutter:21:24: Error: 'is' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# Needed because if it is set, cd may print the path it changed to.
+                       ^^
+/C:/flutter/bin/flutter:21:24: Error: Expected ';' after this.
+# Needed because if it is set, cd may print the path it changed to.
+                       ^^
+/C:/flutter/bin/flutter:21:27: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# Needed because if it is set, cd may print the path it changed to.
+                          ^^^
+/C:/flutter/bin/flutter:21:32: Error: Expected ';' after this.
+# Needed because if it is set, cd may print the path it changed to.
+                               ^^
+/C:/flutter/bin/flutter:21:39: Error: Expected ';' after this.
+# Needed because if it is set, cd may print the path it changed to.
+                                      ^^^^^
+/C:/flutter/bin/flutter:21:49: Error: Expected ';' after this.
+# Needed because if it is set, cd may print the path it changed to.
+                                                ^^^^
+/C:/flutter/bin/flutter:21:57: Error: Expected ';' after this.
+# Needed because if it is set, cd may print the path it changed to.
+                                                        ^^^^^^^
+/C:/flutter/bin/flutter:22:7: Error: Expected ';' after this.
+unset CDPATH
+      ^^^^^^
+/C:/flutter/bin/flutter:24:1: Error: Expected a declaration, but got '#'.
+# On Mac OS, readlink -f doesn't work, so follow_links traverses the path one
+^
+/C:/flutter/bin/flutter:24:6: Error: Expected ';' after this.
+# On Mac OS, readlink -f doesn't work, so follow_links traverses the path one
+     ^^^
+/C:/flutter/bin/flutter:24:10: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# On Mac OS, readlink -f doesn't work, so follow_links traverses the path one
+         ^^
+/C:/flutter/bin/flutter:24:14: Error: Expected ';' after this.
+# On Mac OS, readlink -f doesn't work, so follow_links traverses the path one
+             ^^^^^^^^
+/C:/flutter/bin/flutter:24:23: Error: Expected a declaration, but got '-'.
+# On Mac OS, readlink -f doesn't work, so follow_links traverses the path one
+                      ^
+/C:/flutter/bin/flutter:24:26: Error: Expected ';' after this.
+# On Mac OS, readlink -f doesn't work, so follow_links traverses the path one
+                         ^^^^^
+/C:/flutter/bin/flutter:24:31: Error: Expected a declaration, but got ''t work, so follow_links traverses the path one''.
+# On Mac OS, readlink -f doesn't work, so follow_links traverses the path one
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/C:/flutter/bin/flutter:25:1: Error: Expected a declaration, but got '#'.
+# link at a time, and then cds into the link destination and find out where it
+^
+/C:/flutter/bin/flutter:25:8: Error: Expected ';' after this.
+# link at a time, and then cds into the link destination and find out where it
+       ^^
+/C:/flutter/bin/flutter:25:19: Error: Expected ';' after this.
+# link at a time, and then cds into the link destination and find out where it
+                  ^^^
+/C:/flutter/bin/flutter:25:28: Error: Expected ';' after this.
+# link at a time, and then cds into the link destination and find out where it
+                           ^^^
+/C:/flutter/bin/flutter:25:37: Error: Expected ';' after this.
+# link at a time, and then cds into the link destination and find out where it
+                                    ^^^
+/C:/flutter/bin/flutter:25:46: Error: Expected ';' after this.
+# link at a time, and then cds into the link destination and find out where it
+                                             ^^^^^^^^^^^
+/C:/flutter/bin/flutter:25:62: Error: Expected ';' after this.
+# link at a time, and then cds into the link destination and find out where it
+                                                             ^^^^
+/C:/flutter/bin/flutter:25:71: Error: Expected ';' after this.
+# link at a time, and then cds into the link destination and find out where it
+                                                                      ^^^^^
+/C:/flutter/bin/flutter:25:77: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# link at a time, and then cds into the link destination and find out where it
+                                                                            ^^
+/C:/flutter/bin/flutter:25:77: Error: Expected ';' after this.
+# link at a time, and then cds into the link destination and find out where it
+                                                                            ^^
+/C:/flutter/bin/flutter:26:1: Error: Expected a declaration, but got '#'.
+# ends up.
+^
+/C:/flutter/bin/flutter:26:8: Error: A function declaration needs an explicit list of parameters.
+Try adding a parameter list to the function declaration.
+# ends up.
+       ^^
+/C:/flutter/bin/flutter:26:10: Error: Expected '{' before this.
+# ends up.
+         ^
+/C:/flutter/bin/flutter:26:10: Error: Expected a declaration, but got '.'.
+# ends up.
+         ^
+/C:/flutter/bin/flutter:27:1: Error: Expected a declaration, but got '#'.
+#
+^
+/C:/flutter/bin/flutter:28:1: Error: Expected a declaration, but got '#'.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+^
+/C:/flutter/bin/flutter:28:7: Error: Expected ';' after this.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+      ^^^^^^^^
+/C:/flutter/bin/flutter:28:27: Error: Expected ';' after this.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                          ^^^^
+/C:/flutter/bin/flutter:28:37: Error: Expected ';' after this.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                                    ^^
+/C:/flutter/bin/flutter:28:42: Error: Expected ';' after this.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                                         ^^^^^^
+/C:/flutter/bin/flutter:28:56: Error: Expected ';' after this.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                                                       ^^
+/C:/flutter/bin/flutter:28:59: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                                                          ^^^^
+/C:/flutter/bin/flutter:28:59: Error: Expected ';' after this.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                                                          ^^^^
+/C:/flutter/bin/flutter:28:63: Error: Expected a declaration, but got ''s URI parser,''.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                                                              ^^^^^^^^^^^^^^
+/C:/flutter/bin/flutter:29:1: Error: Expected a declaration, but got '#'.
+# since the Dart command line tool treats its argument as a file URI, not a
+^
+/C:/flutter/bin/flutter:29:9: Error: Expected ';' after this.
+# since the Dart command line tool treats its argument as a file URI, not a
+        ^^^
+/C:/flutter/bin/flutter:29:18: Error: Expected ';' after this.
+# since the Dart command line tool treats its argument as a file URI, not a
+                 ^^^^^^^
+/C:/flutter/bin/flutter:29:31: Error: Expected ';' after this.
+# since the Dart command line tool treats its argument as a file URI, not a
+                              ^^^^
+/C:/flutter/bin/flutter:29:43: Error: Expected ';' after this.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                          ^^^
+/C:/flutter/bin/flutter:29:56: Error: Expected ';' after this.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                                       ^^
+/C:/flutter/bin/flutter:29:61: Error: Expected ';' after this.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                                            ^^^^
+/C:/flutter/bin/flutter:29:66: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                                                 ^^^
+/C:/flutter/bin/flutter:29:71: Error: Expected ';' after this.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                                                      ^^^
+/C:/flutter/bin/flutter:29:75: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                                                          ^
+/C:/flutter/bin/flutter:29:75: Error: Expected ';' after this.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                                                          ^
+/C:/flutter/bin/flutter:30:1: Error: Expected a declaration, but got '#'.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+^
+/C:/flutter/bin/flutter:30:27: Error: Expected ';' after this.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                          ^^^^^^^^
+/C:/flutter/bin/flutter:30:48: Error: Expected ';' after this.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                               ^^^^^^^
+/C:/flutter/bin/flutter:30:63: Error: Expected ';' after this.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                                              ^^
+/C:/flutter/bin/flutter:30:74: Error: Expected ';' after this.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                                                         ^^
+/C:/flutter/bin/flutter:30:77: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                                                            ^
+/C:/flutter/bin/flutter:30:77: Error: Expected ';' after this.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                                                            ^
+/C:/flutter/bin/flutter:31:1: Error: Expected a declaration, but got '#'.
+# single slash, since double-slashes indicate a URI "authority", and these are
+^
+/C:/flutter/bin/flutter:31:17: Error: Expected ';' after this.
+# single slash, since double-slashes indicate a URI "authority", and these are
+                ^^^^^
+/C:/flutter/bin/flutter:31:23: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# single slash, since double-slashes indicate a URI "authority", and these are
+                      ^^^^^^
+/C:/flutter/bin/flutter:31:23: Error: Expected ';' after this.
+# single slash, since double-slashes indicate a URI "authority", and these are
+                      ^^^^^^
+/C:/flutter/bin/flutter:31:29: Error: Expected a declaration, but got '-'.
+# single slash, since double-slashes indicate a URI "authority", and these are
+                            ^
+/C:/flutter/bin/flutter:31:38: Error: Expected ';' after this.
+# single slash, since double-slashes indicate a URI "authority", and these are
+                                     ^^^^^^^^
+/C:/flutter/bin/flutter:31:49: Error: Expected ';' after this.
+# single slash, since double-slashes indicate a URI "authority", and these are
+                                                ^^^
+/C:/flutter/bin/flutter:31:53: Error: Expected a declaration, but got '"authority"'.
+# single slash, since double-slashes indicate a URI "authority", and these are
+                                                    ^^^^^^^^^^^
+/C:/flutter/bin/flutter:31:64: Error: Expected a declaration, but got ','.
+# single slash, since double-slashes indicate a URI "authority", and these are
+                                                               ^
+/C:/flutter/bin/flutter:31:70: Error: Expected ';' after this.
+# single slash, since double-slashes indicate a URI "authority", and these are
+                                                                     ^^^^^
+/C:/flutter/bin/flutter:31:76: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# single slash, since double-slashes indicate a URI "authority", and these are
+                                                                           ^^^
+/C:/flutter/bin/flutter:31:76: Error: Expected ';' after this.
+# single slash, since double-slashes indicate a URI "authority", and these are
+                                                                           ^^^
+/C:/flutter/bin/flutter:32:1: Error: Expected a declaration, but got '#'.
+# supposed to be filenames. There is an edge case where this will return
+^
+/C:/flutter/bin/flutter:32:12: Error: Expected ';' after this.
+# supposed to be filenames. There is an edge case where this will return
+           ^^
+/C:/flutter/bin/flutter:32:18: Error: A function declaration needs an explicit list of parameters.
+Try adding a parameter list to the function declaration.
+# supposed to be filenames. There is an edge case where this will return
+                 ^^^^^^^^^
+/C:/flutter/bin/flutter:32:27: Error: Expected '{' before this.
+# supposed to be filenames. There is an edge case where this will return
+                          ^
+/C:/flutter/bin/flutter:32:27: Error: Expected a declaration, but got '.'.
+# supposed to be filenames. There is an edge case where this will return
+                          ^
+/C:/flutter/bin/flutter:32:29: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# supposed to be filenames. There is an edge case where this will return
+                            ^^^^^
+/C:/flutter/bin/flutter:32:29: Error: Expected ';' after this.
+# supposed to be filenames. There is an edge case where this will return
+                            ^^^^^
+/C:/flutter/bin/flutter:32:35: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# supposed to be filenames. There is an edge case where this will return
+                                  ^^
+/C:/flutter/bin/flutter:32:35: Error: 'is' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# supposed to be filenames. There is an edge case where this will return
+                                  ^^
+/C:/flutter/bin/flutter:32:35: Error: Expected ';' after this.
+# supposed to be filenames. There is an edge case where this will return
+                                  ^^
+/C:/flutter/bin/flutter:32:41: Error: Expected ';' after this.
+# supposed to be filenames. There is an edge case where this will return
+                                        ^^^^
+/C:/flutter/bin/flutter:32:46: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# supposed to be filenames. There is an edge case where this will return
+                                             ^^^^
+/C:/flutter/bin/flutter:32:46: Error: 'case' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# supposed to be filenames. There is an edge case where this will return
+                                             ^^^^
+/C:/flutter/bin/flutter:32:46: Error: Expected ';' after this.
+# supposed to be filenames. There is an edge case where this will return
+                                             ^^^^
+/C:/flutter/bin/flutter:32:57: Error: 'this' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# supposed to be filenames. There is an edge case where this will return
+                                                        ^^^^
+/C:/flutter/bin/flutter:32:57: Error: Expected ';' after this.
+# supposed to be filenames. There is an edge case where this will return
+                                                        ^^^^
+/C:/flutter/bin/flutter:32:62: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# supposed to be filenames. There is an edge case where this will return
+                                                             ^^^^
+/C:/flutter/bin/flutter:32:62: Error: Expected ';' after this.
+# supposed to be filenames. There is an edge case where this will return
+                                                             ^^^^
+/C:/flutter/bin/flutter:32:67: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# supposed to be filenames. There is an edge case where this will return
+                                                                  ^^^^^^
+/C:/flutter/bin/flutter:32:67: Error: 'return' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# supposed to be filenames. There is an edge case where this will return
+                                                                  ^^^^^^
+/C:/flutter/bin/flutter:32:67: Error: Expected ';' after this.
+# supposed to be filenames. There is an edge case where this will return
+                                                                  ^^^^^^
+/C:/flutter/bin/flutter:33:1: Error: Expected a declaration, but got '#'.
+# multiple slashes: when the input resolves to the root directory. However, if
+^
+/C:/flutter/bin/flutter:33:12: Error: Expected ';' after this.
+# multiple slashes: when the input resolves to the root directory. However, if
+           ^^^^^^^
+/C:/flutter/bin/flutter:33:19: Error: Expected a declaration, but got ':'.
+# multiple slashes: when the input resolves to the root directory. However, if
+                  ^
+/C:/flutter/bin/flutter:33:26: Error: Expected ';' after this.
+# multiple slashes: when the input resolves to the root directory. However, if
+                         ^^^
+/C:/flutter/bin/flutter:33:36: Error: Expected ';' after this.
+# multiple slashes: when the input resolves to the root directory. However, if
+                                   ^^^^^^^^
+/C:/flutter/bin/flutter:33:48: Error: Expected ';' after this.
+# multiple slashes: when the input resolves to the root directory. However, if
+                                               ^^^
+/C:/flutter/bin/flutter:33:57: Error: A function declaration needs an explicit list of parameters.
+Try adding a parameter list to the function declaration.
+# multiple slashes: when the input resolves to the root directory. However, if
+                                                        ^^^^^^^^^
+/C:/flutter/bin/flutter:33:66: Error: Expected '{' before this.
+# multiple slashes: when the input resolves to the root directory. However, if
+                                                                 ^
+/C:/flutter/bin/flutter:33:66: Error: Expected a declaration, but got '.'.
+# multiple slashes: when the input resolves to the root directory. However, if
+                                                                 ^
+/C:/flutter/bin/flutter:33:68: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# multiple slashes: when the input resolves to the root directory. However, if
+                                                                   ^^^^^^^
+/C:/flutter/bin/flutter:33:77: Error: 'if' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# multiple slashes: when the input resolves to the root directory. However, if
+                                                                            ^^
+/C:/flutter/bin/flutter:33:77: Error: Expected ';' after this.
+# multiple slashes: when the input resolves to the root directory. However, if
+                                                                            ^^
+/C:/flutter/bin/flutter:34:1: Error: Expected a declaration, but got '#'.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+^
+/C:/flutter/bin/flutter:34:8: Error: Expected ';' after this.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+       ^^^^
+/C:/flutter/bin/flutter:34:13: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+            ^^^
+/C:/flutter/bin/flutter:34:13: Error: Expected ';' after this.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+            ^^^
+/C:/flutter/bin/flutter:34:17: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+                ^^^^
+/C:/flutter/bin/flutter:34:17: Error: 'case' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+                ^^^^
+/C:/flutter/bin/flutter:34:23: Error: Expected ';' after this.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+                      ^^
+/C:/flutter/bin/flutter:34:26: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+                         ^^^^^^
+/C:/flutter/bin/flutter:34:26: Error: Expected ';' after this.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+                         ^^^^^^
+/C:/flutter/bin/flutter:34:32: Error: Expected a declaration, but got ''t be running this shell, so we don''.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/C:/flutter/bin/flutter:34:68: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+                                                                   ^
+/C:/flutter/bin/flutter:34:68: Error: Expected ';' after this.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+                                                                   ^
+/C:/flutter/bin/flutter:34:70: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+                                                                     ^^
+/C:/flutter/bin/flutter:34:70: Error: 'do' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+                                                                     ^^
+/C:/flutter/bin/flutter:34:70: Error: Expected ';' after this.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+                                                                     ^^
+/C:/flutter/bin/flutter:34:73: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+                                                                        ^^^^^^^^
+/C:/flutter/bin/flutter:34:73: Error: Expected ';' after this.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+                                                                        ^^^^^^^^
+/C:/flutter/bin/flutter:35:1: Error: Expected a declaration, but got '#'.
+# about it.
+^
+/C:/flutter/bin/flutter:35:9: Error: A function declaration needs an explicit list of parameters.
+Try adding a parameter list to the function declaration.
+# about it.
+        ^^
+/C:/flutter/bin/flutter:35:11: Error: Expected '{' before this.
+# about it.
+          ^
+/C:/flutter/bin/flutter:35:11: Error: Expected a declaration, but got '.'.
+# about it.
+          ^
+/C:/flutter/bin/flutter:36:1: Error: Expected a declaration, but got '#'.
+#
+^
+/C:/flutter/bin/flutter:37:1: Error: Expected a declaration, but got '#'.
+# The function is enclosed in a subshell to avoid changing the working directory
+^
+/C:/flutter/bin/flutter:37:7: Error: Expected ';' after this.
+# The function is enclosed in a subshell to avoid changing the working directory
+      ^^^^^^^^
+/C:/flutter/bin/flutter:37:16: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# The function is enclosed in a subshell to avoid changing the working directory
+               ^^
+/C:/flutter/bin/flutter:37:16: Error: 'is' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# The function is enclosed in a subshell to avoid changing the working directory
+               ^^
+/C:/flutter/bin/flutter:37:16: Error: Expected ';' after this.
+# The function is enclosed in a subshell to avoid changing the working directory
+               ^^
+/C:/flutter/bin/flutter:37:19: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# The function is enclosed in a subshell to avoid changing the working directory
+                  ^^^^^^^^
+/C:/flutter/bin/flutter:37:19: Error: Expected ';' after this.
+# The function is enclosed in a subshell to avoid changing the working directory
+                  ^^^^^^^^
+/C:/flutter/bin/flutter:37:28: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+# The function is enclosed in a subshell to avoid changing the working directory
+                           ^^
+/C:/flutter/bin/flutter:37:28: Error: 'in' can't be used as an identifier because it's a keyword.
+Try renaming this to be an identifier that isn't a keyword.
+# The function is enclosed in a subshell to avoid changing the working directory
+                           ^^
+/C:/flutter/bin/flutter:37:28: Error: Expected ';' after this.
+# The function is enclosed in a subshell to avoid changing the working directory
+                           ^^
+/C:/flutter/bin/flutter:37:33: Error: Expected ';' after this.
+# The function is enclosed in a subshell to avoid changing the working directory
+                                ^^^^^^^^
+/C:/flutter/bin/flutter:37:45: Error: Expected ';' after this.
+# The function is enclosed in a subshell to avoid changing the working directory
+                                            ^^^^^
+/C:/flutter/bin/flutter:37:60: Error: Expected ';' after this.
+# The function is enclosed in a subshell to avoid changing the working directory
+                                                           ^^^
+/C:/flutter/bin/flutter:37:72: Error: Expected ';' after this.
+# The function is enclosed in a subshell to avoid changing the working directory
+                                                                       ^^^^^^^^^
+/C:/flutter/bin/flutter:38:1: Error: Expected a declaration, but got '#'.
+# of the caller.
+^
+/C:/flutter/bin/flutter:38:6: Error: Expected ';' after this.
+# of the caller.
+     ^^^
+/C:/flutter/bin/flutter:39:25: Error: Expected '{' before this.
+function follow_links() (
+                        ^
+/C:/flutter/bin/flutter:40:6: Error: Expected ')' before this.
+  cd -P -- "$(dirname -- "$1")"
+     ^
+/C:/flutter/bin/flutter:49:1: Error: A record type with exactly one positional field requires a trailing comma.
+Try adding a trailing comma.
+)
+^
+/C:/flutter/bin/flutter:51:13: Error: Expected ';' after this.
+PROG_NAME="$(follow_links "${BASH_SOURCE[0]}")"
+            ^^^^^^^^^^^^^^^
+/C:/flutter/bin/flutter:51:28: Error: A function declaration needs an explicit list of parameters.
+Try adding a parameter list to the function declaration.
+PROG_NAME="$(follow_links "${BASH_SOURCE[0]}")"
+                           ^
+/C:/flutter/bin/flutter:51:45: Error: Expected a declaration, but got '")"'.
+PROG_NAME="$(follow_links "${BASH_SOURCE[0]}")"
+                                            ^^^
+/C:/flutter/bin/flutter:52:1: Error: Variables must be declared using the keywords 'const', 'final', 'var' or a type name.
+Try adding the name of the type of the variable or the keyword 'var'.
+BIN_DIR="$(cd -P -- "${PROG_NAME%/*}" ; pwd -P)"
+^^^^^^^
+/C:/flutter/bin/flutter:52:11: Error: Expected ';' after this.
+BIN_DIR="$(cd -P -- "${PROG_NAME%/*}" ; pwd -P)"
+          ^^^^^^^^^^^
+/C:/flutter/bin/flutter:52:22: Error: A function declaration needs an explicit list of parameters.
+Try adding a parameter list to the function declaration.
+BIN_DIR="$(cd -P -- "${PROG_NAME%/*}" ; pwd -P)"
+                     ^
+/C:/flutter/bin/flutter:9:61: Error: 'Flutter' is already declared in this scope.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                                                            ^^^^^^^
+/C:/flutter/bin/flutter:2:22: Context: Previous declaration of 'Flutter'.
+# Copyright 2014 The Flutter Authors. All rights reserved.
+                     ^^^^^^^
+/C:/flutter/bin/flutter:8:28: Error: 'this' is already declared in this scope.
+# Please keep the logic in this file consistent with the logic in the
+                           ^^^^
+/C:/flutter/bin/flutter:3:10: Context: Previous declaration of 'this'.
+# Use of this source code is governed by a BSD-style license that can be
+         ^^^^
+/C:/flutter/bin/flutter:32:57: Error: 'this' is already declared in this scope.
+# supposed to be filenames. There is an edge case where this will return
+                                                        ^^^^
+/C:/flutter/bin/flutter:3:10: Context: Previous declaration of 'this'.
+# Use of this source code is governed by a BSD-style license that can be
+         ^^^^
+/C:/flutter/bin/flutter:21:24: Error: 'is' is already declared in this scope.
+# Needed because if it is set, cd may print the path it changed to.
+                       ^^
+/C:/flutter/bin/flutter:3:27: Context: Previous declaration of 'is'.
+# Use of this source code is governed by a BSD-style license that can be
+                          ^^
+/C:/flutter/bin/flutter:32:35: Error: 'is' is already declared in this scope.
+# supposed to be filenames. There is an edge case where this will return
+                                  ^^
+/C:/flutter/bin/flutter:3:27: Context: Previous declaration of 'is'.
+# Use of this source code is governed by a BSD-style license that can be
+                          ^^
+/C:/flutter/bin/flutter:37:16: Error: 'is' is already declared in this scope.
+# The function is enclosed in a subshell to avoid changing the working directory
+               ^^
+/C:/flutter/bin/flutter:3:27: Context: Previous declaration of 'is'.
+# Use of this source code is governed by a BSD-style license that can be
+                          ^^
+/C:/flutter/bin/flutter:28:56: Error: 'by' is already declared in this scope.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                                                       ^^
+/C:/flutter/bin/flutter:3:39: Context: Previous declaration of 'by'.
+# Use of this source code is governed by a BSD-style license that can be
+                                      ^^
+/C:/flutter/bin/flutter:28:37: Error: 'be' is already declared in this scope.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                                    ^^
+/C:/flutter/bin/flutter:3:71: Context: Previous declaration of 'be'.
+# Use of this source code is governed by a BSD-style license that can be
+                                                                      ^^
+/C:/flutter/bin/flutter:30:63: Error: 'be' is already declared in this scope.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                                              ^^
+/C:/flutter/bin/flutter:3:71: Context: Previous declaration of 'be'.
+# Use of this source code is governed by a BSD-style license that can be
+                                                                      ^^
+/C:/flutter/bin/flutter:8:25: Error: 'in' is already declared in this scope.
+# Please keep the logic in this file consistent with the logic in the
+                        ^^
+/C:/flutter/bin/flutter:4:9: Context: Previous declaration of 'in'.
+# found in the LICENSE file.
+        ^^
+/C:/flutter/bin/flutter:8:64: Error: 'in' is already declared in this scope.
+# Please keep the logic in this file consistent with the logic in the
+                                                               ^^
+/C:/flutter/bin/flutter:4:9: Context: Previous declaration of 'in'.
+# found in the LICENSE file.
+        ^^
+/C:/flutter/bin/flutter:9:24: Error: 'in' is already declared in this scope.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                       ^^
+/C:/flutter/bin/flutter:4:9: Context: Previous declaration of 'in'.
+# found in the LICENSE file.
+        ^^
+/C:/flutter/bin/flutter:37:28: Error: 'in' is already declared in this scope.
+# The function is enclosed in a subshell to avoid changing the working directory
+                           ^^
+/C:/flutter/bin/flutter:4:9: Context: Previous declaration of 'in'.
+# found in the LICENSE file.
+        ^^
+/C:/flutter/bin/flutter:29:61: Error: 'file' is already declared in this scope.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                                            ^^^^
+/C:/flutter/bin/flutter:4:24: Context: Previous declaration of 'file'.
+# found in the LICENSE file.
+                       ^^^^
+/C:/flutter/bin/flutter:8:58: Error: 'logic' is already declared in this scope.
+# Please keep the logic in this file consistent with the logic in the
+                                                         ^^^^^
+/C:/flutter/bin/flutter:8:19: Context: Previous declaration of 'logic'.
+# Please keep the logic in this file consistent with the logic in the
+                  ^^^^^
+/C:/flutter/bin/flutter:25:37: Error: 'the' is already declared in this scope.
+# link at a time, and then cds into the link destination and find out where it
+                                    ^^^
+/C:/flutter/bin/flutter:8:67: Context: Previous declaration of 'the'.
+# Please keep the logic in this file consistent with the logic in the
+                                                                  ^^^
+/C:/flutter/bin/flutter:29:9: Error: 'the' is already declared in this scope.
+# since the Dart command line tool treats its argument as a file URI, not a
+        ^^^
+/C:/flutter/bin/flutter:8:67: Context: Previous declaration of 'the'.
+# Please keep the logic in this file consistent with the logic in the
+                                                                  ^^^
+/C:/flutter/bin/flutter:33:26: Error: 'the' is already declared in this scope.
+# multiple slashes: when the input resolves to the root directory. However, if
+                         ^^^
+/C:/flutter/bin/flutter:8:67: Context: Previous declaration of 'the'.
+# Please keep the logic in this file consistent with the logic in the
+                                                                  ^^^
+/C:/flutter/bin/flutter:33:48: Error: 'the' is already declared in this scope.
+# multiple slashes: when the input resolves to the root directory. However, if
+                                               ^^^
+/C:/flutter/bin/flutter:8:67: Context: Previous declaration of 'the'.
+# Please keep the logic in this file consistent with the logic in the
+                                                                  ^^^
+/C:/flutter/bin/flutter:34:13: Error: 'the' is already declared in this scope.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+            ^^^
+/C:/flutter/bin/flutter:8:67: Context: Previous declaration of 'the'.
+# Please keep the logic in this file consistent with the logic in the
+                                                                  ^^^
+/C:/flutter/bin/flutter:37:60: Error: 'the' is already declared in this scope.
+# The function is enclosed in a subshell to avoid changing the working directory
+                                                           ^^^
+/C:/flutter/bin/flutter:8:67: Context: Previous declaration of 'the'.
+# Please keep the logic in this file consistent with the logic in the
+                                                                  ^^^
+/C:/flutter/bin/flutter:38:6: Error: 'the' is already declared in this scope.
+# of the caller.
+     ^^^
+/C:/flutter/bin/flutter:8:67: Context: Previous declaration of 'the'.
+# Please keep the logic in this file consistent with the logic in the
+                                                                  ^^^
+/C:/flutter/bin/flutter:10:13: Error: 'to' is already declared in this scope.
+# continues to work across all platforms!
+            ^^
+/C:/flutter/bin/flutter:9:46: Context: Previous declaration of 'to'.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                                             ^^
+/C:/flutter/bin/flutter:16:60: Error: 'to' is already declared in this scope.
+# To debug the tool, you can uncomment the following lines to enable debug
+                                                           ^^
+/C:/flutter/bin/flutter:9:46: Context: Previous declaration of 'to'.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                                             ^^
+/C:/flutter/bin/flutter:30:74: Error: 'to' is already declared in this scope.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                                                         ^^
+/C:/flutter/bin/flutter:9:46: Context: Previous declaration of 'to'.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                                             ^^
+/C:/flutter/bin/flutter:32:12: Error: 'to' is already declared in this scope.
+# supposed to be filenames. There is an edge case where this will return
+           ^^
+/C:/flutter/bin/flutter:9:46: Context: Previous declaration of 'to'.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                                             ^^
+/C:/flutter/bin/flutter:16:70: Error: 'debug' is already declared in this scope.
+# To debug the tool, you can uncomment the following lines to enable debug
+                                                                     ^^^^^
+/C:/flutter/bin/flutter:16:6: Context: Previous declaration of 'debug'.
+# To debug the tool, you can uncomment the following lines to enable debug
+     ^^^^^
+/C:/flutter/bin/flutter:29:31: Error: 'tool' is already declared in this scope.
+# since the Dart command line tool treats its argument as a file URI, not a
+                              ^^^^
+/C:/flutter/bin/flutter:16:16: Context: Previous declaration of 'tool'.
+# To debug the tool, you can uncomment the following lines to enable debug
+               ^^^^
+/C:/flutter/bin/flutter:25:19: Error: 'and' is already declared in this scope.
+# link at a time, and then cds into the link destination and find out where it
+                  ^^^
+/C:/flutter/bin/flutter:17:8: Context: Previous declaration of 'and'.
+# mode and set a VM service port:
+       ^^^
+/C:/flutter/bin/flutter:29:75: Error: The declaration conflicts with setter 'a'.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                                                          ^
+/C:/flutter/bin/flutter:17:16: Context: Conflicting setter 'a'.
+# mode and set a VM service port:
+               ^
+/C:/flutter/bin/flutter:30:77: Error: The declaration conflicts with setter 'a'.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                                                            ^
+/C:/flutter/bin/flutter:17:16: Context: Conflicting setter 'a'.
+# mode and set a VM service port:
+               ^
+/C:/flutter/bin/flutter:30:77: Error: 'a' is already declared in this scope.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                                                            ^
+/C:/flutter/bin/flutter:29:75: Context: Previous declaration of 'a'.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                                                          ^
+/C:/flutter/bin/flutter:19:3: Error: 'FLUTTER_TOOL_ARGS' is already declared in this scope.
+# FLUTTER_TOOL_ARGS="$FLUTTER_TOOL_ARGS --observe=65432"
+  ^^^^^^^^^^^^^^^^^
+/C:/flutter/bin/flutter:18:3: Context: Previous declaration of 'FLUTTER_TOOL_ARGS'.
+# FLUTTER_TOOL_ARGS="--enable-asserts $FLUTTER_TOOL_ARGS"
+  ^^^^^^^^^^^^^^^^^
+/C:/flutter/bin/flutter:33:77: Error: 'if' is already declared in this scope.
+# multiple slashes: when the input resolves to the root directory. However, if
+                                                                            ^^
+/C:/flutter/bin/flutter:21:18: Context: Previous declaration of 'if'.
+# Needed because if it is set, cd may print the path it changed to.
+                 ^^
+/C:/flutter/bin/flutter:25:77: Error: 'it' is already declared in this scope.
+# link at a time, and then cds into the link destination and find out where it
+                                                                            ^^
+/C:/flutter/bin/flutter:21:21: Context: Previous declaration of 'it'.
+# Needed because if it is set, cd may print the path it changed to.
+                    ^^
+/C:/flutter/bin/flutter:35:9: Error: 'it' is already declared in this scope.
+# about it.
+        ^^
+/C:/flutter/bin/flutter:21:21: Context: Previous declaration of 'it'.
+# Needed because if it is set, cd may print the path it changed to.
+                    ^^
+/C:/flutter/bin/flutter:28:27: Error: 'path' is already declared in this scope.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                          ^^^^
+/C:/flutter/bin/flutter:21:49: Context: Previous declaration of 'path'.
+# Needed because if it is set, cd may print the path it changed to.
+                                                ^^^^
+/C:/flutter/bin/flutter:31:49: Error: 'URI' is already declared in this scope.
+# single slash, since double-slashes indicate a URI "authority", and these are
+                                                ^^^
+/C:/flutter/bin/flutter:29:66: Context: Previous declaration of 'URI'.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                                                 ^^^
+/C:/flutter/bin/flutter:33:12: Error: 'slashes' is already declared in this scope.
+# multiple slashes: when the input resolves to the root directory. However, if
+           ^^^^^^^
+/C:/flutter/bin/flutter:30:48: Context: Previous declaration of 'slashes'.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                               ^^^^^^^
+/C:/flutter/bin/flutter:34:17: Error: 'case' is already declared in this scope.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+                ^^^^
+/C:/flutter/bin/flutter:32:46: Context: Previous declaration of 'case'.
+# supposed to be filenames. There is an edge case where this will return
+                                             ^^^^
+/C:/flutter/bin/flutter:37:72: Error: 'directory' is already declared in this scope.
+# The function is enclosed in a subshell to avoid changing the working directory
+                                                                       ^^^^^^^^^
+/C:/flutter/bin/flutter:33:57: Context: Previous declaration of 'directory'.
+# multiple slashes: when the input resolves to the root directory. However, if
+                                                        ^^^^^^^^^
+/C:/flutter/bin/flutter:52:22: Error: '$' is already declared in this scope.
+BIN_DIR="$(cd -P -- "${PROG_NAME%/*}" ; pwd -P)"
+                     ^
+/C:/flutter/bin/flutter:51:28: Context: Previous declaration of '$'.
+PROG_NAME="$(follow_links "${BASH_SOURCE[0]}")"
+                           ^
+/C:/flutter/bin/flutter:2:18: Error: Type 'The' not found.
+# Copyright 2014 The Flutter Authors. All rights reserved.
+                 ^^^
+/C:/flutter/bin/flutter:2:30: Error: 'Authors.All' can't be used as a type because 'Authors' doesn't refer to an import prefix.
+# Copyright 2014 The Flutter Authors. All rights reserved.
+                             ^^^^^^^^^^^^
+/C:/flutter/bin/flutter:3:3: Error: Type 'Use' not found.
+# Use of this source code is governed by a BSD-style license that can be
+  ^^^
+/C:/flutter/bin/flutter:3:15: Error: Type 'source' not found.
+# Use of this source code is governed by a BSD-style license that can be
+              ^^^^^^
+/C:/flutter/bin/flutter:3:30: Error: Type 'governed' not found.
+# Use of this source code is governed by a BSD-style license that can be
+                             ^^^^^^^^
+/C:/flutter/bin/flutter:3:48: Error: Type 'style' not found.
+# Use of this source code is governed by a BSD-style license that can be
+                                               ^^^^^
+/C:/flutter/bin/flutter:3:62: Error: 'that' isn't a type.
+# Use of this source code is governed by a BSD-style license that can be
+                                                             ^^^^
+/C:/flutter/bin/flutter:9:56: Context: This isn't a type.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                                                       ^^^^
+/C:/flutter/bin/flutter:8:3: Error: Type 'Please' not found.
+# Please keep the logic in this file consistent with the logic in the
+  ^^^^^^
+/C:/flutter/bin/flutter:9:49: Error: Type 'ensure' not found.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                                                ^^^^^^
+/C:/flutter/bin/flutter:10:3: Error: Type 'continues' not found.
+# continues to work across all platforms!
+  ^^^^^^^^^
+/C:/flutter/bin/flutter:10:16: Error: Type 'work' not found.
+# continues to work across all platforms!
+               ^^^^
+/C:/flutter/bin/flutter:10:28: Error: Type 'all' not found.
+# continues to work across all platforms!
+                           ^^^
+/C:/flutter/bin/flutter:16:3: Error: Type 'To' not found.
+# To debug the tool, you can uncomment the following lines to enable debug
+  ^^
+/C:/flutter/bin/flutter:16:26: Error: 'can' isn't a type.
+# To debug the tool, you can uncomment the following lines to enable debug
+                         ^^^
+/C:/flutter/bin/flutter:3:67: Context: This isn't a type.
+# Use of this source code is governed by a BSD-style license that can be
+                                                                  ^^^
+/C:/flutter/bin/flutter:16:54: Error: Type 'lines' not found.
+# To debug the tool, you can uncomment the following lines to enable debug
+                                                     ^^^^^
+/C:/flutter/bin/flutter:16:63: Error: Type 'enable' not found.
+# To debug the tool, you can uncomment the following lines to enable debug
+                                                              ^^^^^^
+/C:/flutter/bin/flutter:17:3: Error: Type 'mode' not found.
+# mode and set a VM service port:
+  ^^^^
+/C:/flutter/bin/flutter:17:18: Error: Type 'VM' not found.
+# mode and set a VM service port:
+                 ^^
+/C:/flutter/bin/flutter:21:3: Error: Type 'Needed' not found.
+# Needed because if it is set, cd may print the path it changed to.
+  ^^^^^^
+/C:/flutter/bin/flutter:21:35: Error: Type 'may' not found.
+# Needed because if it is set, cd may print the path it changed to.
+                                  ^^^
+/C:/flutter/bin/flutter:24:3: Error: Type 'On' not found.
+# On Mac OS, readlink -f doesn't work, so follow_links traverses the path one
+  ^^
+/C:/flutter/bin/flutter:24:24: Error: Type 'f' not found.
+# On Mac OS, readlink -f doesn't work, so follow_links traverses the path one
+                       ^
+/C:/flutter/bin/flutter:25:3: Error: Type 'link' not found.
+# link at a time, and then cds into the link destination and find out where it
+  ^^^^
+/C:/flutter/bin/flutter:25:23: Error: Type 'then' not found.
+# link at a time, and then cds into the link destination and find out where it
+                      ^^^^
+/C:/flutter/bin/flutter:25:32: Error: Type 'into' not found.
+# link at a time, and then cds into the link destination and find out where it
+                               ^^^^
+/C:/flutter/bin/flutter:25:41: Error: Type 'link' not found.
+# link at a time, and then cds into the link destination and find out where it
+                                        ^^^^
+/C:/flutter/bin/flutter:25:67: Error: Type 'out' not found.
+# link at a time, and then cds into the link destination and find out where it
+                                                                  ^^^
+/C:/flutter/bin/flutter:28:3: Error: Type 'The' not found.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+  ^^^
+/C:/flutter/bin/flutter:28:16: Error: Type 'filesystem' not found.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+               ^^^^^^^^^^
+/C:/flutter/bin/flutter:28:32: Error: Type 'must' not found.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                               ^^^^
+/C:/flutter/bin/flutter:28:49: Error: Type 'usable' not found.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                                                ^^^^^^
+/C:/flutter/bin/flutter:29:3: Error: 'since' isn't a type.
+# since the Dart command line tool treats its argument as a file URI, not a
+  ^^^^^
+/C:/flutter/bin/flutter:31:17: Context: This isn't a type.
+# single slash, since double-slashes indicate a URI "authority", and these are
+                ^^^^^
+/C:/flutter/bin/flutter:29:13: Error: 'Dart' isn't a type.
+# since the Dart command line tool treats its argument as a file URI, not a
+            ^^^^
+/C:/flutter/bin/flutter:28:59: Context: This isn't a type.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                                                          ^^^^
+/C:/flutter/bin/flutter:29:26: Error: Type 'line' not found.
+# since the Dart command line tool treats its argument as a file URI, not a
+                         ^^^^
+/C:/flutter/bin/flutter:29:36: Error: Type 'treats' not found.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                   ^^^^^^
+/C:/flutter/bin/flutter:29:47: Error: Type 'argument' not found.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                              ^^^^^^^^
+/C:/flutter/bin/flutter:30:3: Error: 'filename.For' can't be used as a type because 'filename' doesn't refer to an import prefix.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+  ^^^^^^^^^^^^^
+/C:/flutter/bin/flutter:30:36: Error: Type 'consecutive' not found.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                   ^^^^^^^^^^^
+/C:/flutter/bin/flutter:30:56: Error: Type 'should' not found.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                                       ^^^^^^
+/C:/flutter/bin/flutter:30:66: Error: Type 'reduced' not found.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                                                 ^^^^^^^
+/C:/flutter/bin/flutter:31:3: Error: Type 'single' not found.
+# single slash, since double-slashes indicate a URI "authority", and these are
+  ^^^^^^
+/C:/flutter/bin/flutter:32:3: Error: Type 'supposed' not found.
+# supposed to be filenames. There is an edge case where this will return
+  ^^^^^^^^
+/C:/flutter/bin/flutter:32:38: Error: Type 'an' not found.
+# supposed to be filenames. There is an edge case where this will return
+                                     ^^
+/C:/flutter/bin/flutter:32:51: Error: 'where' isn't a type.
+# supposed to be filenames. There is an edge case where this will return
+                                                  ^^^^^
+/C:/flutter/bin/flutter:25:71: Context: This isn't a type.
+# link at a time, and then cds into the link destination and find out where it
+                                                                      ^^^^^
+/C:/flutter/bin/flutter:33:3: Error: 'multiple' isn't a type.
+# multiple slashes: when the input resolves to the root directory. However, if
+  ^^^^^^^^
+/C:/flutter/bin/flutter:30:27: Context: This isn't a type.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                          ^^^^^^^^
+/C:/flutter/bin/flutter:33:21: Error: Type 'when' not found.
+# multiple slashes: when the input resolves to the root directory. However, if
+                    ^^^^
+/C:/flutter/bin/flutter:33:30: Error: Type 'input' not found.
+# multiple slashes: when the input resolves to the root directory. However, if
+                             ^^^^^
+/C:/flutter/bin/flutter:34:3: Error: 'that' isn't a type.
+# that were the case, we wouldn't be running this shell, so we don't do anything
+  ^^^^
+/C:/flutter/bin/flutter:9:56: Context: This isn't a type.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                                                       ^^^^
+/C:/flutter/bin/flutter:37:3: Error: Type 'The' not found.
+# The function is enclosed in a subshell to avoid changing the working directory
+  ^^^
+/C:/flutter/bin/flutter:37:51: Error: Type 'changing' not found.
+# The function is enclosed in a subshell to avoid changing the working directory
+                                                  ^^^^^^^^
+/C:/flutter/bin/flutter:37:64: Error: Type 'working' not found.
+# The function is enclosed in a subshell to avoid changing the working directory
+                                                               ^^^^^^^
+/C:/flutter/bin/flutter:38:3: Error: 'of' isn't a type.
+# of the caller.
+  ^^
+/C:/flutter/bin/flutter:3:7: Context: This isn't a type.
+# Use of this source code is governed by a BSD-style license that can be
+      ^^
+/C:/flutter/bin/flutter:40:3: Error: 'cd' isn't a type.
+  cd -P -- "$(dirname -- "$1")"
+  ^^
+/C:/flutter/bin/flutter:21:32: Context: This isn't a type.
+# Needed because if it is set, cd may print the path it changed to.
+                               ^^
+/C:/flutter/bin/flutter:26:3: Error: Type 'ends' not found.
+# ends up.
+  ^^^^
+/C:/flutter/bin/flutter:33:52: Error: Type 'root' not found.
+# multiple slashes: when the input resolves to the root directory. However, if
+                                                   ^^^^
+/C:/flutter/bin/flutter:35:3: Error: Type 'about' not found.
+# about it.
+  ^^^^^
+/C:/flutter/bin/flutter:38:10: Error: 'caller.function' can't be used as a type because 'caller' doesn't refer to an import prefix.
+# of the caller.
+         ^^^^^^^^...
+/C:/flutter/bin/flutter:2:18: Error: 'The' isn't a type.
+# Copyright 2014 The Flutter Authors. All rights reserved.
+                 ^^^
+/C:/flutter/bin/flutter:3:3: Error: 'Use' isn't a type.
+# Use of this source code is governed by a BSD-style license that can be
+  ^^^
+/C:/flutter/bin/flutter:3:15: Error: 'source' isn't a type.
+# Use of this source code is governed by a BSD-style license that can be
+              ^^^^^^
+/C:/flutter/bin/flutter:3:30: Error: 'governed' isn't a type.
+# Use of this source code is governed by a BSD-style license that can be
+                             ^^^^^^^^
+/C:/flutter/bin/flutter:3:48: Error: 'style' isn't a type.
+# Use of this source code is governed by a BSD-style license that can be
+                                               ^^^^^
+/C:/flutter/bin/flutter:8:3: Error: 'Please' isn't a type.
+# Please keep the logic in this file consistent with the logic in the
+  ^^^^^^
+/C:/flutter/bin/flutter:9:49: Error: 'ensure' isn't a type.
+# `flutter.bat` script in the same directory to ensure that Flutter
+                                                ^^^^^^
+/C:/flutter/bin/flutter:10:3: Error: 'continues' isn't a type.
+# continues to work across all platforms!
+  ^^^^^^^^^
+/C:/flutter/bin/flutter:10:16: Error: 'work' isn't a type.
+# continues to work across all platforms!
+               ^^^^
+/C:/flutter/bin/flutter:10:28: Error: 'all' isn't a type.
+# continues to work across all platforms!
+                           ^^^
+/C:/flutter/bin/flutter:16:3: Error: 'To' isn't a type.
+# To debug the tool, you can uncomment the following lines to enable debug
+  ^^
+/C:/flutter/bin/flutter:16:54: Error: 'lines' isn't a type.
+# To debug the tool, you can uncomment the following lines to enable debug
+                                                     ^^^^^
+/C:/flutter/bin/flutter:16:63: Error: 'enable' isn't a type.
+# To debug the tool, you can uncomment the following lines to enable debug
+                                                              ^^^^^^
+/C:/flutter/bin/flutter:17:3: Error: 'mode' isn't a type.
+# mode and set a VM service port:
+  ^^^^
+/C:/flutter/bin/flutter:17:18: Error: A setter should have exactly one formal parameter.
+# mode and set a VM service port:
+                 ^
+/C:/flutter/bin/flutter:17:18: Error: 'VM' isn't a type.
+# mode and set a VM service port:
+                 ^^
+/C:/flutter/bin/flutter:21:3: Error: 'Needed' isn't a type.
+# Needed because if it is set, cd may print the path it changed to.
+  ^^^^^^
+/C:/flutter/bin/flutter:21:35: Error: 'may' isn't a type.
+# Needed because if it is set, cd may print the path it changed to.
+                                  ^^^
+/C:/flutter/bin/flutter:24:3: Error: 'On' isn't a type.
+# On Mac OS, readlink -f doesn't work, so follow_links traverses the path one
+  ^^
+/C:/flutter/bin/flutter:24:24: Error: 'f' isn't a type.
+# On Mac OS, readlink -f doesn't work, so follow_links traverses the path one
+                       ^
+/C:/flutter/bin/flutter:25:3: Error: 'link' isn't a type.
+# link at a time, and then cds into the link destination and find out where it
+  ^^^^
+/C:/flutter/bin/flutter:25:23: Error: 'then' isn't a type.
+# link at a time, and then cds into the link destination and find out where it
+                      ^^^^
+/C:/flutter/bin/flutter:25:32: Error: 'into' isn't a type.
+# link at a time, and then cds into the link destination and find out where it
+                               ^^^^
+/C:/flutter/bin/flutter:25:41: Error: 'link' isn't a type.
+# link at a time, and then cds into the link destination and find out where it
+                                        ^^^^
+/C:/flutter/bin/flutter:25:67: Error: 'out' isn't a type.
+# link at a time, and then cds into the link destination and find out where it
+                                                                  ^^^
+/C:/flutter/bin/flutter:28:3: Error: 'The' isn't a type.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+  ^^^
+/C:/flutter/bin/flutter:28:16: Error: 'filesystem' isn't a type.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+               ^^^^^^^^^^
+/C:/flutter/bin/flutter:28:32: Error: 'must' isn't a type.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                               ^^^^
+/C:/flutter/bin/flutter:28:49: Error: 'usable' isn't a type.
+# The returned filesystem path must be a format usable by Dart's URI parser,
+                                                ^^^^^^
+/C:/flutter/bin/flutter:29:26: Error: 'line' isn't a type.
+# since the Dart command line tool treats its argument as a file URI, not a
+                         ^^^^
+/C:/flutter/bin/flutter:29:36: Error: 'treats' isn't a type.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                   ^^^^^^
+/C:/flutter/bin/flutter:29:47: Error: 'argument' isn't a type.
+# since the Dart command line tool treats its argument as a file URI, not a
+                                              ^^^^^^^^
+/C:/flutter/bin/flutter:30:36: Error: 'consecutive' isn't a type.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                   ^^^^^^^^^^^
+/C:/flutter/bin/flutter:30:56: Error: 'should' isn't a type.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                                       ^^^^^^
+/C:/flutter/bin/flutter:30:66: Error: 'reduced' isn't a type.
+# filename. For instance, multiple consecutive slashes should be reduced to a
+                                                                 ^^^^^^^
+/C:/flutter/bin/flutter:31:3: Error: 'single' isn't a type.
+# single slash, since double-slashes indicate a URI "authority", and these are
+  ^^^^^^
+/C:/flutter/bin/flutter:32:3: Error: 'supposed' isn't a type.
+# supposed to be filenames. There is an edge case where this will return
+  ^^^^^^^^
+/C:/flutter/bin/flutter:32:38: Error: 'an' isn't a type.
+# supposed to be filenames. There is an edge case where this will return
+                                     ^^
+/C:/flutter/bin/flutter:33:21: Error: 'when' isn't a type.
+# multiple slashes: when the input resolves to the root directory. However, if
+                    ^^^^
+/C:/flutter/bin/flutter:33:30: Error: 'input' isn't a type.
+# multiple slashes: when the input resolves to the root directory. However, if
+                             ^^^^^
+/C:/flutter/bin/flutter:37:3: Error: 'The' isn't a type.
+# The function is enclosed in a subshell to avoid changing the working directory
+  ^^^
+/C:/flutter/bin/flutter:37:51: Error: 'changing' isn't a type.
+# The function is enclosed in a subshell to avoid changing the working directory
+                                                  ^^^^^^^^
+/C:/flutter/bin/flutter:37:64: Error: 'working' isn't a type.
+# The function is enclosed in a subshell to avoid changing the working directory
+                                                               ^^^^^^^
+/C:/flutter/bin/flutter:51:28: Error: A value of type 'String' can't be assigned to a variable of type '(invalid-type)'.
+PROG_NAME="$(follow_links "${BASH_SOURCE[0]}")"
+                           ^
+/C:/flutter/bin/flutter:51:30: Error: Undefined name 'BASH_SOURCE'.
+PROG_NAME="$(follow_links "${BASH_SOURCE[0]}")"
+                             ^^^^^^^^^^^
+/C:/flutter/bin/flutter:51:43: Error: Expected ';' after this.
+PROG_NAME="$(follow_links "${BASH_SOURCE[0]}")"
+                                          ^
+/C:/flutter/bin/flutter:65:1: Error: Expected an identifier, but got ''.
+Try inserting an identifier before ''.
+/C:/flutter/bin/flutter:52:33: Error: Expected ';' after this.
+BIN_DIR="$(cd -P -- "${PROG_NAME%/*}" ; pwd -P)"
+                                ^
+/C:/flutter/bin/flutter:52:33: Error: The operator '%' isn't defined for the type '(invalid-type)'.
+Try correcting the operator to an existing operator, or defining a '%' operator.
+BIN_DIR="$(cd -P -- "${PROG_NAME%/*}" ; pwd -P)"
+                                ^
