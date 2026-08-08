@@ -37,7 +37,8 @@ jobs:
         run: flutter pub get
 
       - name: Build release APK
-        run: flutter build apk --release | tee build.log
+        # 2>&1 把 stderr（真正报错）也捕获进 build.log，方便排查
+        run: flutter build apk --release 2>&1 | tee build.log
         continue-on-error: true
 
       - name: Check build result
@@ -46,11 +47,19 @@ jobs:
             echo "BUILD SUCCESS"
           else
             echo "BUILD FAILED - 下面是错误日志:"
-            sed 's/\x1b\[[0-9;]*m//g' build.log 2>/dev/null | tail -n 250 || echo "no build.log"
+            sed 's/\x1b\[[0-9;]*m//g' build.log 2>/dev/null | tail -n 500 || echo "no build.log"
             exit 1
           fi
 
+      - name: Upload build log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
+
       - name: Upload APK
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: app-release-apk
