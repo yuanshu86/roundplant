@@ -26,8 +26,14 @@ subprojects {
 // 无法满足 image_picker/geolocator/sqflite/share_plus 等插件及其 androidx 依赖(要求>=34/36)。
 subprojects {
     afterEvaluate {
-        val androidExt = extensions.findByName("android") as? com.android.build.api.dsl.CommonExtension<*, *, *, *, *>
-        androidExt?.compileSdk = 36
+        val androidExt = extensions.findByName("android") ?: return@afterEvaluate
+        // 不依赖 AGP 内部类型(AGP9 下 CommonExtension/BaseExtension 接口常被重构)，
+        // 直接反射调用 setCompileSdk/setCompileSdkVersion(int)，跨版本通用。
+        val setter = androidExt.javaClass.methods.firstOrNull { m ->
+            m.parameterCount == 1 &&
+                (m.name == "setCompileSdk" || m.name == "setCompileSdkVersion")
+        }
+        setter?.invoke(androidExt, 36)
     }
 }
 
