@@ -19,18 +19,31 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AppStore>(
       builder: (context, store, _) {
-        return SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: AppSpacing.tabBarHeight + 20),
-          child: Column(
-            children: [
-              _buildHeader(store),
-              const SizedBox(height: 20),
-              _buildStatsRow(store),
-              const SizedBox(height: 20),
-              _buildMenuSection(context, store),
-            ],
-          ),
-        );
+        try {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.only(bottom: AppSpacing.tabBarHeight + 20),
+            child: Column(
+              children: [
+                _buildHeader(store),
+                const SizedBox(height: 20),
+                _buildStatsRow(store),
+                const SizedBox(height: 20),
+                _buildMenuSection(context, store),
+              ],
+            ),
+          );
+        } catch (e, stack) {
+          debugPrint('ProfileScreen build error: $e\n$stack');
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Text(
+                '我的页面渲染出错：\n$e',
+                style: AppTypography.body.copyWith(color: AppColors.danger),
+              ),
+            ),
+          );
+        }
       },
     );
   }

@@ -110,7 +110,7 @@ class _HomeIconPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_) => true;
+  bool shouldRepaint(covariant CustomPainter? old) => true;
 }
 
 class _TasksIconPainter extends CustomPainter {
@@ -169,7 +169,7 @@ class _TasksIconPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_) => true;
+  bool shouldRepaint(covariant CustomPainter? old) => true;
 }
 
 class _NearbyIconPainter extends CustomPainter {
@@ -212,7 +212,7 @@ class _NearbyIconPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_) => true;
+  bool shouldRepaint(covariant CustomPainter? old) => true;
 }
 
 class _ProfileIconPainter extends CustomPainter {
@@ -262,7 +262,7 @@ class _ProfileIconPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_) => true;
+  bool shouldRepaint(covariant CustomPainter? old) => true;
 }
 
 class _DiaryIconPainter extends CustomPainter {
@@ -314,7 +314,7 @@ class _DiaryIconPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_) => false;
+  bool shouldRepaint(covariant CustomPainter? old) => false;
 }
 
 class _ScanIconPainter extends CustomPainter {
@@ -372,7 +372,7 @@ class _ScanIconPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_) => false;
+  bool shouldRepaint(covariant CustomPainter? old) => false;
 }
 
 class _VinePainter extends CustomPainter {
@@ -408,5 +408,5 @@ class _VinePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_) => false;
+  bool shouldRepaint(covariant CustomPainter? old) => false;
 }

@@ -69,5 +69,5 @@ class _LeafVeinPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter old) => false;
+  bool shouldRepaint(covariant CustomPainter? old) => false;
 }

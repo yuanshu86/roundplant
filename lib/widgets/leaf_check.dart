@@ -135,5 +135,5 @@ class _LeafCheckPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _LeafCheckPainter old) => old.progress != progress;
+  bool shouldRepaint(covariant _LeafCheckPainter? old) => old?.progress != progress;
 }

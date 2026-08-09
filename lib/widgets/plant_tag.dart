@@ -98,5 +98,5 @@ class _TagPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _TagPainter old) => old.color != color;
+  bool shouldRepaint(covariant _TagPainter? old) => old?.color != color;
 }

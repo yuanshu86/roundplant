@@ -114,7 +114,7 @@ class _GardenPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter old) => false;
+  bool shouldRepaint(covariant CustomPainter? old) => false;
 }
 
 /// 漂浮的种子形态「写日记」按钮，按压有绿色水波纹扩散反馈。

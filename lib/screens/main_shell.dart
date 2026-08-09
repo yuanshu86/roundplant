@@ -4,6 +4,7 @@ import '../theme/app_spacing.dart';
 import 'package:provider/provider.dart';
 import '../store/app_store.dart';
 import '../widgets/frosted.dart';
+import '../widgets/tab_icons.dart';
 import 'home_screen.dart';
 import 'tasks_screen.dart';
 import 'nearby_screen.dart';
@@ -76,11 +77,11 @@ class _MainShellState extends State<MainShell> {
         children: [
           Row(
             children: [
-              _tabItem('首页', Icons.home_outlined, Icons.home, 0),
-              _tabItem('任务', Icons.check_circle_outline, Icons.check_circle, 1),
+              _tabItem('首页', 0, (active) => TabIcons.home(active: active)),
+              _tabItem('任务', 1, (active) => TabIcons.tasks(active: active)),
               const SizedBox(width: AppSpacing.fabSize),
-              _tabItem('附近', Icons.map_outlined, Icons.map, 2),
-              _tabItem('我的', Icons.person_outline, Icons.person, 3),
+              _tabItem('附近', 2, (active) => TabIcons.nearby(active: active)),
+              _tabItem('我的', 3, (active) => TabIcons.profile(active: active)),
             ],
           ),
           // FAB —— 与 Tab 图标同处一行，不再向上凸起
@@ -96,7 +97,7 @@ class _MainShellState extends State<MainShell> {
                   shape: BoxShape.circle,
                   boxShadow: AppColors.fabShadow,
                 ),
-                child: const Icon(Icons.add, color: Colors.white, size: 24),
+                child: TabIcons.scan(size: 24, color: Colors.white),
               ),
             ),
           ),
@@ -105,7 +106,8 @@ class _MainShellState extends State<MainShell> {
     );
   }
 
-  Widget _tabItem(String label, IconData inactive, IconData active, int index) {
+  Widget _tabItem(String label, int index,
+      Widget Function({required bool active}) iconBuilder) {
     final isActive = _currentIndex == index;
     return Expanded(
       child: GestureDetector(
@@ -114,11 +116,7 @@ class _MainShellState extends State<MainShell> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              isActive ? active : inactive,
-              size: 24,
-              color: isActive ? AppColors.primary : AppColors.textHint,
-            ),
+            iconBuilder(active: isActive),
             const SizedBox(height: 2),
             Text(
               label,

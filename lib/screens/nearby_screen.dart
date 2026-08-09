@@ -599,7 +599,7 @@ class MapTerrainPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CustomPainter? oldDelegate) => false;
 }
 
 /// 距离环画笔
@@ -629,5 +629,5 @@ class DistanceRingPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CustomPainter? oldDelegate) => false;
 }

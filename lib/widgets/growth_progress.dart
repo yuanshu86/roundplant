@@ -182,5 +182,5 @@ class _SproutPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _SproutPainter old) => old.color != color;
+  bool shouldRepaint(covariant _SproutPainter? old) => old?.color != color;
 }

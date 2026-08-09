@@ -39,7 +39,7 @@ abstract class _LinePainter extends CustomPainter {
   Paint get pen => _pen;
 
   @override
-  bool shouldRepaint(covariant CustomPainter old) => false;
+  bool shouldRepaint(covariant CustomPainter? old) => false;
 }
 
 class _AlarmPainter extends _LinePainter {
