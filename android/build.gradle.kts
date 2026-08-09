@@ -17,39 +17,28 @@ subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
-subprojects {
-    project.evaluationDependsOn(":app")
-}
-
 // 强制所有 Android 模块（含 Flutter 插件，如 :share_plus/:image_picker_android）使用 compileSdk=36。
 // 本机 Flutter 版本较旧，插件模块默认继承 flutter.compileSdkVersion=33，
-// 无法满足 image_picker/geolocator/sqflite/share_plus 等插件及其 androidx 依赖(要求>=34/36)。
-subprojects {
-    val sub = this
-    // Gradle 9 禁止对已 evaluate 完成的 project 再注册 afterEvaluate，故改用 plugins.withId：
-    // 在 Android 插件 apply 的同一步(配置阶段内)同步触发，覆盖已 apply 与将来 apply 的模块，
-    // 且不再触碰 afterEvaluate，避免 "Cannot run afterEvaluate when already evaluated"。
-    val applyCompileSdk: () -> Unit = {
-        // 不依赖 AGP 内部类型(AGP9 下 CommonExtension/BaseExtension 接口常被重构)，
-        // 直接反射调用 setCompileSdk/setCompileSdkVersion(int)，跨版本通用。
-        val androidExt = sub.extensions.findByName("android")
-        if (androidExt != null) {
-            // 仅匹配 int 参数的 setter：setCompileSdkVersion 在部分 AGP 版本暴露为 (String)，
-            // 误选它会导致 argument type mismatch，因此显式限定参数类型必须是 int/Integer。
-            val setter = androidExt.javaClass.methods.firstOrNull { m ->
-                m.parameterCount == 1 &&
-                    (m.name == "setCompileSdk" || m.name == "setCompileSdkVersion") &&
-                    m.parameterTypes[0].let { t ->
-                        t == Int::class.javaPrimitiveType || t == Integer::class.java
-                    }
-            }
-            // Method.invoke(Object, Object...) 的变参在 Kotlin 中需用 spread(*) 展开，
-            // 确保 36 作为单个 int 参数而非数组传入，消除 argument type mismatch。
-            setter?.invoke(androidExt, *arrayOf<Any?>(36))
+// 不满足 image_picker/geolocator/sqflite/share_plus 等插件及其 androidx 依赖(要求>=34/36)。
+// 必须在各模块 build.gradle 执行完(其 compileSdk 已设为 33)之后再覆盖，故走 per-project afterEvaluate；
+// 且 afterEvaluate 的注册必须早于 evaluationDependsOn(':app')——后者会触发部分模块提前 evaluate，
+// 若之后再注册 afterEvaluate 会抛 "Cannot run afterEvaluate when already evaluated" (Gradle 9)。
+subprojects { sub ->
+    sub.afterEvaluate {
+        val androidExt = sub.extensions.findByName("android") ?: return@afterEvaluate
+        // 反射 setCompileSdk(int)：AGP9 new DSL 下 CommonExtension/BaseExtension 类型不稳定，
+        // 直接反射跨版本通用；仅匹配 int/Integer 参数的 setter，排除 setCompileSdkVersion(String) 误选。
+        val setter = androidExt.javaClass.methods.firstOrNull { m ->
+            m.parameterCount == 1 &&
+                (m.name == "setCompileSdk" || m.name == "setCompileSdkVersion") &&
+                m.parameterTypes[0].let { t ->
+                    t == Int::class.javaPrimitiveType || t == Integer::class.java
+                }
         }
+        setter?.invoke(androidExt, *arrayOf<Any?>(36))
     }
-    sub.plugins.withId("com.android.application") { applyCompileSdk() }
-    sub.plugins.withId("com.android.library") { applyCompileSdk() }
+    // evaluationDependsOn 放在 afterEvaluate 注册之后，避免对已 evaluate 的模块调用 afterEvaluate。
+    sub.evaluationDependsOn(":app")
 }
 
 tasks.register<Delete>("clean") {
