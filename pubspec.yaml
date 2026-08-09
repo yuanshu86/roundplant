@@ -13,7 +13,8 @@ dependencies:
   # 状态管理
   provider: ^6.1.2
   # 分享 (调系统Share Sheet)
-  share_plus: ^12.0.2
+  # 锁定 7.x：12.x 的 Android Kotlin 源码在 AGP9+新Kotlin 工具链下编译不过(ShareSuccessManager 等未解析符号)
+  share_plus: ^7.2.0
   # 本地存储 (用户设置缓存)
   shared_preferences: ^2.2.2
   # Google字体 (Varela Round + Nunito Sans)
