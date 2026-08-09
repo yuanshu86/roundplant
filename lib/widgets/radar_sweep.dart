@@ -58,13 +58,13 @@ class _RadarPainter extends CustomPainter {
     }
 
     // 扫描扇形渐变
-    final grad = Gradient.sweep(
-      c,
-      [color.withValues(alpha: 0.0), color.withValues(alpha: 0.35)],
-      [0.0, 1.0],
-      TileMode.clamp,
-      angle,
-      angle + 0.6,
+    final grad = SweepGradient(
+      center: Alignment.center,
+      startAngle: angle,
+      endAngle: angle + 0.6,
+      colors: [color.withValues(alpha: 0.0), color.withValues(alpha: 0.35)],
+      stops: const [0.0, 1.0],
+      tileMode: TileMode.clamp,
     );
     canvas.drawArc(
       Rect.fromCircle(center: c, radius: r),
