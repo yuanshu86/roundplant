@@ -23,12 +23,13 @@ subprojects {
 // 必须在各模块 build.gradle 执行完(其 compileSdk 已设为 33)之后再覆盖，故走 per-project afterEvaluate；
 // 且 afterEvaluate 的注册必须早于 evaluationDependsOn(':app')——后者会触发部分模块提前 evaluate，
 // 若之后再注册 afterEvaluate 会抛 "Cannot run afterEvaluate when already evaluated" (Gradle 9)。
-subprojects { sub ->
-    sub.afterEvaluate {
-        val androidExt = sub.extensions.findByName("android") ?: return@afterEvaluate
+subprojects {
+    afterEvaluate {
+        val androidExt = extensions.findByName("android") ?: return@afterEvaluate
         // 反射 setCompileSdk(int)：AGP9 new DSL 下 CommonExtension/BaseExtension 类型不稳定，
         // 直接反射跨版本通用；仅匹配 int/Integer 参数的 setter，排除 setCompileSdkVersion(String) 误选。
-        val setter = androidExt.javaClass.methods.firstOrNull { m ->
+        val clazz = androidExt::class.java
+        val setter = clazz.methods.firstOrNull { m ->
             m.parameterCount == 1 &&
                 (m.name == "setCompileSdk" || m.name == "setCompileSdkVersion") &&
                 m.parameterTypes[0].let { t ->
@@ -38,7 +39,7 @@ subprojects { sub ->
         setter?.invoke(androidExt, *arrayOf<Any?>(36))
     }
     // evaluationDependsOn 放在 afterEvaluate 注册之后，避免对已 evaluate 的模块调用 afterEvaluate。
-    sub.evaluationDependsOn(":app")
+    evaluationDependsOn(":app")
 }
 
 tasks.register<Delete>("clean") {
