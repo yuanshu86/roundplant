@@ -85,5 +85,6 @@ class _RadarPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _RadarPainter? old) => old?.angle != angle;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) =>
+      oldDelegate is _RadarPainter && oldDelegate.angle != angle;
 }

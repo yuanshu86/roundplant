@@ -160,6 +160,9 @@ class _WaterRingPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _WaterRingPainter? old) =>
-      old?.needWater != needWater || old?.total != total || old?.wavePhase != wavePhase;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) =>
+      oldDelegate is _WaterRingPainter &&
+      (oldDelegate.needWater != needWater ||
+          oldDelegate.total != total ||
+          oldDelegate.wavePhase != wavePhase);
 }

@@ -77,11 +77,11 @@ class _MainShellState extends State<MainShell> {
         children: [
           Row(
             children: [
-              _tabItem('首页', 0, (active) => TabIcons.home(active: active)),
-              _tabItem('任务', 1, (active) => TabIcons.tasks(active: active)),
+              _tabItem('首页', 0, ({required bool active}) => TabIcons.home(active: active)),
+              _tabItem('任务', 1, ({required bool active}) => TabIcons.tasks(active: active)),
               const SizedBox(width: AppSpacing.fabSize),
-              _tabItem('附近', 2, (active) => TabIcons.nearby(active: active)),
-              _tabItem('我的', 3, (active) => TabIcons.profile(active: active)),
+              _tabItem('附近', 2, ({required bool active}) => TabIcons.nearby(active: active)),
+              _tabItem('我的', 3, ({required bool active}) => TabIcons.profile(active: active)),
             ],
           ),
           // FAB —— 与 Tab 图标同处一行，不再向上凸起
