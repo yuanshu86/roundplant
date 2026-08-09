@@ -1,14 +1,10 @@
-import 'dart:io' show Platform;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:uuid/uuid.dart';
 import '../models/plant.dart';
 
-/// SQLite 数据库管理单例
-/// - Android/iOS: 原生 sqflite
-/// - Windows/macOS/Linux: sqflite_common_ffi（桌面调试用）
+/// SQLite 数据库管理单例（Android/iOS 使用原生 sqflite）
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
   factory DatabaseHelper() => _instance;
@@ -40,12 +36,6 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDb() async {
-    // 桌面平台初始化 ffi
-    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-      sqfliteFfiInit();
-      databaseFactory = databaseFactoryFfi;
-    }
-
     final docsDir = await getApplicationDocumentsDirectory();
     final dbPath = p.join(docsDir.path, _dbName);
 

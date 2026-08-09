@@ -193,7 +193,7 @@ class ShareCard extends StatelessWidget {
           ),
           // 日记摘录
           if (recentDiaries.isNotEmpty) ...[
-            const Padding(
+            Padding(
               padding: EdgeInsets.fromLTRB(20, 16, 20, 0),
               child: Divider(color: AppColors.border),
             ),
@@ -371,7 +371,7 @@ class ShareCard extends StatelessWidget {
         Icon(icon, size: 20, color: AppColors.primary),
         const SizedBox(height: 4),
         Text(value,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: 'NunitoSans', fontSize: 16,
             fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
         Text(label,

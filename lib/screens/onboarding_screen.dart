@@ -49,7 +49,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               alignment: Alignment.topRight,
               child: TextButton(
                 onPressed: _finish,
-                child: const Text('跳过', style: AppTypography.caption),
+                child: Text('跳过', style: AppTypography.caption),
               ),
             ),
             Expanded(
