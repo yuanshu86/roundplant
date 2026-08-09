@@ -12,6 +12,7 @@ import '../store/app_store.dart';
 import '../models/plant.dart';
 import '../services/weather_service.dart';
 import '../widgets/app_logo.dart';
+import '../widgets/tab_icons.dart';
 import 'add_plant_screen.dart';
 import 'diary_screen.dart';
 
@@ -278,26 +279,28 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _QuickAction(
-            icon: Icons.location_on,
+            icon: TabIcons.nearby(
+              active: false,
+              size: 22,
+              color: Colors.white,
+            ),
             label: '附近花友',
             gradient: AppColors.mapButtonGradient,
             onTap: () => Navigator.pushNamed(context, '/nearby'),
           ),
           _QuickAction(
-            icon: Icons.book_outlined,
+            icon: TabIcons.diary(size: 22, color: AppColors.primary),
             label: '生长日记',
             color: AppColors.cardWhite,
-            iconColor: AppColors.primary,
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const DiaryScreen()),
             ),
           ),
           _QuickAction(
-            icon: Icons.camera_alt_outlined,
+            icon: TabIcons.scan(size: 22, color: AppColors.primary),
             label: 'AI 识别',
             color: AppColors.cardWhite,
-            iconColor: AppColors.primary,
             onTap: () => Navigator.pushNamed(context, '/scan'),
           ),
         ],
@@ -529,12 +532,11 @@ class _AddPlantButton extends StatelessWidget {
 }
 
 class _QuickAction extends StatelessWidget {
-  final IconData icon;
+  final Widget icon;
   final String label;
   final VoidCallback onTap;
   final Gradient? gradient;
   final Color? color;
-  final Color? iconColor;
 
   const _QuickAction({
     required this.icon,
@@ -542,7 +544,6 @@ class _QuickAction extends StatelessWidget {
     required this.onTap,
     this.gradient,
     this.color,
-    this.iconColor,
   });
 
   @override
@@ -561,9 +562,7 @@ class _QuickAction extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon,
-                color: gradient != null ? Colors.white : (iconColor ?? AppColors.textPrimary),
-                size: 22),
+            SizedBox(width: 22, height: 22, child: icon),
             const SizedBox(height: 6),
             Text(label,
                 style: TextStyle(

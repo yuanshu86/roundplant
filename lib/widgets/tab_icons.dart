@@ -39,6 +39,24 @@ class TabIcons {
     );
   }
 
+  /// 生长日记：书本 + 小叶芽
+  static Widget diary({double size = 24, Color? color}) {
+    final c = color ?? AppColors.primary;
+    return CustomPaint(
+      size: Size(size, size),
+      painter: _DiaryIconPainter(color: c),
+    );
+  }
+
+  /// AI 识别：扫描框 + 镜头里的小叶子
+  static Widget scan({double size = 24, Color? color}) {
+    final c = color ?? AppColors.primary;
+    return CustomPaint(
+      size: Size(size, size),
+      painter: _ScanIconPainter(color: c),
+    );
+  }
+
   /// 选中状态下的藤蔓指示条
   static Widget vineIndicator({double width = 28}) {
     return CustomPaint(
@@ -245,6 +263,116 @@ class _ProfileIconPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_) => true;
+}
+
+class _DiaryIconPainter extends CustomPainter {
+  final Color color;
+
+  _DiaryIconPainter({required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+
+    final fillPaint = Paint()
+      ..color = color.withValues(alpha: 0.15)
+      ..style = PaintingStyle.fill;
+
+    final center = Offset(size.width / 2, size.height / 2);
+
+    // 打开的书本
+    final book = Path();
+    // 左页
+    book.moveTo(center.dx, center.dy - 8);
+    book.lineTo(center.dx - 9, center.dy - 5);
+    book.lineTo(center.dx - 9, center.dy + 5);
+    book.lineTo(center.dx, center.dy + 8);
+    // 右页
+    book.moveTo(center.dx, center.dy - 8);
+    book.lineTo(center.dx + 9, center.dy - 5);
+    book.lineTo(center.dx + 9, center.dy + 5);
+    book.lineTo(center.dx, center.dy + 8);
+    // 书脊
+    book.moveTo(center.dx, center.dy - 8);
+    book.lineTo(center.dx, center.dy + 8);
+    canvas.drawPath(book, paint);
+
+    // 书页上长出的小叶芽
+    final leaf = Path();
+    leaf.moveTo(center.dx - 2, center.dy + 2);
+    leaf.quadraticBezierTo(
+        center.dx - 6, center.dy - 2, center.dx - 5, center.dy - 6);
+    leaf.quadraticBezierTo(
+        center.dx - 2, center.dy - 2, center.dx - 2, center.dy + 2);
+    canvas.drawPath(leaf, fillPaint);
+    canvas.drawPath(leaf, paint);
+  }
+
+  @override
+  bool shouldRepaint(_) => false;
+}
+
+class _ScanIconPainter extends CustomPainter {
+  final Color color;
+
+  _ScanIconPainter({required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+
+    final fillPaint = Paint()
+      ..color = color.withValues(alpha: 0.15)
+      ..style = PaintingStyle.fill;
+
+    final center = Offset(size.width / 2, size.height / 2);
+
+    // 扫描/相机外框（四个角）
+    const corner = 6.0;
+    const len = 6.0;
+    // 左上
+    canvas.drawLine(Offset(center.dx - corner, center.dy - corner - len),
+        Offset(center.dx - corner, center.dy - corner), paint);
+    canvas.drawLine(Offset(center.dx - corner, center.dy - corner),
+        Offset(center.dx - corner - len, center.dy - corner), paint);
+    // 右上
+    canvas.drawLine(Offset(center.dx + corner, center.dy - corner - len),
+        Offset(center.dx + corner, center.dy - corner), paint);
+    canvas.drawLine(Offset(center.dx + corner, center.dy - corner),
+        Offset(center.dx + corner + len, center.dy - corner), paint);
+    // 左下
+    canvas.drawLine(Offset(center.dx - corner, center.dy + corner + len),
+        Offset(center.dx - corner, center.dy + corner), paint);
+    canvas.drawLine(Offset(center.dx - corner, center.dy + corner),
+        Offset(center.dx - corner - len, center.dy + corner), paint);
+    // 右下
+    canvas.drawLine(Offset(center.dx + corner, center.dy + corner + len),
+        Offset(center.dx + corner, center.dy + corner), paint);
+    canvas.drawLine(Offset(center.dx + corner, center.dy + corner),
+        Offset(center.dx + corner + len, center.dy + corner), paint);
+
+    // 中心小叶子（识别植物）
+    final leaf = Path();
+    leaf.moveTo(center.dx, center.dy + 3);
+    leaf.quadraticBezierTo(
+        center.dx - 4, center.dy - 1, center.dx - 3, center.dy - 5);
+    leaf.quadraticBezierTo(center.dx, center.dy - 1, center.dx, center.dy + 3);
+    canvas.drawPath(leaf, fillPaint);
+    canvas.drawPath(leaf, paint);
+  }
+
+  @override
+  bool shouldRepaint(_) => false;
 }
 
 class _VinePainter extends CustomPainter {
