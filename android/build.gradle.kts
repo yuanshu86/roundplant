@@ -34,13 +34,18 @@ subprojects {
         // 直接反射调用 setCompileSdk/setCompileSdkVersion(int)，跨版本通用。
         val androidExt = sub.extensions.findByName("android")
         if (androidExt != null) {
+            // 仅匹配 int 参数的 setter：setCompileSdkVersion 在部分 AGP 版本暴露为 (String)，
+            // 误选它会导致 argument type mismatch，因此显式限定参数类型必须是 int/Integer。
             val setter = androidExt.javaClass.methods.firstOrNull { m ->
                 m.parameterCount == 1 &&
-                    (m.name == "setCompileSdk" || m.name == "setCompileSdkVersion")
+                    (m.name == "setCompileSdk" || m.name == "setCompileSdkVersion") &&
+                    m.parameterTypes[0].let { t ->
+                        t == Int::class.javaPrimitiveType || t == Integer::class.java
+                    }
             }
-            // Method.invoke(Object, Object...) 在 Kotlin 中变参期望 Array<out Any?>，
-            // 直接传 36(Int) 会被推断成 Array<Int> 导致 argument type mismatch，故显式装箱。
-            setter?.invoke(androidExt, arrayOf<Any?>(36))
+            // Method.invoke(Object, Object...) 的变参在 Kotlin 中需用 spread(*) 展开，
+            // 确保 36 作为单个 int 参数而非数组传入，消除 argument type mismatch。
+            setter?.invoke(androidExt, *arrayOf<Any?>(36))
         }
     }
     sub.plugins.withId("com.android.application") { applyCompileSdk() }
