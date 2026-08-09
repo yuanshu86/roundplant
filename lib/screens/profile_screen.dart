@@ -6,7 +6,6 @@ import '../theme/app_spacing.dart';
 import '../store/app_store.dart';
 import '../widgets/leafy_background.dart';
 import '../widgets/achievement_medals.dart';
-import '../widgets/handy_icons.dart';
 import 'about_screen.dart';
 import 'changelog_screen.dart';
 import '../services/backup_service.dart';
@@ -24,11 +23,11 @@ class ProfileScreen extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: AppSpacing.tabBarHeight + 20),
             child: Column(
               children: [
-                _buildHeader(store),
+                _safeBuild('header', () => _buildHeader(store)),
                 const SizedBox(height: 20),
-                _buildStatsRow(store),
+                _safeBuild('stats', () => _buildStatsRow(store)),
                 const SizedBox(height: 20),
-                _buildMenuSection(context, store),
+                _safeBuild('menu', () => _buildMenuSection(context, store)),
               ],
             ),
           );
@@ -46,6 +45,28 @@ class ProfileScreen extends StatelessWidget {
         }
       },
     );
+  }
+
+  Widget _safeBuild(String name, Widget Function() builder) {
+    try {
+      return builder();
+    } catch (e, stack) {
+      debugPrint('ProfileScreen $name error: $e\n$stack');
+      return Container(
+        width: double.infinity,
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.red.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(AppSpacing.radiusCard),
+          border: Border.all(color: AppColors.danger),
+        ),
+        child: Text(
+          '$name 渲染出错：\n$e',
+          style: AppTypography.body.copyWith(color: AppColors.danger),
+        ),
+      );
+    }
   }
 
   Widget _buildHeader(AppStore store) {
@@ -114,18 +135,18 @@ class ProfileScreen extends StatelessWidget {
         ),
         child: Column(
           children: [
-            _menuItem(HandyIcons.alarm(), '浇水提醒', '每天 9:00', () {
+            _menuItem(const Icon(Icons.alarm_outlined, size: 22, color: AppColors.primary), '浇水提醒', '每天 9:00', () {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('提醒设置开发中'),
                   backgroundColor: AppColors.primary),
               );
             }),
             _divider(),
-            _menuItem(HandyIcons.compass(), '附近花友', '查看同好', () {
+            _menuItem(const Icon(Icons.explore_outlined, size: 22, color: AppColors.primary), '附近花友', '查看同好', () {
               Navigator.pushNamed(context, '/nearby');
             }),
             _divider(),
-            _menuItem(HandyIcons.brush(), '主题设置',
+            _menuItem(const Icon(Icons.brush_outlined, size: 22, color: AppColors.primary), '主题设置',
                 store.themeMode == ThemeMode.dark ? '深色' : '浅色', () {
               _showThemePicker(context);
             }),
@@ -135,11 +156,11 @@ class ProfileScreen extends StatelessWidget {
               _showBackupSheet(context);
             }),
             _divider(),
-            _menuItem(HandyIcons.update(), '更新通知', '看看这次更新了什么', () {
+            _menuItem(const Icon(Icons.update_outlined, size: 22, color: AppColors.primary), '更新通知', '看看这次更新了什么', () {
               Navigator.push(context, MaterialPageRoute(builder: (_) => const ChangelogScreen()));
             }),
             _divider(),
-            _menuItem(HandyIcons.info(), '关于圆形植物', '无广告 · 本地存储 · 打赏', () {
+            _menuItem(const Icon(Icons.info_outline, size: 22, color: AppColors.primary), '关于圆形植物', '无广告 · 本地存储 · 打赏', () {
               Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutScreen()));
             }),
           ],

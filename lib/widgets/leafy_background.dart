@@ -26,9 +26,8 @@ class LeafyBackground extends StatelessWidget {
             opacity: 0.16,
             child: ImageFiltered(
               imageFilter: ui.ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-              child: CustomPaint(
-                painter: _LeafVeinPainter(),
-                size: Size.infinite,
+              child: const SizedBox.expand(
+                child: CustomPaint(painter: _LeafVeinPainter()),
               ),
             ),
           ),

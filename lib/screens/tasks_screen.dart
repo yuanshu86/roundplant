@@ -88,6 +88,7 @@ class TasksScreen extends StatelessWidget {
               progress: progress,
               done: completed,
               total: total,
+              textColor: Colors.white,
             ),
             const SizedBox(height: 14),
             Text(_quoteOfDay(),

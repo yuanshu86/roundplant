@@ -10,6 +10,7 @@ class GrowthProgressBar extends StatelessWidget {
   final int done;
   final int total;
   final String mood;
+  final Color textColor;
 
   const GrowthProgressBar({
     super.key,
@@ -17,6 +18,7 @@ class GrowthProgressBar extends StatelessWidget {
     required this.done,
     required this.total,
     this.mood = '',
+    this.textColor = AppColors.textPrimary,
   });
 
   @override
@@ -30,15 +32,17 @@ class GrowthProgressBar extends StatelessWidget {
           children: [
             Text('$done / $total',
                 style: AppTypography.bodySemiBold.copyWith(
-                    fontSize: 18, color: AppColors.primary)),
+                    fontSize: 18, color: textColor)),
             const SizedBox(width: 6),
-            Text('已完成', style: AppTypography.caption),
+            Text('已完成',
+                style: AppTypography.caption
+                    .copyWith(color: textColor.withValues(alpha: 0.85))),
             const Spacer(),
             if (mood.isNotEmpty)
               Flexible(
                 child: Text(mood,
                     style: AppTypography.caption
-                        .copyWith(color: AppColors.secondary),
+                        .copyWith(color: textColor.withValues(alpha: 0.9)),
                     overflow: TextOverflow.ellipsis),
               ),
           ],
