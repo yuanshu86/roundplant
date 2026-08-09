@@ -38,7 +38,9 @@ subprojects {
                 m.parameterCount == 1 &&
                     (m.name == "setCompileSdk" || m.name == "setCompileSdkVersion")
             }
-            setter?.invoke(androidExt, 36)
+            // Method.invoke(Object, Object...) 在 Kotlin 中变参期望 Array<out Any?>，
+            // 直接传 36(Int) 会被推断成 Array<Int> 导致 argument type mismatch，故显式装箱。
+            setter?.invoke(androidExt, arrayOf<Any?>(36))
         }
     }
     sub.plugins.withId("com.android.application") { applyCompileSdk() }
