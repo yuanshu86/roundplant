@@ -1,5 +1,22 @@
 import 'dart:convert';
-import 'package:flutter/material.dart' show IconData, Icons;
+import 'package:flutter/material.dart' show Color, Colors, IconData, Icons;
+
+/// 植物标签（可自定义文字 + 颜色，最多 3 个）
+class PlantTag {
+  final String text;
+  final int color; // ARGB int，存到数据库/JSON
+
+  const PlantTag({required this.text, required this.color});
+
+  factory PlantTag.fromJson(Map<String, dynamic> json) => PlantTag(
+        text: json['text'] as String,
+        color: (json['color'] as int?) ?? const Color(0xFFD97706).value,
+      );
+
+  Map<String, dynamic> toJson() => {'text': text, 'color': color};
+
+  Color get materialColor => Color(color);
+}
 
 /// 植物数据模型
 class Plant {
@@ -24,6 +41,8 @@ class Plant {
   final String humidityRange;
   final int careDays;
   final int points;
+  // === 植物标签（陪伴感） ===
+  final List<PlantTag> tags;
   // === 云同步预埋字段（P3 真实社交 / 云同步用，本地阶段恒为默认值） ===
   final String? serverId; // 云端 ID（Supabase row id），本地为空
   final String syncStatus; // 'local' 仅本地 | 'synced' 已同步 | 'pending' 待上传 | 'conflict' 冲突
@@ -50,6 +69,7 @@ class Plant {
     required this.humidityRange,
     this.careDays = 1,
     this.points = 0,
+    this.tags = const [],
     this.serverId,
     this.syncStatus = 'local',
     this.ownerId,
@@ -76,6 +96,7 @@ class Plant {
     String? humidityRange,
     int? careDays,
     int? points,
+    List<PlantTag>? tags,
     String? serverId,
     String? syncStatus,
     String? ownerId,
@@ -101,6 +122,7 @@ class Plant {
       humidityRange: humidityRange ?? this.humidityRange,
       careDays: careDays ?? this.careDays,
       points: points ?? this.points,
+      tags: tags ?? this.tags,
       serverId: serverId ?? this.serverId,
       syncStatus: syncStatus ?? this.syncStatus,
       ownerId: ownerId ?? this.ownerId,
@@ -121,6 +143,7 @@ class Plant {
     'humidity_range': humidityRange,
     'care_days': careDays,
     'points': points,
+    'tags': jsonEncode(tags.map((t) => t.toJson()).toList()),
     'server_id': serverId,
     'sync_status': syncStatus,
     'owner_id': ownerId,
@@ -147,6 +170,7 @@ class Plant {
     humidityRange: map['humidity_range'] as String? ?? '50-70%',
     careDays: (map['care_days'] as int?) ?? 1,
     points: (map['points'] as int?) ?? 0,
+    tags: _tagsFromRaw(map['tags']),
     serverId: map['server_id'] as String?,
     syncStatus: (map['sync_status'] as String?) ?? 'local',
     ownerId: map['owner_id'] as String?,
@@ -196,6 +220,7 @@ class Plant {
     'humidityRange': humidityRange,
     'careDays': careDays,
     'points': points,
+    'tags': tags.map((t) => t.toJson()).toList(),
     'serverId': serverId,
     'syncStatus': syncStatus,
     'ownerId': ownerId,
@@ -222,6 +247,7 @@ class Plant {
     humidityRange: json['humidityRange'] as String,
     careDays: json['careDays'] as int? ?? 1,
     points: json['points'] as int? ?? 0,
+    tags: _tagsFromJson(json['tags']),
     serverId: json['serverId'] as String?,
     syncStatus: json['syncStatus'] as String? ?? 'local',
     ownerId: json['ownerId'] as String?,
@@ -253,6 +279,33 @@ class Plant {
   bool get needsFertilizing => daysUntilFertilizing <= 0;
   bool get needsPruning => daysUntilPruning <= 0;
 
+  // === 标签解析辅助 ===
+  static List<PlantTag> _tagsFromRaw(dynamic raw) {
+    if (raw == null || raw == '') return [];
+    try {
+      final list = jsonDecode(raw.toString()) as List;
+      return list
+          .map((e) => PlantTag.fromJson(e as Map<String, dynamic>))
+          .take(3)
+          .toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  static List<PlantTag> _tagsFromJson(dynamic json) {
+    if (json == null) return [];
+    try {
+      final list = json as List;
+      return list
+          .map((e) => PlantTag.fromJson(e as Map<String, dynamic>))
+          .take(3)
+          .toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
   /// 首次启动种子数据
   static List<Plant> samplePlants = [
     Plant(
@@ -274,6 +327,7 @@ class Plant {
       humidityRange: '60-80%',
       careDays: 28,
       points: 156,
+      tags: [const PlantTag(text: '开心', color: 0xFFD97706)],
     ),
     Plant(
       id: 'sample-2',
@@ -314,6 +368,10 @@ class Plant {
       humidityRange: '50-70%',
       careDays: 42,
       points: 203,
+      tags: [
+        const PlantTag(text: '注意', color: 0xFFEF4444),
+        const PlantTag(text: '新手', color: 0xFF3B82F6),
+      ],
     ),
     Plant(
       id: 'sample-4',

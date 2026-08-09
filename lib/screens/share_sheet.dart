@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import '../theme/app_colors.dart';
+import '../widgets/frosted.dart';
 import '../theme/app_typography.dart';
 import '../theme/app_spacing.dart';
 import '../models/plant.dart';
@@ -43,15 +44,14 @@ class _ShareSheetState extends State<ShareSheet> {
           // 底部面板
           Align(
             alignment: Alignment.bottomCenter,
-            child: Container(
+            child: FrostedGlass(
+              tint: AppColors.frostedTint,
+              sigma: 24,
               height: 540,
-              decoration: BoxDecoration(
-                color: AppColors.cardWhite,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(AppSpacing.radiusSheet),
-                ),
-                boxShadow: AppColors.sheetShadow,
+              radius: const BorderRadius.vertical(
+                top: Radius.circular(AppSpacing.radiusSheet),
               ),
+              shadows: AppColors.sheetShadow,
               child: Column(
                 children: [
                   Container(

@@ -1,15 +1,30 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 import '../theme/app_spacing.dart';
 import '../store/app_store.dart';
+import '../widgets/growth_progress.dart';
+import '../widgets/leaf_check.dart';
 import '../models/plant.dart';
 
 /// Screen 4 - 养护任务 (Tab 内容)
 class TasksScreen extends StatelessWidget {
   const TasksScreen({super.key});
+
+  static const List<String> _quotes = [
+    '绿萝说：今天我想喝点柠檬水（酸性肥）哦~',
+    '多肉嘟囔：太阳晒得好暖，别忘了我也渴啦',
+    '龟背竹伸了个懒腰：新叶子要冒头了，给我点耐心',
+    '薄荷在风里招手：浇水时顺便陪我聊两句呗',
+    '绣球悄悄话：想要更蓝的花，记得调调土哦',
+    '仙人掌打哈欠：少浇点没事，多浇我会闹脾气',
+  ];
+
+  static String _quoteOfDay() {
+    final idx = DateTime.now().day % _quotes.length;
+    return _quotes[idx];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,55 +78,22 @@ class TasksScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppSpacing.radiusCard),
           boxShadow: AppColors.cardShadow,
         ),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: 96, height: 96,
-              child: Stack(
-                children: [
-                  CustomPaint(
-                    size: const Size(96, 96),
-                    painter: ProgressRingPainter(progress),
-                  ),
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('${(progress * 100).round()}%',
-                          style: const TextStyle(
-                            fontFamily: 'VarelaRound',
-                            fontSize: 20, color: Colors.white,
-                          )),
-                        Text('完成',
-                          style: TextStyle(
-                            fontFamily: 'NunitoSans', fontSize: 10,
-                            color: Colors.white.withValues(alpha: 0.8),
-                          )),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            const Text('今日任务',
+              style: TextStyle(fontFamily: 'VarelaRound', fontSize: 16, color: Colors.white)),
+            const SizedBox(height: 14),
+            GrowthProgressBar(
+              progress: progress,
+              done: completed,
+              total: total,
             ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('今日任务',
-                    style: TextStyle(fontFamily: 'VarelaRound',
-                      fontSize: 16, color: Colors.white)),
-                  const SizedBox(height: 4),
-                  Text('$completed / $total 已完成',
-                    style: TextStyle(fontFamily: 'NunitoSans', fontSize: 13,
-                      color: Colors.white.withValues(alpha: 0.9))),
-                  const SizedBox(height: 8),
-                  Text('加油，植物们在等你！',
-                    style: TextStyle(fontFamily: 'NunitoSans', fontSize: 11,
-                      color: Colors.white.withValues(alpha: 0.7))),
-                ],
-              ),
-            ),
+            const SizedBox(height: 14),
+            Text(_quoteOfDay(),
+              style: TextStyle(
+                fontFamily: 'NunitoSans', fontSize: 12.5,
+                color: Colors.white.withValues(alpha: 0.92), height: 1.4)),
           ],
         ),
       ),
@@ -199,6 +181,13 @@ class TasksScreen extends StatelessWidget {
   }
 }
 
+String _taskEmoji(String type) => switch (type) {
+  'watering' => '💧',
+  'fertilizing' => '🧪',
+  'pruning' => '✂️',
+  _ => '🪴',
+};
+
 class _TaskItem extends StatelessWidget {
   final CareTask task;
   final VoidCallback onToggle;
@@ -209,7 +198,7 @@ class _TaskItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDone = task.isCompleted;
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: isDone ? AppColors.softCard : AppColors.cardWhite,
@@ -218,41 +207,32 @@ class _TaskItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          GestureDetector(
-            onTap: onToggle,
-            child: Container(
-              width: 24, height: 24,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isDone ? AppColors.primary : Colors.transparent,
-                border: Border.all(
-                  color: isDone ? AppColors.primary : AppColors.border,
-                  width: 2,
-                ),
-              ),
-              child: isDone
-                  ? const Icon(Icons.check, color: Colors.white, size: 16)
-                  : null,
-            ),
+          LeafCheckButton(
+            value: isDone,
+            size: 30,
+            onChanged: (_) => onToggle(),
           ),
           const SizedBox(width: 12),
           Container(
-            width: 36, height: 36,
+            width: 38, height: 38,
             decoration: BoxDecoration(
               color: AppColors.softCard,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(task.icon, color: AppColors.primary, size: 18),
+            alignment: Alignment.center,
+            child: Text(_taskEmoji(task.taskType),
+              style: const TextStyle(fontSize: 20)),
           ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(task.title, style: AppTypography.bodySemiBold.copyWith(
-                  decoration: isDone ? TextDecoration.lineThrough : null,
-                  color: isDone ? AppColors.textSecondary : AppColors.textPrimary,
-                )),
+                Text(task.title,
+                  style: AppTypography.bodySemiBold.copyWith(
+                    decoration: isDone ? TextDecoration.lineThrough : null,
+                    color: isDone ? AppColors.textSecondary : AppColors.textPrimary,
+                  )),
                 Text(task.plantName, style: AppTypography.caption),
               ],
             ),
@@ -261,36 +241,4 @@ class _TaskItem extends StatelessWidget {
       ),
     );
   }
-}
-
-/// 进度环画笔
-class ProgressRingPainter extends CustomPainter {
-  final double progress;
-  ProgressRingPainter(this.progress);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = size.width / 2 - 8;
-
-    canvas.drawCircle(center, radius, Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 8
-      ..color = Colors.white.withValues(alpha: 0.3));
-
-    canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius),
-      -math.pi / 2,
-      2 * math.pi * progress,
-      false,
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 8
-        ..strokeCap = StrokeCap.round
-        ..color = Colors.white,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

@@ -13,7 +13,7 @@ dependencies:
   # 状态管理
   provider: ^6.1.2
   # 分享 (调系统Share Sheet)
-  share_plus: ^9.0.0
+  share_plus: ^12.0.2
   # 本地存储 (用户设置缓存)
   shared_preferences: ^2.2.2
   # Google字体 (Varela Round + Nunito Sans)
@@ -38,6 +38,8 @@ dependencies:
   # 网络请求（调咱们自己的后端代理，APP 不持第三方 key）
   http: ^1.2.1
   http_parser: ^4.1.2
+  # 定位（天气联动，后台不持续定位，仅启动时获取一次）
+  geolocator: ^13.0.0
 
 dev_dependencies:
   flutter_test:
@@ -48,5 +50,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/roundplant_logo.png
+    - assets/images/reward_qr.png
+    - assets/changelog.json
   # v1 不需要外部图片资源 — 所有视觉用 Flutter Widget + Canvas 绘制
   # 用户添加的植物照片存储在 app 文件目录，不打包进 assets

@@ -16,7 +16,7 @@ class DatabaseHelper {
 
   Database? _db;
   static const _dbName = 'circle_plant.db';
-  static const _dbVersion = 4;
+  static const _dbVersion = 5;
   static const _uuid = Uuid();
 
   Future<Database> get database async {
@@ -58,6 +58,7 @@ class DatabaseHelper {
         humidity_range TEXT DEFAULT '50-70%',
         care_days INTEGER DEFAULT 1,
         points INTEGER DEFAULT 0,
+        tags TEXT DEFAULT '[]',
         last_watered TEXT,
         next_watering TEXT,
         fertilizing_frequency INTEGER DEFAULT 14,
@@ -300,6 +301,11 @@ class DatabaseHelper {
       await db.execute('ALTER TABLE diary_entries ADD COLUMN owner_id TEXT');
       await db.execute(
           'ALTER TABLE diary_entries ADD COLUMN updated_at TEXT DEFAULT CURRENT_TIMESTAMP');
+    }
+    if (oldVersion < 5) {
+      // 植物标签（陪伴感）
+      await db.execute(
+          "ALTER TABLE plants ADD COLUMN tags TEXT DEFAULT '[]'");
     }
   }
 

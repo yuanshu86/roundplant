@@ -6,7 +6,9 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../widgets/frosted.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
@@ -206,18 +208,25 @@ class _ScanScreenState extends State<ScanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: AppColors.scanBg,
-        child: SafeArea(
-          top: true,
-          bottom: false,
-          child: Column(
-            children: [
-              _buildNavBar(),
-              Expanded(child: _buildScanArea()),
-              _buildCameraControls(),
-            ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+      ),
+      child: Scaffold(
+        body: Container(
+          color: AppColors.scanBg,
+          child: SafeArea(
+            top: true,
+            bottom: false,
+            child: Column(
+              children: [
+                _buildNavBar(),
+                Expanded(child: _buildScanArea()),
+                _buildCameraControls(),
+              ],
+            ),
           ),
         ),
       ),
@@ -225,31 +234,26 @@ class _ScanScreenState extends State<ScanScreen> {
   }
 
   Widget _buildNavBar() {
-    return Container(
-      height: AppSpacing.navBarHeight,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: const SizedBox(
-              width: 32,
-              height: 32,
-              child: Icon(Icons.close, color: Colors.white, size: 24),
-            ),
-          ),
-          Text('AI 识别',
-              style: AppTypography.pageTitle.copyWith(color: Colors.white)),
-          GestureDetector(
-            onTap: () {},
-            child: const SizedBox(
-              width: 32,
-              height: 32,
-              child: Icon(Icons.flash_off, color: Colors.white, size: 20),
-            ),
-          ),
-        ],
+    return FrostedTopBar(
+      title: 'AI 识别',
+      dark: true,
+      leading: GestureDetector(
+        onTap: () => Navigator.pop(context),
+        behavior: HitTestBehavior.opaque,
+        child: const SizedBox(
+          width: 32,
+          height: 32,
+          child: Icon(Icons.close, color: Colors.white, size: 24),
+        ),
+      ),
+      trailing: GestureDetector(
+        onTap: () {},
+        behavior: HitTestBehavior.opaque,
+        child: const SizedBox(
+          width: 32,
+          height: 32,
+          child: Icon(Icons.flash_off, color: Colors.white, size: 20),
+        ),
       ),
     );
   }
@@ -378,21 +382,21 @@ class _ScanScreenState extends State<ScanScreen> {
       bottom: 0,
       left: 0,
       right: 0,
-      child: Container(
-        constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 0.55),
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-        decoration: BoxDecoration(
-          color: AppColors.cardWhite,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
+      child: FrostedGlass(
+        tint: AppColors.frostedTint,
+        sigma: 24,
+        radius: const BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.55),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
             Row(
               children: [
                 Icon(Icons.check_circle, color: AppColors.primary, size: 20),
@@ -471,7 +475,9 @@ class _ScanScreenState extends State<ScanScreen> {
           ],
         ),
       ),
-    );
+    ),
+  );
+
   }
 
   Widget _buildErrorPanel() {
@@ -479,12 +485,11 @@ class _ScanScreenState extends State<ScanScreen> {
       bottom: 40,
       left: 20,
       right: 20,
-      child: Container(
+      child: FrostedGlass(
+        tint: AppColors.frostedTint,
+        sigma: 24,
+        radius: BorderRadius.circular(AppSpacing.radiusCard),
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppColors.cardWhite,
-          borderRadius: BorderRadius.circular(AppSpacing.radiusCard),
-        ),
         child: Column(
           children: [
             Icon(Icons.error_outline, color: Colors.orange, size: 28),

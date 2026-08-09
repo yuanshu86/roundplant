@@ -376,6 +376,24 @@ class AppStore extends ChangeNotifier {
     }();
   }
 
+  /// 更新植物标签（陪伴感标签）
+  void updatePlantTags(String plantId, List<PlantTag> tags) {
+    final idx = _plants.indexWhere((p) => p.id == plantId);
+    if (idx == -1) return;
+
+    final maxTags = tags.take(3).toList();
+    _plants[idx] = _plants[idx].copyWith(tags: maxTags);
+    notifyListeners();
+
+    () async {
+      try {
+        await _plantRepo.update(_plants[idx]);
+      } catch (e) {
+        debugPrint('updatePlantTags error: $e');
+      }
+    }();
+  }
+
   /// 删除植物
   void removePlant(String id) {
     _plants.removeWhere((p) => p.id == id);

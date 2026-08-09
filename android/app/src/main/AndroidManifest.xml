@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <!-- 拍照识别植物需要 -->
     <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- 天气联动：粗略/精确定位各一次，不持续后台定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <!-- 从相册选图需要（Android 13+） -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <!-- 兼容 Android 12 及以下相册读取 -->

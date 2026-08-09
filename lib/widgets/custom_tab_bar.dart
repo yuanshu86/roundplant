@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 import '../theme/app_spacing.dart';
+import 'tab_icons.dart';
+import 'frosted.dart';
 
 /// 底部导航栏 + FAB
 class CustomTabBar extends StatelessWidget {
@@ -16,13 +18,11 @@ class CustomTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return FrostedGlass(
       height: AppSpacing.tabBarHeight,
-      decoration: const BoxDecoration(
-        color: AppColors.cardWhite,
-        border: Border(
-          top: BorderSide(color: AppColors.border, width: 1),
-        ),
+      tint: AppColors.frostedTint,
+      border: const Border(
+        top: BorderSide(color: AppColors.border, width: 0.5),
       ),
       child: Stack(
         clipBehavior: Clip.none,
@@ -31,11 +31,11 @@ class CustomTabBar extends StatelessWidget {
           // 3个标签位 + FAB占位
           Row(
             children: [
-              _buildTabItem('首页', Icons.home_outlined, Icons.home, 0),
-              _buildTabItem('任务', Icons.check_circle_outline, Icons.check_circle, 1),
+              _buildTabItem('首页', 0, TabIcons.home),
+              _buildTabItem('任务', 1, TabIcons.tasks),
               const SizedBox(width: AppSpacing.fabSize), // FAB 占位
-              _buildTabItem('附近', Icons.map_outlined, Icons.map, 2),
-              _buildTabItem('我的', Icons.person_outline, Icons.person, 3),
+              _buildTabItem('附近', 2, TabIcons.nearby),
+              _buildTabItem('我的', 3, TabIcons.profile),
             ],
           ),
           // FAB —— 与 Tab 图标同处一行，不再向上凸起
@@ -60,7 +60,8 @@ class CustomTabBar extends StatelessWidget {
     );
   }
 
-  Widget _buildTabItem(String label, IconData inactiveIcon, IconData activeIcon, int index) {
+  Widget _buildTabItem(
+      String label, int index, Widget Function({required bool active}) iconBuilder) {
     final isActive = currentIndex == index;
     return Expanded(
       child: GestureDetector(
@@ -69,11 +70,7 @@ class CustomTabBar extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              isActive ? activeIcon : inactiveIcon,
-              size: 24,
-              color: isActive ? AppColors.primary : AppColors.textHint,
-            ),
+            iconBuilder(active: isActive),
             const SizedBox(height: 2),
             Text(
               label,
@@ -83,6 +80,12 @@ class CustomTabBar extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 color: isActive ? AppColors.primary : AppColors.textHint,
               ),
+            ),
+            const SizedBox(height: 2),
+            AnimatedOpacity(
+              opacity: isActive ? 1 : 0,
+              duration: const Duration(milliseconds: 200),
+              child: TabIcons.vineIndicator(width: 24),
             ),
           ],
         ),

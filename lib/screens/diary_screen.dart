@@ -8,6 +8,7 @@ import '../theme/app_spacing.dart';
 import '../store/app_store.dart';
 import '../models/plant.dart';
 import '../widgets/plant_image.dart';
+import '../widgets/empty_garden_illustration.dart';
 import 'diary_editor_screen.dart';
 
 /// 生长日记 — 时间线列表页
@@ -39,7 +40,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
           child: Column(
             children: [
               const SizedBox(height: 40),
-              _buildHeader(store),
+              _buildHeader(store, diaries.isNotEmpty),
               if (diaries.isNotEmpty) _buildFilterChips(store),
               Expanded(
                 child: diaries.isEmpty
@@ -53,7 +54,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
     );
   }
 
-  Widget _buildHeader(AppStore store) {
+  Widget _buildHeader(AppStore store, bool showFab) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 32, 20, 8),
       child: Row(
@@ -68,28 +69,29 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 style: AppTypography.caption),
             ],
           ),
-          GestureDetector(
-            onTap: () => _openEditor(store),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              decoration: BoxDecoration(
-                gradient: AppColors.primaryGradient,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: AppColors.buttonShadow,
-              ),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.edit_note, color: Colors.white, size: 18),
-                  SizedBox(width: 4),
-                  Text('写日记',
-                    style: TextStyle(
-                      fontFamily: 'NunitoSans', fontSize: 13,
-                      fontWeight: FontWeight.w600, color: Colors.white)),
-                ],
+          if (showFab)
+            GestureDetector(
+              onTap: () => _openEditor(store),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                decoration: BoxDecoration(
+                  gradient: AppColors.primaryGradient,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: AppColors.buttonShadow,
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.edit_note, color: Colors.white, size: 18),
+                    SizedBox(width: 4),
+                    Text('写日记',
+                      style: TextStyle(
+                        fontFamily: 'NunitoSans', fontSize: 13,
+                        fontWeight: FontWeight.w600, color: Colors.white)),
+                  ],
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
@@ -130,42 +132,24 @@ class _DiaryScreenState extends State<DiaryScreen> {
     );
   }
 
+  /// 空状态：温暖插画 + 故事化引导语 + 漂浮种子按钮
   Widget _buildEmpty(AppStore store) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(40),
+        padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              width: 80, height: 80,
-              decoration: BoxDecoration(
-                color: AppColors.softCard,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(Icons.book_outlined,
-                size: 40, color: AppColors.textHint),
-            ),
+            GardenEmptyIllustration(size: MediaQuery.of(context).size.width * 0.62),
             const SizedBox(height: 20),
-            Text('还没有日记', style: AppTypography.cardTitle),
-            const SizedBox(height: 8),
-            Text('浇水会自动记录，也可以手动写心得',
-              style: AppTypography.caption,
+            Text('每一片新叶都值得被文字偏爱',
+              style: AppTypography.cardTitle.copyWith(fontSize: 17),
               textAlign: TextAlign.center),
-            const SizedBox(height: 24),
-            GestureDetector(
-              onTap: () => _openEditor(store),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
-                decoration: BoxDecoration(
-                  gradient: AppColors.primaryGradient,
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: AppColors.buttonShadow,
-                ),
-                child: Text('写第一篇日记',
-                  style: AppTypography.buttonText),
-              ),
-            ),
+            const SizedBox(height: 8),
+            Text('浇水会自动记录，也可以写下你和它的小故事',
+              style: AppTypography.caption, textAlign: TextAlign.center),
+            const SizedBox(height: 28),
+            SeedFab(onTap: () => _openEditor(store), label: '写第一篇日记'),
           ],
         ),
       ),

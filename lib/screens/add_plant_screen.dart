@@ -7,6 +7,7 @@ import 'package:uuid/uuid.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 import '../theme/app_spacing.dart';
+import '../widgets/frosted.dart';
 import '../models/plant.dart';
 import '../store/app_store.dart';
 import '../widgets/plant_card.dart';
@@ -210,25 +211,16 @@ class _AddEditPlantScreenState extends State<AddEditPlantScreen> {
   }
 
   Widget _buildNavBar() {
-    return Container(
-      height: AppSpacing.navBarHeight,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: const SizedBox(
-              width: 32,
-              height: 32,
-              child:
-                  Icon(Icons.chevron_left, color: AppColors.primary, size: 28),
-            ),
-          ),
-          Text(_isEditMode ? '编辑植物' : '添加植物',
-              style: AppTypography.pageTitle),
-          const SizedBox(width: 32),
-        ],
+    return FrostedTopBar(
+      title: _isEditMode ? '编辑植物' : '添加植物',
+      leading: GestureDetector(
+        onTap: () => Navigator.pop(context),
+        behavior: HitTestBehavior.opaque,
+        child: const SizedBox(
+          width: 32,
+          height: 32,
+          child: Icon(Icons.chevron_left, color: AppColors.primary, size: 28),
+        ),
       ),
     );
   }

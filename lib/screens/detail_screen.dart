@@ -9,6 +9,7 @@ import '../models/plant.dart';
 import '../widgets/plant_image.dart';
 import '../widgets/plant_card.dart';
 import '../widgets/share_card.dart';
+import '../widgets/frosted.dart';
 import 'add_plant_screen.dart';
 import 'diary_editor_screen.dart';
 
@@ -57,28 +58,25 @@ class DetailScreen extends StatelessWidget {
   }
 
   Widget _buildNavBar(BuildContext context) {
-    return Container(
-      height: AppSpacing.navBarHeight,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: SizedBox(
-              width: 32, height: 32,
-              child: Icon(Icons.chevron_left, color: AppColors.primary, size: 28),
-            ),
-          ),
-          Text(plant.name, style: AppTypography.pageTitle),
-          GestureDetector(
-            onTap: () => _showOptions(context),
-            child: SizedBox(
-              width: 32, height: 32,
-              child: Icon(Icons.more_horiz, color: AppColors.primary, size: 24),
-            ),
-          ),
-        ],
+    return FrostedTopBar(
+      title: plant.name,
+      leading: GestureDetector(
+        onTap: () => Navigator.pop(context),
+        behavior: HitTestBehavior.opaque,
+        child: const SizedBox(
+          width: 32,
+          height: 32,
+          child: Icon(Icons.chevron_left, color: AppColors.primary, size: 28),
+        ),
+      ),
+      trailing: GestureDetector(
+        onTap: () => _showOptions(context),
+        behavior: HitTestBehavior.opaque,
+        child: const SizedBox(
+          width: 32,
+          height: 32,
+          child: Icon(Icons.more_horiz, color: AppColors.primary, size: 24),
+        ),
       ),
     );
   }
@@ -578,52 +576,57 @@ class DetailScreen extends StatelessWidget {
   void _showOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColors.cardWhite,
+      backgroundColor: Colors.transparent,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
       ),
       builder: (ctx) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(height: 16),
-            Container(width: 40, height: 4,
-              decoration: BoxDecoration(color: AppColors.border,
-                borderRadius: BorderRadius.circular(2))),
-            const SizedBox(height: 20),
-            ListTile(
-              leading: Icon(Icons.share, color: AppColors.primary),
-              title: const Text('分享植物'),
-              onTap: () {
-                Navigator.pop(ctx);
-                ShareCardService.sharePlantCard(context, plant,
-                  context.read<AppStore>());
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.edit, color: AppColors.primary),
-              title: const Text('编辑信息'),
-              onTap: () {
-                Navigator.pop(ctx);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => AddEditPlantScreen(plant: plant),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.delete_outline, color: AppColors.danger),
-              title: Text('删除植物', style: TextStyle(color: AppColors.danger)),
-              onTap: () {
-                context.read<AppStore>().removePlant(plant.id);
-                Navigator.pop(ctx);
-                Navigator.pop(context);
-              },
-            ),
-            const SizedBox(height: 8),
-          ],
+        child: FrostedGlass(
+          tint: AppColors.frostedTint,
+          radius: const BorderRadius.vertical(top: Radius.circular(32)),
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 16),
+              Container(width: 40, height: 4,
+                decoration: BoxDecoration(color: AppColors.border,
+                  borderRadius: BorderRadius.circular(2))),
+              const SizedBox(height: 20),
+              ListTile(
+                leading: Icon(Icons.share, color: AppColors.primary),
+                title: const Text('分享植物'),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  ShareCardService.sharePlantCard(context, plant,
+                    context.read<AppStore>());
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.edit, color: AppColors.primary),
+                title: const Text('编辑信息'),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => AddEditPlantScreen(plant: plant),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.delete_outline, color: AppColors.danger),
+                title: Text('删除植物', style: TextStyle(color: AppColors.danger)),
+                onTap: () {
+                  context.read<AppStore>().removePlant(plant.id);
+                  Navigator.pop(ctx);
+                  Navigator.pop(context);
+                },
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
         ),
       ),
     );

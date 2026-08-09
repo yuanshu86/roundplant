@@ -83,4 +83,8 @@ class AppColors {
       offset: const Offset(0, 8),
     ),
   ];
+
+  // === 毛玻璃材质 ===
+  static const Color frostedTint = Color(0xD9FFFFFF); // 浅色毛玻璃（白 85%）
+  static const Color frostedTintDark = Color(0xCC0A2E1A); // 深色毛玻璃
 }

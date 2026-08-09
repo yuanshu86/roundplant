@@ -3,6 +3,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import 'package:provider/provider.dart';
 import '../store/app_store.dart';
+import '../widgets/frosted.dart';
 import 'home_screen.dart';
 import 'tasks_screen.dart';
 import 'nearby_screen.dart';
@@ -61,13 +62,13 @@ class _MainShellState extends State<MainShell> {
   }
 
   Widget _buildTabBar() {
-    return Container(
+    return FrostedGlass(
       height: AppSpacing.tabBarHeight,
-      decoration: const BoxDecoration(
-        color: AppColors.cardWhite,
-        border: Border(
-          top: BorderSide(color: AppColors.border, width: 1),
-        ),
+      tint: AppColors.frostedTint,
+      radius: BorderRadius.zero,
+      padding: EdgeInsets.zero,
+      border: const Border(
+        top: BorderSide(color: AppColors.border, width: 0.5),
       ),
       child: Stack(
         clipBehavior: Clip.none,
