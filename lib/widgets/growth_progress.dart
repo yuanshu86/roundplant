@@ -12,7 +12,7 @@ class GrowthProgressBar extends StatelessWidget {
   final String mood;
   final Color textColor;
 
-  const GrowthProgressBar({
+  GrowthProgressBar({
     super.key,
     required this.progress,
     required this.done,
