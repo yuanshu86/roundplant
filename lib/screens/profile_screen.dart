@@ -65,12 +65,12 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 12),
               Text('植物管家',
                 style: TextStyle(
-                  fontFamily: 'VarelaRound', fontSize: 20, color: Colors.white)),
+                  fontFamily: 'VarelaRound', fontSize: 20, color: AppColors.textPrimary)),
               const SizedBox(height: 4),
               Text('已加入 ${store.maxCareDays} 天 · 养护 ${store.totalPlants} 株植物',
                 style: TextStyle(
                   fontFamily: 'NunitoSans', fontSize: 12,
-                  color: Colors.white.withValues(alpha: 0.85))),
+                  color: AppColors.textSecondary)),
             ],
           ),
         ),

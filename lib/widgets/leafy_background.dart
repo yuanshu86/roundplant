@@ -16,6 +16,7 @@ class LeafyBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.expand,
       children: [
         Container(
           decoration: BoxDecoration(gradient: gradient),
