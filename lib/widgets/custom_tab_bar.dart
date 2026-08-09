@@ -20,8 +20,8 @@ class CustomTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return FrostedGlass(
       height: AppSpacing.tabBarHeight,
-      tint: AppColors.frostedTint,
-      border: const Border(
+      tint: AppColors.isDark ? AppColors.frostedTintDark : AppColors.frostedTint,
+      border: Border(
         top: BorderSide(color: AppColors.border, width: 0.5),
       ),
       child: Stack(

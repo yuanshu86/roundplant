@@ -45,7 +45,7 @@ class _ShareSheetState extends State<ShareSheet> {
           Align(
             alignment: Alignment.bottomCenter,
             child: FrostedGlass(
-              tint: AppColors.frostedTint,
+              tint: AppColors.isDark ? AppColors.frostedTintDark : AppColors.frostedTint,
               sigma: 24,
               height: 540,
               radius: const BorderRadius.vertical(

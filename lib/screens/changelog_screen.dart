@@ -51,13 +51,13 @@ class _ChangelogScreenState extends State<ChangelogScreen> {
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
-        backgroundColor: AppColors.frostedTint,
+        backgroundColor: AppColors.isDark ? AppColors.frostedTintDark : AppColors.frostedTint,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
         title: Text('更新通知', style: AppTypography.cardTitle),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: AppColors.textPrimary),
+          icon: Icon(Icons.arrow_back_ios, color: AppColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -139,7 +139,7 @@ class _ChangelogScreenState extends State<ChangelogScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.feedback_outlined, size: 18, color: AppColors.textHint),
+            Icon(Icons.feedback_outlined, size: 18, color: AppColors.textHint),
             const SizedBox(width: 6),
             Text('对这次更新有意见？留言告诉我们', style: AppTypography.caption.copyWith(
               color: AppColors.textHint,

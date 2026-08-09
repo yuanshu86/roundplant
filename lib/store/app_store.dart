@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import '../models/plant.dart';
 import '../db/database_helper.dart';
 import '../repository/plant_repository.dart';
 import '../repository/diary_repository.dart';
 import '../services/notification_service.dart';
+import '../theme/app_colors.dart';
 
 /// 全局状态管理 — 管理植物列表、任务列表、日记列表、SQLite 持久化
 class AppStore extends ChangeNotifier {
@@ -18,6 +20,10 @@ class AppStore extends ChangeNotifier {
   List<DiaryEntry> _diaries = [];
   bool _initialized = false;
   bool _isLoading = true;
+
+  /// 主题模式（浅色 / 深色）
+  ThemeMode _themeMode = ThemeMode.light;
+  ThemeMode get themeMode => _themeMode;
 
   List<Plant> get plants => List.of(_plants);
   List<CareTask> get tasks => List.of(_tasks);
@@ -57,6 +63,12 @@ class AppStore extends ChangeNotifier {
     notifyListeners();
 
     try {
+      // 读取主题偏好（深色模式）
+      final prefs = await SharedPreferences.getInstance();
+      final saved = prefs.getString('theme_mode');
+      _themeMode = saved == 'dark' ? ThemeMode.dark : ThemeMode.light;
+      AppColors.mode = _themeMode;
+
       // 首次启动插入示例数据
       await _plantRepo.seedIfEmpty();
       // 加载植物列表
@@ -80,6 +92,41 @@ class AppStore extends ChangeNotifier {
     _isLoading = false;
     _initialized = true;
     notifyListeners();
+  }
+
+  /// 设置浅色 / 深色主题
+  void setThemeMode(ThemeMode mode) {
+    _themeMode = mode == ThemeMode.dark ? ThemeMode.dark : ThemeMode.light;
+    AppColors.mode = _themeMode;
+    notifyListeners();
+    () async {
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString(
+            'theme_mode', _themeMode == ThemeMode.dark ? 'dark' : 'light');
+      } catch (e) {
+        debugPrint('save theme error: $e');
+      }
+    }();
+  }
+
+  /// 在浅色与深色之间切换
+  void toggleTheme() {
+    setThemeMode(
+        _themeMode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark);
+  }
+
+  /// 从数据库重新加载全部数据（备份恢复后即时刷新内存，无需重启 App）
+  Future<void> reloadData() async {
+    try {
+      _plants = await _plantRepo.getAll();
+      await _loadDiaries();
+      await _ensureTodayTasks();
+      await _loadTodayTasks();
+      notifyListeners();
+    } catch (e) {
+      debugPrint('reloadData error: $e');
+    }
   }
 
   /// 重新排程每日养护提醒（待办数量变化时调用，非侵入：每天仅一条）

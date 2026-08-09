@@ -12,13 +12,13 @@ class AboutScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
-        backgroundColor: AppColors.frostedTint,
+        backgroundColor: AppColors.isDark ? AppColors.frostedTintDark : AppColors.frostedTint,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
         title: Text('关于圆形植物', style: AppTypography.cardTitle),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: AppColors.textPrimary),
+          icon: Icon(Icons.arrow_back_ios, color: AppColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),

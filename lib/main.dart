@@ -16,12 +16,6 @@ import 'services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // iOS 风格：状态栏文字用深色（浅色背景下更协调）
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-    statusBarBrightness: Brightness.light,
-  ));
   await NotificationService.init();
   final prefs = await SharedPreferences.getInstance();
   final seen = prefs.getBool('onboarded') ?? false;
@@ -36,55 +30,78 @@ class CirclePlantApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => AppStore()..init(),
-      child: MaterialApp(
-        title: '圆形植物',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          scaffoldBackgroundColor: AppColors.bg,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: AppColors.primary,
-            primary: AppColors.primary,
-            secondary: AppColors.secondary,
-          ),
-          textTheme: GoogleFonts.nunitoSansTextTheme().copyWith(
-            titleLarge: GoogleFonts.varelaRound(
-              fontSize: 17,
-              color: AppColors.primary,
-            ),
-          ),
-          appBarTheme: const AppBarTheme(
-            backgroundColor: AppColors.bg,
-            elevation: 0,
-          ),
-        ),
-        initialRoute: initialRoute,
-        onGenerateRoute: (settings) {
-          switch (settings.name) {
-            case '/':
-              return MaterialPageRoute(builder: (_) => const MainShell());
-            case '/onboarding':
-              return MaterialPageRoute(builder: (_) => const OnboardingScreen());
-            case '/detail':
-              final plant = settings.arguments as Plant;
-              return MaterialPageRoute(
-                builder: (_) => DetailScreen(plant: plant),
-              );
-            case '/scan':
-              return MaterialPageRoute(builder: (_) => const ScanScreen());
-            case '/share':
-              final plant = settings.arguments as Plant?;
-              return MaterialPageRoute(
-                builder: (_) => ShareSheet(plant: plant),
-              );
-            case '/nearby':
-              return MaterialPageRoute(
-                builder: (_) => const NearbyScreen(showBack: true),
-              );
-            default:
-              return MaterialPageRoute(builder: (_) => const MainShell());
-          }
+      child: Consumer<AppStore>(
+        builder: (context, store, _) {
+          // 状态栏图标随主题切换明暗（深色用浅色图标，浅色用深色图标）
+          SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness:
+                AppColors.isDark ? Brightness.light : Brightness.dark,
+            statusBarBrightness:
+                AppColors.isDark ? Brightness.dark : Brightness.light,
+          ));
+          return MaterialApp(
+            title: '圆形植物',
+            debugShowCheckedModeBanner: false,
+            themeMode: store.themeMode,
+            theme: _buildTheme(),
+            darkTheme: _buildTheme(),
+            initialRoute: initialRoute,
+            onGenerateRoute: (settings) {
+              switch (settings.name) {
+                case '/':
+                  return MaterialPageRoute(builder: (_) => const MainShell());
+                case '/onboarding':
+                  return MaterialPageRoute(
+                      builder: (_) => const OnboardingScreen());
+                case '/detail':
+                  final plant = settings.arguments as Plant;
+                  return MaterialPageRoute(
+                    builder: (_) => DetailScreen(plant: plant),
+                  );
+                case '/scan':
+                  return MaterialPageRoute(builder: (_) => const ScanScreen());
+                case '/share':
+                  final plant = settings.arguments as Plant?;
+                  return MaterialPageRoute(
+                    builder: (_) => ShareSheet(plant: plant),
+                  );
+                case '/nearby':
+                  return MaterialPageRoute(
+                    builder: (_) => const NearbyScreen(showBack: true),
+                  );
+                default:
+                  return MaterialPageRoute(builder: (_) => const MainShell());
+              }
+            },
+          );
         },
       ),
     );
   }
+}
+
+/// 构建主题数据：颜色全部来自 [AppColors]，随深浅主题自动切换
+ThemeData _buildTheme() {
+  final dark = AppColors.isDark;
+  return ThemeData(
+    brightness: dark ? Brightness.dark : Brightness.light,
+    scaffoldBackgroundColor: AppColors.bg,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: AppColors.primary,
+      primary: AppColors.primary,
+      secondary: AppColors.secondary,
+      brightness: dark ? Brightness.dark : Brightness.light,
+    ),
+    textTheme: GoogleFonts.nunitoSansTextTheme().copyWith(
+      titleLarge: GoogleFonts.varelaRound(
+        fontSize: 17,
+        color: AppColors.primary,
+      ),
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppColors.bg,
+      elevation: 0,
+    ),
+  );
 }

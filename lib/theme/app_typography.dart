@@ -9,7 +9,7 @@ class AppTypography {
   static const String _bodyFamily = 'NunitoSans';
 
   // === 标题 ===
-  static const TextStyle pageTitle = TextStyle(
+  static TextStyle pageTitle = TextStyle(
     fontFamily: _titleFamily,
     fontSize: 17,
     fontWeight: FontWeight.w400,
@@ -17,7 +17,7 @@ class AppTypography {
     color: AppColors.primary,
   );
 
-  static const TextStyle cardTitle = TextStyle(
+  static TextStyle cardTitle = TextStyle(
     fontFamily: _titleFamily,
     fontSize: 16,
     fontWeight: FontWeight.w400,
@@ -25,7 +25,7 @@ class AppTypography {
     color: AppColors.textPrimary,
   );
 
-  static const TextStyle sectionTitle = TextStyle(
+  static TextStyle sectionTitle = TextStyle(
     fontFamily: _titleFamily,
     fontSize: 15,
     fontWeight: FontWeight.w400,
@@ -34,7 +34,7 @@ class AppTypography {
   );
 
   // === 正文 ===
-  static const TextStyle body = TextStyle(
+  static TextStyle body = TextStyle(
     fontFamily: _bodyFamily,
     fontSize: 14,
     fontWeight: FontWeight.w400,
@@ -42,7 +42,7 @@ class AppTypography {
     color: AppColors.textPrimary,
   );
 
-  static const TextStyle bodySemiBold = TextStyle(
+  static TextStyle bodySemiBold = TextStyle(
     fontFamily: _bodyFamily,
     fontSize: 14,
     fontWeight: FontWeight.w600,
@@ -51,7 +51,7 @@ class AppTypography {
   );
 
   // === 标签 ===
-  static const TextStyle label = TextStyle(
+  static TextStyle label = TextStyle(
     fontFamily: _bodyFamily,
     fontSize: 12,
     fontWeight: FontWeight.w500,
@@ -59,7 +59,7 @@ class AppTypography {
     color: AppColors.textSecondary,
   );
 
-  static const TextStyle caption = TextStyle(
+  static TextStyle caption = TextStyle(
     fontFamily: _bodyFamily,
     fontSize: 11,
     fontWeight: FontWeight.w400,
@@ -67,7 +67,7 @@ class AppTypography {
     color: AppColors.textSecondary,
   );
 
-  static const TextStyle badge = TextStyle(
+  static TextStyle badge = TextStyle(
     fontFamily: _bodyFamily,
     fontSize: 10,
     fontWeight: FontWeight.w600,
@@ -76,14 +76,14 @@ class AppTypography {
   );
 
   // === 特殊 ===
-  static const TextStyle statusTime = TextStyle(
+  static TextStyle statusTime = TextStyle(
     fontFamily: 'SF Pro',
     fontSize: 15,
     fontWeight: FontWeight.w600,
     color: AppColors.primary,
   );
 
-  static const TextStyle buttonText = TextStyle(
+  static TextStyle buttonText = TextStyle(
     fontFamily: _bodyFamily,
     fontSize: 14,
     fontWeight: FontWeight.w600,

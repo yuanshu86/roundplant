@@ -112,7 +112,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
             backgroundColor: AppColors.bg,
             leading: GestureDetector(
               onTap: () => Navigator.pop(context),
-              child: const Icon(Icons.close, color: AppColors.textPrimary),
+              child: Icon(Icons.close, color: AppColors.textPrimary),
             ),
             title: Text('写日记', style: AppTypography.pageTitle),
             actions: [

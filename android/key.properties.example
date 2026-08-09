@@ -1,0 +1,11 @@
+# 正式签名配置模板（请复制为 android/key.properties 并填入你自己的值）
+# 注意：key.properties 与 *.jks / *.keystore 已被 .gitignore 排除，不会上传到仓库，请勿提交真实密钥。
+
+# keytool 生成密钥库时设置的「密钥库密码」
+storePassword=你的密钥库密码
+# keytool 生成时设置的「密钥密码」（通常与 storePassword 相同）
+keyPassword=你的密钥密码
+# 密钥别名（keytool -alias 后面的值，下面命令用的是 upload）
+keyAlias=upload
+# 密钥库文件名（放在 android/app/ 目录下）
+storeFile=upload-keystore.jks

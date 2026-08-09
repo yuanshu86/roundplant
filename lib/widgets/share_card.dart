@@ -46,7 +46,7 @@ class _SharePreviewSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.78,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.cardWhite,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ).copyWith(boxShadow: AppColors.sheetShadow),
@@ -156,7 +156,9 @@ class ShareCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Stack(
+      children: [
+        Container(
       width: 320,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -205,7 +207,7 @@ class ShareCard extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 12),
             margin: const EdgeInsets.only(top: 16),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: AppColors.softCard,
               borderRadius: BorderRadius.vertical(
                 bottom: Radius.circular(20)),
@@ -225,6 +227,9 @@ class ShareCard extends StatelessWidget {
           ),
         ],
       ),
+      ),
+      _buildWatermarkOverlay(),
+      ],
     );
   }
 
@@ -243,31 +248,54 @@ class ShareCard extends StatelessWidget {
                 )
               : _buildHeaderPlaceholder(),
         ),
-        _buildWatermark(),
       ],
     );
   }
 
-  /// 分享图水印：半透明品牌标记，确保对外分享图一眼可辨来自「圆形植物」
-  Widget _buildWatermark() {
-    return Positioned(
-      right: 12,
-      bottom: 12,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        decoration: BoxDecoration(
-          color: Colors.black.withValues(alpha: 0.45),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: const Row(
-          mainAxisSize: MainAxisSize.min,
+  /// 全卡水印层：斜向大字「圆形植物」铺底 + 角落品牌标，确保对外分享图打上品牌
+  Widget _buildWatermarkOverlay() {
+    return Positioned.fill(
+      child: IgnorePointer(
+        child: Stack(
           children: [
-            Icon(Icons.eco, size: 13, color: Colors.white),
-            SizedBox(width: 4),
-            Text('圆形植物',
-              style: TextStyle(
-                fontFamily: 'VarelaRound', fontSize: 12,
-                fontWeight: FontWeight.w600, color: Colors.white)),
+            Center(
+              child: Transform.rotate(
+                angle: -0.35,
+                child: Text(
+                  '圆形植物',
+                  style: TextStyle(
+                    fontFamily: 'VarelaRound',
+                    fontSize: 60,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.primary.withValues(alpha: 0.10),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              right: 12,
+              bottom: 12,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.45),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.eco, size: 13, color: Colors.white),
+                    SizedBox(width: 4),
+                    Text('圆形植物',
+                      style: TextStyle(
+                        fontFamily: 'VarelaRound',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white)),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

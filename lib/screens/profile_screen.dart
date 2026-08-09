@@ -9,6 +9,7 @@ import '../widgets/achievement_medals.dart';
 import '../widgets/handy_icons.dart';
 import 'about_screen.dart';
 import 'changelog_screen.dart';
+import '../services/backup_service.dart';
 
 /// Screen 7 - 个人中心 (Tab 内容)
 class ProfileScreen extends StatelessWidget {
@@ -26,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 20),
               _buildStatsRow(store),
               const SizedBox(height: 20),
-              _buildMenuSection(context),
+              _buildMenuSection(context, store),
             ],
           ),
         );
@@ -89,7 +90,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuSection(BuildContext context) {
+  Widget _buildMenuSection(BuildContext context, AppStore store) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
@@ -111,11 +112,14 @@ class ProfileScreen extends StatelessWidget {
               Navigator.pushNamed(context, '/nearby');
             }),
             _divider(),
-            _menuItem(HandyIcons.brush(), '主题设置', '自然绿', () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('主题设置开发中'),
-                  backgroundColor: AppColors.primary),
-              );
+            _menuItem(HandyIcons.brush(), '主题设置',
+                store.themeMode == ThemeMode.dark ? '深色' : '浅色', () {
+              _showThemePicker(context);
+            }),
+            _menuItem(
+              const Icon(Icons.backup_outlined, size: 22, color: AppColors.primary),
+              '数据备份', '导出 / 恢复', () {
+              _showBackupSheet(context);
             }),
             _divider(),
             _menuItem(HandyIcons.update(), '更新通知', '看看这次更新了什么', () {
@@ -158,5 +162,201 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _divider() =>
-      const Divider(height: 1, color: AppColors.border, indent: 54);
+      Divider(height: 1, color: AppColors.border, indent: 54);
+
+  void _showThemePicker(BuildContext context) {
+    final store = Provider.of<AppStore>(context, listen: false);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppColors.cardWhite,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusCard),
+        ),
+        title: Text('主题设置', style: AppTypography.cardTitle),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _themeOption(ctx, store, '浅色', false),
+            _themeOption(ctx, store, '深色', true),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text('取消', style: TextStyle(color: AppColors.textSecondary)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _themeOption(BuildContext ctx, AppStore store, String label, bool dark) {
+    final target = dark ? ThemeMode.dark : ThemeMode.light;
+    final selected = store.themeMode == target;
+    return ListTile(
+      title: Text(label, style: AppTypography.body),
+      trailing: selected ? Icon(Icons.check_circle, color: AppColors.primary) : null,
+      onTap: () {
+        store.setThemeMode(target);
+        Navigator.pop(ctx);
+      },
+    );
+  }
+
+  void _showBackupSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => const _BackupSheet(),
+    );
+  }
+}
+
+class _BackupSheet extends StatefulWidget {
+  const _BackupSheet();
+
+  @override
+  State<_BackupSheet> createState() => _BackupSheetState();
+}
+
+class _BackupSheetState extends State<_BackupSheet> {
+  bool _backing = false;
+  String? _msg;
+
+  Future<void> _doBackup() async {
+    setState(() => _backing = true);
+    try {
+      final (path, exported) = await BackupService.backup();
+      setState(() =>
+          _msg = exported ? '备份成功，已导出到手机存储' : '备份成功（应用内）');
+    } catch (e) {
+      setState(() => _msg = '备份失败: $e');
+    } finally {
+      setState(() => _backing = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final store = Provider.of<AppStore>(context, listen: false);
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.72,
+      decoration: BoxDecoration(
+        color: AppColors.cardWhite,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppSpacing.radiusSheet),
+        ),
+      ),
+      child: Column(
+        children: [
+          const SizedBox(height: 12),
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: AppColors.border,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text('数据备份', style: AppTypography.cardTitle),
+          const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: GestureDetector(
+              onTap: _backing ? null : _doBackup,
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                decoration: BoxDecoration(
+                  gradient: AppColors.primaryGradient,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: AppColors.buttonShadow,
+                ),
+                child: Center(
+                  child: Text(
+                    _backing ? '备份中…' : '立即备份',
+                    style: const TextStyle(
+                      fontFamily: 'NunitoSans',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          if (_msg != null)
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Text(_msg!,
+                  style: AppTypography.caption.copyWith(color: AppColors.primary)),
+            ),
+          const SizedBox(height: 8),
+          const Divider(),
+          Expanded(
+            child: FutureBuilder<List<BackupFile>>(
+              future: BackupService.listBackups(),
+              builder: (ctx, snap) {
+                if (!snap.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(color: AppColors.primary),
+                  );
+                }
+                final list = snap.data!;
+                if (list.isEmpty) {
+                  return Center(
+                    child: Text('暂无备份', style: AppTypography.caption),
+                  );
+                }
+                return ListView.builder(
+                  itemCount: list.length,
+                  itemBuilder: (c, i) {
+                    final f = list[i];
+                    return ListTile(
+                      leading: Icon(Icons.save_outlined, color: AppColors.primary),
+                      title: Text(f.name, style: AppTypography.body),
+                      subtitle: Text(_fmt(f.time), style: AppTypography.caption),
+                      trailing: TextButton(
+                        onPressed: () async {
+                          try {
+                            await BackupService.restore(f.path);
+                            await store.reloadData();
+                            if (mounted) Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Text('恢复成功'),
+                                backgroundColor: AppColors.primary,
+                              ),
+                            );
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('恢复失败: $e'),
+                                backgroundColor: AppColors.danger,
+                              ),
+                            );
+                          }
+                        },
+                        child: Text('恢复',
+                            style: TextStyle(color: AppColors.primary)),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _fmt(DateTime t) {
+    final pad = (int n) => n.toString().padLeft(2, '0');
+    return '${t.year}-${pad(t.month)}-${pad(t.day)} ${pad(t.hour)}:${pad(t.minute)}';
+  }
 }

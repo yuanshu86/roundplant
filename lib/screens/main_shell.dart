@@ -64,10 +64,10 @@ class _MainShellState extends State<MainShell> {
   Widget _buildTabBar() {
     return FrostedGlass(
       height: AppSpacing.tabBarHeight,
-      tint: AppColors.frostedTint,
+      tint: AppColors.isDark ? AppColors.frostedTintDark : AppColors.frostedTint,
       radius: BorderRadius.zero,
       padding: EdgeInsets.zero,
-      border: const Border(
+      border: Border(
         top: BorderSide(color: AppColors.border, width: 0.5),
       ),
       child: Stack(

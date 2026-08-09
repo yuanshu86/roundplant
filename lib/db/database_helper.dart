@@ -25,6 +25,20 @@ class DatabaseHelper {
     return _db!;
   }
 
+  /// 数据库文件完整路径（用于备份 / 恢复）
+  Future<String> get dbFilePath async {
+    final docsDir = await getApplicationDocumentsDirectory();
+    return p.join(docsDir.path, _dbName);
+  }
+
+  /// 关闭当前数据库连接（备份 / 恢复前调用）
+  Future<void> closeDb() async {
+    if (_db != null) {
+      await _db!.close();
+      _db = null;
+    }
+  }
+
   Future<Database> _initDb() async {
     // 桌面平台初始化 ffi
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
