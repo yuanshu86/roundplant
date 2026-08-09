@@ -26,7 +26,7 @@ subprojects {
 // 无法满足 image_picker/geolocator/sqflite/share_plus 等插件及其 androidx 依赖(要求>=34/36)。
 subprojects {
     afterEvaluate {
-        val androidExt = extensions.findByName("android") as? com.android.build.gradle.BaseExtension
+        val androidExt = extensions.findByName("android") as? com.android.build.api.dsl.CommonExtension<*, *, *, *, *>
         androidExt?.compileSdk = 36
     }
 }
