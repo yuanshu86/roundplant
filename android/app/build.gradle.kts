@@ -9,7 +9,9 @@ plugins {
 
 android {
     namespace = "com.circleplant.circle_plant"
-    compileSdk = flutter.compileSdkVersion
+    // 显式锁定 compileSdk=34：本机 Flutter SDK 默认 compileSdk 为 33，
+    // 而 share_plus 7.2.0 的 androidx 依赖(window/core-ktx 等)要求 >=34，否则 AAR 元数据检查失败
+    compileSdk = 34
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
