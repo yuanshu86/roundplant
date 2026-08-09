@@ -30,14 +30,16 @@ subprojects {
     // 在 Android 插件 apply 的同一步(配置阶段内)同步触发，覆盖已 apply 与将来 apply 的模块，
     // 且不再触碰 afterEvaluate，避免 "Cannot run afterEvaluate when already evaluated"。
     val applyCompileSdk: () -> Unit = {
-        val androidExt = sub.extensions.findByName("android") ?: return@applyCompileSdk
         // 不依赖 AGP 内部类型(AGP9 下 CommonExtension/BaseExtension 接口常被重构)，
         // 直接反射调用 setCompileSdk/setCompileSdkVersion(int)，跨版本通用。
-        val setter = androidExt.javaClass.methods.firstOrNull { m ->
-            m.parameterCount == 1 &&
-                (m.name == "setCompileSdk" || m.name == "setCompileSdkVersion")
+        val androidExt = sub.extensions.findByName("android")
+        if (androidExt != null) {
+            val setter = androidExt.javaClass.methods.firstOrNull { m ->
+                m.parameterCount == 1 &&
+                    (m.name == "setCompileSdk" || m.name == "setCompileSdkVersion")
+            }
+            setter?.invoke(androidExt, 36)
         }
-        setter?.invoke(androidExt, 36)
     }
     sub.plugins.withId("com.android.application") { applyCompileSdk() }
     sub.plugins.withId("com.android.library") { applyCompileSdk() }
