@@ -277,12 +277,14 @@ class DatabaseHelper {
           {
             'fertilizing_frequency': 14,
             'last_fertilized': lf,
-            'next_fertilizing':
-                DateTime.parse(lf).add(const Duration(days: 14)).toIso8601String(),
+            'next_fertilizing': DateTime.parse(lf)
+                .add(const Duration(days: 14))
+                .toIso8601String(),
             'pruning_frequency': 30,
             'last_pruned': lp,
-            'next_pruning':
-                DateTime.parse(lp).add(const Duration(days: 30)).toIso8601String(),
+            'next_pruning': DateTime.parse(lp)
+                .add(const Duration(days: 30))
+                .toIso8601String(),
           },
           where: 'id = ?',
           whereArgs: [id],
@@ -308,8 +310,7 @@ class DatabaseHelper {
     }
     if (oldVersion < 5) {
       // 植物标签（陪伴感）
-      await db.execute(
-          "ALTER TABLE plants ADD COLUMN tags TEXT DEFAULT '[]'");
+      await db.execute("ALTER TABLE plants ADD COLUMN tags TEXT DEFAULT '[]'");
     }
   }
 

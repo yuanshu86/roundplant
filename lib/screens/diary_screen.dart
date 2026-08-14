@@ -65,15 +65,15 @@ class _DiaryScreenState extends State<DiaryScreen> {
             children: [
               Text('生长日记', style: AppTypography.pageTitle),
               const SizedBox(height: 2),
-              Text('${store.diaryCount} 条记录',
-                style: AppTypography.caption),
+              Text('${store.diaryCount} 条记录', style: AppTypography.caption),
             ],
           ),
           if (showFab)
             GestureDetector(
               onTap: () => _openEditor(store),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 decoration: BoxDecoration(
                   gradient: AppColors.primaryGradient,
                   borderRadius: BorderRadius.circular(20),
@@ -85,9 +85,11 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     Icon(Icons.edit_note, color: Colors.white, size: 18),
                     SizedBox(width: 4),
                     Text('写日记',
-                      style: TextStyle(
-                        fontFamily: 'NunitoSans', fontSize: 13,
-                        fontWeight: FontWeight.w600, color: Colors.white)),
+                        style: TextStyle(
+                            fontFamily: 'NunitoSans',
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white)),
                   ],
                 ),
               ),
@@ -104,8 +106,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
       child: Row(
         children: [
           _chip('全部', null, isSelected: _filterPlantId == null),
-          ...store.plants.map((p) => _chip(p.name, p.id,
-            isSelected: _filterPlantId == p.id)),
+          ...store.plants.map(
+              (p) => _chip(p.name, p.id, isSelected: _filterPlantId == p.id)),
         ],
       ),
     );
@@ -123,10 +125,11 @@ class _DiaryScreenState extends State<DiaryScreen> {
             borderRadius: BorderRadius.circular(16),
           ),
           child: Text(label,
-            style: TextStyle(
-              fontFamily: 'NunitoSans', fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: isSelected ? Colors.white : AppColors.textSecondary)),
+              style: TextStyle(
+                  fontFamily: 'NunitoSans',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: isSelected ? Colors.white : AppColors.textSecondary)),
         ),
       ),
     );
@@ -140,14 +143,15 @@ class _DiaryScreenState extends State<DiaryScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            GardenEmptyIllustration(size: MediaQuery.of(context).size.width * 0.62),
+            GardenEmptyIllustration(
+                size: MediaQuery.of(context).size.width * 0.62),
             const SizedBox(height: 20),
             Text('每一片新叶都值得被文字偏爱',
-              style: AppTypography.cardTitle.copyWith(fontSize: 17),
-              textAlign: TextAlign.center),
+                style: AppTypography.cardTitle.copyWith(fontSize: 17),
+                textAlign: TextAlign.center),
             const SizedBox(height: 8),
             Text('浇水会自动记录，也可以写下你和它的小故事',
-              style: AppTypography.caption, textAlign: TextAlign.center),
+                style: AppTypography.caption, textAlign: TextAlign.center),
             const SizedBox(height: 28),
             SeedFab(onTap: () => _openEditor(store), label: '写第一篇日记'),
           ],
@@ -159,7 +163,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
   Widget _buildTimeline(List<DiaryEntry> diaries, AppStore store) {
     final fmt = DateFormat('M月d日 HH:mm');
     return ListView.builder(
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, AppSpacing.tabBarHeight + 20),
+      padding:
+          const EdgeInsets.fromLTRB(20, 8, 20, AppSpacing.tabBarHeight + 20),
       itemCount: diaries.length,
       itemBuilder: (context, index) {
         final entry = diaries[index];
@@ -170,7 +175,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
     );
   }
 
-  Widget _buildDiaryCard(DiaryEntry entry, Plant? plant, DateFormat fmt, bool isLast) {
+  Widget _buildDiaryCard(
+      DiaryEntry entry, Plant? plant, DateFormat fmt, bool isLast) {
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,7 +187,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
             child: Column(
               children: [
                 Container(
-                  width: 12, height: 12,
+                  width: 12,
+                  height: 12,
                   margin: const EdgeInsets.only(top: 8),
                   decoration: BoxDecoration(
                     color: AppColors.primary,
@@ -218,7 +225,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       Icon(Icons.schedule, size: 14, color: AppColors.textHint),
                       const SizedBox(width: 4),
                       Text(fmt.format(entry.createdAt),
-                        style: AppTypography.caption),
+                          style: AppTypography.caption),
                       const Spacer(),
                       if (plant != null) ...[
                         PlantImage(
@@ -229,8 +236,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
                         ),
                         const SizedBox(width: 6),
                         Text(plant.name,
-                          style: AppTypography.label.copyWith(
-                            color: AppColors.primary, fontWeight: FontWeight.w600)),
+                            style: AppTypography.label.copyWith(
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w600)),
                       ],
                     ],
                   ),
@@ -243,7 +251,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   if (entry.note != null && entry.note!.isNotEmpty) ...[
                     const SizedBox(height: 10),
                     Text(entry.note!,
-                      style: AppTypography.body.copyWith(height: 1.6)),
+                        style: AppTypography.body.copyWith(height: 1.6)),
                   ],
                 ],
               ),
@@ -268,7 +276,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
             height: 180,
             color: AppColors.softCard,
             child: Center(
-              child: Icon(Icons.broken_image, size: 48, color: AppColors.textHint),
+              child:
+                  Icon(Icons.broken_image, size: 48, color: AppColors.textHint),
             ),
           ),
         ),
@@ -304,7 +313,10 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   color: Colors.black45,
                   alignment: Alignment.center,
                   child: Text('+${paths.length - 3}',
-                    style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
                 ),
             ],
           ),

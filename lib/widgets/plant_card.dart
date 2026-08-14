@@ -52,7 +52,8 @@ class PlantCard extends StatelessWidget {
                   Text(name, style: AppTypography.bodySemiBold),
                   const SizedBox(height: 6),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: AppColors.softCard,
                       borderRadius: BorderRadius.circular(8),
@@ -60,15 +61,21 @@ class PlantCard extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.eco, size: 10,
-                          color: isHealthy ? AppColors.primary : AppColors.accent),
+                        Icon(Icons.eco,
+                            size: 10,
+                            color: isHealthy
+                                ? AppColors.primary
+                                : AppColors.accent),
                         const SizedBox(width: 4),
                         Text(healthStatus,
-                          style: TextStyle(
-                            fontFamily: 'NunitoSans', fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                            color: isHealthy ? AppColors.primary : AppColors.accent,
-                          )),
+                            style: TextStyle(
+                              fontFamily: 'NunitoSans',
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
+                              color: isHealthy
+                                  ? AppColors.primary
+                                  : AppColors.accent,
+                            )),
                       ],
                     ),
                   ),
@@ -145,10 +152,12 @@ class HealthBadge extends StatelessWidget {
           Icon(Icons.favorite, size: 12, color: AppColors.primary),
           const SizedBox(width: 4),
           Text(text,
-            style: TextStyle(
-              fontFamily: 'NunitoSans', fontSize: 12,
-              fontWeight: FontWeight.w600, color: AppColors.primary,
-            )),
+              style: TextStyle(
+                fontFamily: 'NunitoSans',
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: AppColors.primary,
+              )),
         ],
       ),
     );
@@ -182,7 +191,8 @@ class CareParamCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 32, height: 32,
+                width: 32,
+                height: 32,
                 decoration: BoxDecoration(
                   color: AppColors.cardWhite,
                   borderRadius: BorderRadius.circular(10),

@@ -69,9 +69,15 @@ class PlantImage extends StatelessWidget {
       case '龟背竹':
         return (Icons.eco, [const Color(0xFF15803D), const Color(0xFF059669)]);
       case '白桃星美人':
-        return (Icons.local_florist, [const Color(0xFFD97706), const Color(0xFFF59E0B)]);
+        return (
+          Icons.local_florist,
+          [const Color(0xFFD97706), const Color(0xFFF59E0B)]
+        );
       case '绿萝':
-        return (Icons.vpn_key, [const Color(0xFF059669), const Color(0xFF10B981)]);
+        return (
+          Icons.vpn_key,
+          [const Color(0xFF059669), const Color(0xFF10B981)]
+        );
       case '琴叶榕':
         return (Icons.park, [const Color(0xFF0D9488), const Color(0xFF15803D)]);
       default:
@@ -103,27 +109,36 @@ class HeroPlantImage extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            left: 30, top: 40,
-            child: Icon(Icons.eco, size: 50, color: Colors.white.withValues(alpha: 0.4)),
+            left: 30,
+            top: 40,
+            child: Icon(Icons.eco,
+                size: 50, color: Colors.white.withValues(alpha: 0.4)),
           ),
           Positioned(
-            right: 25, top: 25,
-            child: Icon(Icons.local_florist, size: 45, color: Colors.white.withValues(alpha: 0.35)),
+            right: 25,
+            top: 25,
+            child: Icon(Icons.local_florist,
+                size: 45, color: Colors.white.withValues(alpha: 0.35)),
           ),
           Positioned(
-            left: 45, bottom: 35,
-            child: Icon(Icons.park, size: 55, color: Colors.white.withValues(alpha: 0.3)),
+            left: 45,
+            bottom: 35,
+            child: Icon(Icons.park,
+                size: 55, color: Colors.white.withValues(alpha: 0.3)),
           ),
           Positioned(
-            right: 35, bottom: 30,
-            child: Icon(Icons.grain, size: 40, color: Colors.white.withValues(alpha: 0.25)),
+            right: 35,
+            bottom: 30,
+            child: Icon(Icons.grain,
+                size: 40, color: Colors.white.withValues(alpha: 0.25)),
           ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(12),

@@ -10,7 +10,7 @@ class GrowthProgressBar extends StatelessWidget {
   final int done;
   final int total;
   final String mood;
-  final Color textColor;
+  final Color? textColor;
 
   GrowthProgressBar({
     super.key,
@@ -18,31 +18,32 @@ class GrowthProgressBar extends StatelessWidget {
     required this.done,
     required this.total,
     this.mood = '',
-    this.textColor = AppColors.textPrimary,
+    this.textColor,
   });
 
   @override
   Widget build(BuildContext context) {
     final p = progress.clamp(0.0, 1.0);
     const stops = [0.0, 0.25, 0.5, 0.75, 1.0];
+    final tc = textColor ?? AppColors.textPrimary;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             Text('$done / $total',
-                style: AppTypography.bodySemiBold.copyWith(
-                    fontSize: 18, color: textColor)),
+                style: AppTypography.bodySemiBold
+                    .copyWith(fontSize: 18, color: tc)),
             const SizedBox(width: 6),
             Text('已完成',
                 style: AppTypography.caption
-                    .copyWith(color: textColor.withValues(alpha: 0.85))),
+                    .copyWith(color: tc.withValues(alpha: 0.85))),
             const Spacer(),
             if (mood.isNotEmpty)
               Flexible(
                 child: Text(mood,
                     style: AppTypography.caption
-                        .copyWith(color: textColor.withValues(alpha: 0.9)),
+                        .copyWith(color: tc.withValues(alpha: 0.9)),
                     overflow: TextOverflow.ellipsis),
               ),
           ],
@@ -140,8 +141,8 @@ class _SproutState extends State<_Sprout> with SingleTickerProviderStateMixin {
     return AnimatedBuilder(
       animation: _ctrl,
       builder: (c, _) {
-        final sway = math.sin(_ctrl.value * math.pi) *
-            (widget.leader ? 0.14 : 0.08);
+        final sway =
+            math.sin(_ctrl.value * math.pi) * (widget.leader ? 0.14 : 0.08);
         final breathe = 0.85 + 0.15 * math.sin(_ctrl.value * math.pi);
         return Transform.rotate(
           angle: sway,
@@ -172,16 +173,21 @@ class _SproutPainter extends CustomPainter {
     canvas.drawLine(c, Offset(c.dx, c.dy - size.height * 0.55), stem);
 
     final leaf = Paint()..color = color;
-    _leaf(canvas, c.dx - size.width * 0.05, c.dy - size.height * 0.30, -0.6, size, leaf);
-    _leaf(canvas, c.dx + size.width * 0.05, c.dy - size.height * 0.30, 0.6, size, leaf);
+    _leaf(canvas, c.dx - size.width * 0.05, c.dy - size.height * 0.30, -0.6,
+        size, leaf);
+    _leaf(canvas, c.dx + size.width * 0.05, c.dy - size.height * 0.30, 0.6,
+        size, leaf);
   }
 
-  void _leaf(Canvas canvas, double bx, double by, double dir, Size size, Paint paint) {
+  void _leaf(
+      Canvas canvas, double bx, double by, double dir, Size size, Paint paint) {
     final path = Path();
     final tip = Offset(bx + dir * size.width * 0.28, by - size.height * 0.32);
     path.moveTo(bx, by);
-    path.quadraticBezierTo(bx + dir * size.width * 0.22, by - size.height * 0.18, tip.dx, tip.dy);
-    path.quadraticBezierTo(bx + dir * size.width * 0.14, by - size.height * 0.24, bx, by);
+    path.quadraticBezierTo(
+        bx + dir * size.width * 0.22, by - size.height * 0.18, tip.dx, tip.dy);
+    path.quadraticBezierTo(
+        bx + dir * size.width * 0.14, by - size.height * 0.24, bx, by);
     canvas.drawPath(path, paint);
   }
 

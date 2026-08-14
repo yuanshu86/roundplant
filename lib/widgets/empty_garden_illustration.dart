@@ -52,12 +52,19 @@ class _GardenPainter extends CustomPainter {
       potDark,
     );
     // 盆身条纹
-    canvas.drawLine(Offset(w * 0.30, h * 0.70), Offset(w * 0.54, h * 0.70),
-        Paint()..color = const Color(0xFFB57A3C)..strokeWidth = 3);
+    canvas.drawLine(
+        Offset(w * 0.30, h * 0.70),
+        Offset(w * 0.54, h * 0.70),
+        Paint()
+          ..color = const Color(0xFFB57A3C)
+          ..strokeWidth = 3);
 
     // 泥土
     canvas.drawOval(
-      Rect.fromCenter(center: Offset(w * 0.42, h * 0.56), width: w * 0.32, height: h * 0.06),
+      Rect.fromCenter(
+          center: Offset(w * 0.42, h * 0.56),
+          width: w * 0.32,
+          height: h * 0.06),
       Paint()..color = const Color(0xFF6B4F3A),
     );
 
@@ -66,7 +73,8 @@ class _GardenPainter extends CustomPainter {
       ..color = AppColors.primary
       ..strokeWidth = 4
       ..strokeCap = StrokeCap.round;
-    canvas.drawLine(Offset(w * 0.42, h * 0.56), Offset(w * 0.42, h * 0.34), stem);
+    canvas.drawLine(
+        Offset(w * 0.42, h * 0.56), Offset(w * 0.42, h * 0.34), stem);
 
     // 两片小芽
     final leaf = Paint()..color = AppColors.secondary;
@@ -74,30 +82,40 @@ class _GardenPainter extends CustomPainter {
     _petal(canvas, Offset(w * 0.42, h * 0.40), 0.9, -0.7, w * 0.10, leaf);
 
     // 羽毛笔（斜放在右边）
-    final pen = Paint()..color = AppColors.accent..strokeWidth = 4..strokeCap = StrokeCap.round;
+    final pen = Paint()
+      ..color = AppColors.accent
+      ..strokeWidth = 4
+      ..strokeCap = StrokeCap.round;
     final p0 = Offset(w * 0.74, h * 0.86);
     final p1 = Offset(w * 0.60, h * 0.44);
     canvas.drawLine(p0, p1, pen);
     // 笔尖
-    canvas.drawLine(p1, Offset(w * 0.56, h * 0.38),
-        Paint()..color = AppColors.textHint..strokeWidth = 3..strokeCap = StrokeCap.round);
+    canvas.drawLine(
+        p1,
+        Offset(w * 0.56, h * 0.38),
+        Paint()
+          ..color = AppColors.textHint
+          ..strokeWidth = 3
+          ..strokeCap = StrokeCap.round);
     // 羽毛
     final feather = Paint()..color = AppColors.accent.withValues(alpha: 0.85);
     _feather(canvas, p0, p1, w * 0.12, feather);
   }
 
-  void _petal(Canvas canvas, Offset base, double dir, double rise, double len, Paint paint) {
+  void _petal(Canvas canvas, Offset base, double dir, double rise, double len,
+      Paint paint) {
     final tip = Offset(base.dx + dir * len, base.dy + rise * len);
     final path = Path();
     path.moveTo(base.dx, base.dy);
     path.quadraticBezierTo(
-      base.dx + dir * len * 0.7, base.dy + rise * len * 0.2, tip.dx, tip.dy);
-    path.quadraticBezierTo(
-      base.dx + dir * len * 0.45, base.dy + rise * len * 0.7, base.dx, base.dy);
+        base.dx + dir * len * 0.7, base.dy + rise * len * 0.2, tip.dx, tip.dy);
+    path.quadraticBezierTo(base.dx + dir * len * 0.45,
+        base.dy + rise * len * 0.7, base.dx, base.dy);
     canvas.drawPath(path, paint);
   }
 
-  void _feather(Canvas canvas, Offset base, Offset tip, double halfW, Paint paint) {
+  void _feather(
+      Canvas canvas, Offset base, Offset tip, double halfW, Paint paint) {
     final dx = tip.dx - base.dx;
     final dy = tip.dy - base.dy;
     final len = (dx * dx + dy * dy);
@@ -105,10 +123,10 @@ class _GardenPainter extends CustomPainter {
     final ny = dx / (len) * halfW;
     final path = Path();
     path.moveTo(base.dx + nx, base.dy + ny);
-    path.quadraticBezierTo((base.dx + tip.dx) / 2 + nx, (base.dy + tip.dy) / 2 + ny,
-        tip.dx, tip.dy);
-    path.quadraticBezierTo((base.dx + tip.dx) / 2 - nx, (base.dy + tip.dy) / 2 - ny,
-        base.dx - nx, base.dy - ny);
+    path.quadraticBezierTo((base.dx + tip.dx) / 2 + nx,
+        (base.dy + tip.dy) / 2 + ny, tip.dx, tip.dy);
+    path.quadraticBezierTo((base.dx + tip.dx) / 2 - nx,
+        (base.dy + tip.dy) / 2 - ny, base.dx - nx, base.dy - ny);
     path.close();
     canvas.drawPath(path, paint);
   }

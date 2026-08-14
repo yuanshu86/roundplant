@@ -82,7 +82,10 @@ class TasksScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('今日任务',
-              style: TextStyle(fontFamily: 'VarelaRound', fontSize: 16, color: Colors.white)),
+                style: TextStyle(
+                    fontFamily: 'VarelaRound',
+                    fontSize: 16,
+                    color: Colors.white)),
             const SizedBox(height: 14),
             GrowthProgressBar(
               progress: progress,
@@ -92,24 +95,29 @@ class TasksScreen extends StatelessWidget {
             ),
             const SizedBox(height: 14),
             Text(_quoteOfDay(),
-              style: TextStyle(
-                fontFamily: 'NunitoSans', fontSize: 12.5,
-                color: Colors.white.withValues(alpha: 0.92), height: 1.4)),
+                style: TextStyle(
+                    fontFamily: 'NunitoSans',
+                    fontSize: 12.5,
+                    color: Colors.white.withValues(alpha: 0.92),
+                    height: 1.4)),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTaskList(BuildContext context, AppStore store, List<CareTask> tasks) {
+  Widget _buildTaskList(
+      BuildContext context, AppStore store, List<CareTask> tasks) {
     if (tasks.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            Text('今日任务', style: AppTypography.sectionTitle.copyWith(fontSize: 16)),
+            Text('今日任务',
+                style: AppTypography.sectionTitle.copyWith(fontSize: 16)),
             const SizedBox(height: 24),
-            Icon(Icons.check_circle, size: 48, color: AppColors.primary.withValues(alpha: 0.3)),
+            Icon(Icons.check_circle,
+                size: 48, color: AppColors.primary.withValues(alpha: 0.3)),
             const SizedBox(height: 8),
             Text('今天没有待办任务', style: AppTypography.caption),
             Text('所有植物都浇过水了', style: AppTypography.badge),
@@ -123,12 +131,13 @@ class TasksScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('今日任务', style: AppTypography.sectionTitle.copyWith(fontSize: 16)),
+          Text('今日任务',
+              style: AppTypography.sectionTitle.copyWith(fontSize: 16)),
           const SizedBox(height: 12),
           ...tasks.map((task) => _TaskItem(
-            task: task,
-            onToggle: () => store.toggleTask(task.id),
-          )),
+                task: task,
+                onToggle: () => store.toggleTask(task.id),
+              )),
         ],
       ),
     );
@@ -144,14 +153,12 @@ class TasksScreen extends StatelessWidget {
           const SizedBox(height: 12),
           Row(
             children: [
-              _achievementCard(Icons.local_fire_department,
-                '${store.maxCareDays}', '天连续养护'),
+              _achievementCard(
+                  Icons.local_fire_department, '${store.maxCareDays}', '天连续养护'),
               const SizedBox(width: 8),
-              _achievementCard(Icons.eco,
-                '${store.totalPlants}', '株养护植物'),
+              _achievementCard(Icons.eco, '${store.totalPlants}', '株养护植物'),
               const SizedBox(width: 8),
-              _achievementCard(Icons.star,
-                '${store.totalPoints}', '获得积分'),
+              _achievementCard(Icons.star, '${store.totalPoints}', '获得积分'),
             ],
           ),
         ],
@@ -172,8 +179,9 @@ class TasksScreen extends StatelessWidget {
           children: [
             Icon(icon, color: AppColors.primary, size: 20),
             const SizedBox(height: 4),
-            Text(value, style: AppTypography.bodySemiBold.copyWith(
-              fontSize: 16, color: AppColors.primary)),
+            Text(value,
+                style: AppTypography.bodySemiBold
+                    .copyWith(fontSize: 16, color: AppColors.primary)),
             Text(label, style: AppTypography.badge),
           ],
         ),
@@ -183,11 +191,11 @@ class TasksScreen extends StatelessWidget {
 }
 
 String _taskEmoji(String type) => switch (type) {
-  'watering' => '💧',
-  'fertilizing' => '🧪',
-  'pruning' => '✂️',
-  _ => '🪴',
-};
+      'watering' => '💧',
+      'fertilizing' => '🧪',
+      'pruning' => '✂️',
+      _ => '🪴',
+    };
 
 class _TaskItem extends StatelessWidget {
   final CareTask task;
@@ -215,14 +223,15 @@ class _TaskItem extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Container(
-            width: 38, height: 38,
+            width: 38,
+            height: 38,
             decoration: BoxDecoration(
               color: AppColors.softCard,
               borderRadius: BorderRadius.circular(12),
             ),
             alignment: Alignment.center,
             child: Text(_taskEmoji(task.taskType),
-              style: const TextStyle(fontSize: 20)),
+                style: const TextStyle(fontSize: 20)),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -230,10 +239,12 @@ class _TaskItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(task.title,
-                  style: AppTypography.bodySemiBold.copyWith(
-                    decoration: isDone ? TextDecoration.lineThrough : null,
-                    color: isDone ? AppColors.textSecondary : AppColors.textPrimary,
-                  )),
+                    style: AppTypography.bodySemiBold.copyWith(
+                      decoration: isDone ? TextDecoration.lineThrough : null,
+                      color: isDone
+                          ? AppColors.textSecondary
+                          : AppColors.textPrimary,
+                    )),
                 Text(task.plantName, style: AppTypography.caption),
               ],
             ),

@@ -16,6 +16,8 @@ import '../theme/app_spacing.dart';
 import '../models/plant.dart';
 import '../store/app_store.dart';
 import '../config/app_config.dart';
+import '../services/supabase_service.dart';
+import 'nearby_screen.dart';
 
 /// 单条识别候选
 class PlantMatch {
@@ -134,7 +136,8 @@ class _ScanScreenState extends State<ScanScreen> {
       final ext = file.path.split('.').last.toLowerCase();
       final subtype = (ext == 'png') ? 'png' : 'jpeg';
 
-      final req = http.MultipartRequest('POST', Uri.parse(AppConfig.identifyUrl));
+      final req =
+          http.MultipartRequest('POST', Uri.parse(AppConfig.identifyUrl));
       req.files.add(
         http.MultipartFile.fromBytes(
           'image',
@@ -206,6 +209,160 @@ class _ScanScreenState extends State<ScanScreen> {
     );
   }
 
+  /// 解析植友头像颜色（十六进制 #RRGGBB → Color；失败回退主色）
+  Color _parseAvatarColor(String? hex) {
+    if (hex == null || hex.isEmpty) return AppColors.primary;
+    final v = int.tryParse(hex.replaceFirst('#', ''), radix: 16);
+    return v == null ? AppColors.primary : Color(v | 0xFF000000);
+  }
+
+  /// 识花分享给同城植友：复制文案 + 选择最近聊过的植友一键发送
+  Future<void> _shareToFriend(PlantMatch m) async {
+    if (!SupabaseService.isInitialized) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('云端未接入，暂时无法分享给植友'),
+          backgroundColor: AppColors.accent,
+        ),
+      );
+      return;
+    }
+    final shareText =
+        '我刚用圆形植物识别了一株植物：${m.name}${m.scientificName.isNotEmpty ? '（${m.scientificName}）' : ''}，你养过吗？';
+    await Clipboard.setData(ClipboardData(text: shareText));
+    if (!mounted) return;
+
+    // 拉最近聊过的植友
+    final peers = await SupabaseService.fetchRecentPeers();
+    if (!mounted) return;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => FrostedGlass(
+        tint: AppColors.frostedTint,
+        radius: const BorderRadius.vertical(top: Radius.circular(28)),
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.border,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            const SizedBox(height: 14),
+            Text('分享「${m.name}」给植友',
+                style: AppTypography.cardTitle.copyWith(fontSize: 16)),
+            const SizedBox(height: 4),
+            Text('识别文案已复制，选一位植友直接发送',
+                style: AppTypography.caption),
+            const SizedBox(height: 12),
+            if (peers.isEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Text('还没有聊过天的植友，去附近页打个招呼吧',
+                    style: AppTypography.caption
+                        .copyWith(color: AppColors.textHint)),
+              )
+            else
+              ...peers.map((p) {
+                final pid = (p['id'] as String?) ?? '';
+                final pname = (p['nickname'] as String?)?.isNotEmpty == true
+                    ? p['nickname'] as String
+                    : '植友';
+                final color = _parseAvatarColor(p['avatar_color'] as String?);
+                return GestureDetector(
+                  onTap: () async {
+                    final ok = await SupabaseService.sendMessage(
+                      receiverId: pid,
+                      content: shareText,
+                    );
+                    if (!ctx.mounted) return;
+                    Navigator.pop(ctx);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(ok
+                            ? '已把「${m.name}」分享给 $pname'
+                            : '发送失败，稍后再试'),
+                        backgroundColor: ok
+                            ? AppColors.primary
+                            : AppColors.danger,
+                      ),
+                    );
+                  },
+                  behavior: HitTestBehavior.opaque,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 10),
+                    margin: const EdgeInsets.only(bottom: 8),
+                    decoration: BoxDecoration(
+                      color: AppColors.cardWhite,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 34,
+                          height: 34,
+                          decoration: BoxDecoration(
+                            color: color,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.eco,
+                              color: Colors.white, size: 16),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(pname,
+                              style: AppTypography.bodySemiBold),
+                        ),
+                        Icon(Icons.send,
+                            size: 14, color: AppColors.primary),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+            const SizedBox(height: 4),
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(ctx);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => const NearbyScreen(showBack: true)),
+                );
+              },
+              behavior: HitTestBehavior.opaque,
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                decoration: BoxDecoration(
+                  gradient: AppColors.primaryGradient,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Text('去附近页找新植友',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'NunitoSans',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -244,15 +401,6 @@ class _ScanScreenState extends State<ScanScreen> {
           width: 32,
           height: 32,
           child: Icon(Icons.close, color: Colors.white, size: 24),
-        ),
-      ),
-      trailing: GestureDetector(
-        onTap: () {},
-        behavior: HitTestBehavior.opaque,
-        child: const SizedBox(
-          width: 32,
-          height: 32,
-          child: Icon(Icons.flash_off, color: Colors.white, size: 20),
         ),
       ),
     );
@@ -397,87 +545,106 @@ class _ScanScreenState extends State<ScanScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            Row(
-              children: [
-                Icon(Icons.check_circle, color: AppColors.primary, size: 20),
-                const SizedBox(width: 8),
-                Text('识别成功 · 选一株添加',
-                    style: AppTypography.bodySemiBold
-                        .copyWith(color: AppColors.primary)),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Flexible(
-              child: ListView.separated(
-                shrinkWrap: true,
-                itemCount: _matches.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 8),
-                itemBuilder: (_, i) {
-                  final m = _matches[i];
-                  return Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: AppColors.softCard,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 48,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Icon(Icons.eco, color: Colors.white, size: 24),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(m.name,
-                                  style: AppTypography.bodySemiBold
-                                      .copyWith(fontSize: 16)),
-                              if (m.scientificName.isNotEmpty)
-                                Text(m.scientificName,
-                                    style: AppTypography.caption
-                                        .copyWith(fontStyle: FontStyle.italic)),
-                              const SizedBox(height: 2),
-                              Text('匹配度 ${(m.score * 100).toInt()}%',
-                                  style: AppTypography.caption
-                                      .copyWith(color: AppColors.primary)),
-                            ],
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () => _addPlant(m),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 6),
+              Row(
+                children: [
+                  Icon(Icons.check_circle, color: AppColors.primary, size: 20),
+                  const SizedBox(width: 8),
+                  Text('识别成功 · 选一株添加',
+                      style: AppTypography.bodySemiBold
+                          .copyWith(color: AppColors.primary)),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Flexible(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: _matches.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 8),
+                  itemBuilder: (_, i) {
+                    final m = _matches[i];
+                    return Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppColors.softCard,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 48,
+                            height: 48,
                             decoration: BoxDecoration(
                               color: AppColors.primary,
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: const Text('添加',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600)),
+                            child:
+                                Icon(Icons.eco, color: Colors.white, size: 24),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(m.name,
+                                    style: AppTypography.bodySemiBold
+                                        .copyWith(fontSize: 16)),
+                                if (m.scientificName.isNotEmpty)
+                                  Text(m.scientificName,
+                                      style: AppTypography.caption.copyWith(
+                                          fontStyle: FontStyle.italic)),
+                                const SizedBox(height: 2),
+                                Text('匹配度 ${(m.score * 100).toInt()}%',
+                                    style: AppTypography.caption
+                                        .copyWith(color: AppColors.primary)),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              // 分享给同城植友（复制文案 + 选最近聊过的植友一键发送）
+                              GestureDetector(
+                                onTap: () => _shareToFriend(m),
+                                behavior: HitTestBehavior.opaque,
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 8),
+                                  padding: const EdgeInsets.all(9),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.softCard,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Icon(Icons.share_outlined,
+                                      size: 17, color: AppColors.primary),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () => _addPlant(m),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primary,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Text('添加',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
-  );
-
+    );
   }
 
   Widget _buildErrorPanel() {
@@ -526,18 +693,20 @@ class _ScanScreenState extends State<ScanScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          // 左侧：相册（占位让拍照按钮居中更对称）
           GestureDetector(
             onTap: () => _capture(ImageSource.gallery),
             child: Container(
-              width: 48,
-              height: 48,
+              width: 64,
+              height: 64,
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                shape: BoxShape.circle,
               ),
-              child: Icon(Icons.photo_library, color: Colors.white, size: 24),
+              child: Icon(Icons.photo_library, color: Colors.white, size: 28),
             ),
           ),
+          // 中间：拍照主按钮
           GestureDetector(
             onTap: () => _capture(ImageSource.camera),
             child: Container(
@@ -556,19 +725,8 @@ class _ScanScreenState extends State<ScanScreen> {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child:
-                  Icon(Icons.flip_camera_ios, color: Colors.white, size: 24),
-            ),
-          ),
+          // 右侧：装饰占位（保持视觉对称，image_picker 不支持实时翻转/闪光控制）
+          const SizedBox(width: 64, height: 64),
         ],
       ),
     );

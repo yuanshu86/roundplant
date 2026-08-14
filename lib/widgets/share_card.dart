@@ -6,8 +6,21 @@ import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
+import '../widgets/app_logo.dart';
 import '../models/plant.dart';
 import '../store/app_store.dart';
+
+/// 中文字体回退（与 AppTypography 保持一致）。VarelaRound / NunitoSans
+/// 均为拉丁字体，遇到中文字形需回退到系统中文字体，避免 debug 模式下的
+/// 缺失字形黄线提示。
+const List<String> _cnFallback = [
+  'PingFang SC',
+  'Heiti SC',
+  'Microsoft YaHei',
+  'Noto Sans SC',
+  'Source Han Sans SC',
+  'sans-serif',
+];
 
 /// 分享卡片生成器
 /// 使用 RepaintBoundary 将植物信息渲染为 PNG 图片，再通过 share_plus 分享
@@ -15,7 +28,8 @@ class ShareCardService {
   static final GlobalKey _cardKey = GlobalKey();
 
   /// 生成并分享植物卡片
-  static Future<void> sharePlantCard(BuildContext context, Plant plant, AppStore store) async {
+  static Future<void> sharePlantCard(
+      BuildContext context, Plant plant, AppStore store) async {
     // 获取该植物的最近日记
     final recentDiaries = store.getDiariesForPlant(plant.id).take(3).toList();
 
@@ -54,7 +68,8 @@ class _SharePreviewSheet extends StatelessWidget {
         children: [
           const SizedBox(height: 12),
           Container(
-            width: 40, height: 4,
+            width: 40,
+            height: 4,
             decoration: BoxDecoration(
               color: AppColors.border,
               borderRadius: BorderRadius.circular(2),
@@ -96,9 +111,12 @@ class _SharePreviewSheet extends StatelessWidget {
                       Icon(Icons.share, color: Colors.white, size: 20),
                       SizedBox(width: 8),
                       Text('分享图片',
-                        style: TextStyle(
-                          fontFamily: 'NunitoSans', fontSize: 16,
-                          fontWeight: FontWeight.w600, color: Colors.white)),
+                          style: TextStyle(
+                              fontFamily: 'NunitoSans',
+                              fontFamilyFallback: _cnFallback,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white)),
                     ],
                   ),
                 ),
@@ -127,7 +145,8 @@ class _SharePreviewSheet extends StatelessWidget {
 
       await Share.shareXFiles(
         [XFile(file.path)],
-        text: '来看看我的 ${plant.name}！${recentDiaries.isNotEmpty ? " 已养护${plant.careDays}天，积分${plant.points}" : ""}',
+        text:
+            '来看看我的 ${plant.name}！${recentDiaries.isNotEmpty ? " 已养护${plant.careDays}天，积分${plant.points}" : ""}',
       );
 
       if (context.mounted) Navigator.pop(context);
@@ -135,8 +154,8 @@ class _SharePreviewSheet extends StatelessWidget {
       debugPrint('分享失败: $e');
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('分享失败: $e'),
-            backgroundColor: AppColors.danger),
+          SnackBar(
+              content: Text('分享失败: $e'), backgroundColor: AppColors.danger),
         );
       }
     }
@@ -159,76 +178,82 @@ class ShareCard extends StatelessWidget {
     return Stack(
       children: [
         Container(
-      width: 320,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.12),
-            blurRadius: 24,
-            offset: const Offset(0, 8),
+          width: 320,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primary.withValues(alpha: 0.12),
+                blurRadius: 24,
+                offset: const Offset(0, 8),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // 头部：植物图片 + 名称
-          _buildHeader(),
-          // 健康徽章
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-            child: _buildHealthBadge(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 头部：植物图片 + 名称
+              _buildHeader(),
+              // 健康徽章
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+                child: _buildHealthBadge(),
+              ),
+              // 养护数据
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                child: _buildStats(),
+              ),
+              // 养护参数
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                child: _buildParams(),
+              ),
+              // 日记摘录
+              if (recentDiaries.isNotEmpty) ...[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 16, 20, 0),
+                  child: Divider(color: AppColors.border),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+                  child: _buildDiaryExcerpt(),
+                ),
+              ],
+              // 为右下角水印留出安全距离
+              const SizedBox(height: 44),
+            ],
           ),
-          // 养护数据
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
-            child: _buildStats(),
-          ),
-          // 养护参数
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
-            child: _buildParams(),
-          ),
-          // 日记摘录
-          if (recentDiaries.isNotEmpty) ...[
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 16, 20, 0),
-              child: Divider(color: AppColors.border),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-              child: _buildDiaryExcerpt(),
-            ),
-          ],
-          // 底部品牌
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            margin: const EdgeInsets.only(top: 16),
+        ),
+        // 右下角品牌水印角标（硬约束：对外分享图必须带「圆形植物」标识）
+        Positioned(
+          right: 12,
+          bottom: 12,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
-              color: AppColors.softCard,
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(20)),
+              color: Colors.black.withValues(alpha: 0.45),
+              borderRadius: BorderRadius.circular(20),
             ),
             child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.eco, size: 16, color: AppColors.primary),
-                SizedBox(width: 6),
-                Text('圆形植物 · 一起养花',
+                AppLogo(size: 14),
+                SizedBox(width: 4),
+                Text(
+                  '圆形植物',
                   style: TextStyle(
-                    fontFamily: 'VarelaRound', fontSize: 13,
+                    fontFamily: 'VarelaRound',
+                    fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.primary)),
+                    color: Colors.white,
+                  ),
+                ),
               ],
             ),
           ),
-        ],
-      ),
-      ),
-      _buildWatermarkOverlay(),
+        ),
       ],
     );
   }
@@ -252,56 +277,6 @@ class ShareCard extends StatelessWidget {
     );
   }
 
-  /// 全卡水印层：斜向大字「圆形植物」铺底 + 角落品牌标，确保对外分享图打上品牌
-  Widget _buildWatermarkOverlay() {
-    return Positioned.fill(
-      child: IgnorePointer(
-        child: Stack(
-          children: [
-            Center(
-              child: Transform.rotate(
-                angle: -0.35,
-                child: Text(
-                  '圆形植物',
-                  style: TextStyle(
-                    fontFamily: 'VarelaRound',
-                    fontSize: 60,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary.withValues(alpha: 0.10),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              right: 12,
-              bottom: 12,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.45),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.eco, size: 13, color: Colors.white),
-                    SizedBox(width: 4),
-                    Text('圆形植物',
-                      style: TextStyle(
-                        fontFamily: 'VarelaRound',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white)),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildHeaderPlaceholder() {
     return Container(
       width: double.infinity,
@@ -315,14 +290,19 @@ class ShareCard extends StatelessWidget {
           const Icon(Icons.eco, color: Colors.white70, size: 48),
           const SizedBox(height: 12),
           Text(plant.name,
-            style: const TextStyle(
-              fontFamily: 'VarelaRound', fontSize: 28,
-              fontWeight: FontWeight.w600, color: Colors.white)),
+              style: const TextStyle(
+                  fontFamily: 'VarelaRound',
+                  fontFamilyFallback: _cnFallback,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white)),
           const SizedBox(height: 4),
           Text(plant.scientificName,
-            style: const TextStyle(
-              fontFamily: 'NunitoSans', fontSize: 14,
-              color: Colors.white70)),
+              style: const TextStyle(
+                  fontFamily: 'NunitoSans',
+                  fontFamilyFallback: _cnFallback,
+                  fontSize: 14,
+                  color: Colors.white70)),
         ],
       ),
     );
@@ -346,9 +326,12 @@ class ShareCard extends StatelessWidget {
           Icon(icon, size: 14, color: color),
           const SizedBox(width: 4),
           Text(plant.healthStatus,
-            style: TextStyle(
-              fontFamily: 'NunitoSans', fontSize: 12,
-              fontWeight: FontWeight.w600, color: color)),
+              style: TextStyle(
+                  fontFamily: 'NunitoSans',
+                  fontFamilyFallback: _cnFallback,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: color)),
         ],
       ),
     );
@@ -371,11 +354,13 @@ class ShareCard extends StatelessWidget {
         Icon(icon, size: 20, color: AppColors.primary),
         const SizedBox(height: 4),
         Text(value,
-          style: TextStyle(
-            fontFamily: 'NunitoSans', fontSize: 16,
-            fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
-        Text(label,
-          style: AppTypography.caption),
+            style: TextStyle(
+                fontFamily: 'NunitoSans',
+                fontFamilyFallback: _cnFallback,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textPrimary)),
+        Text(label, style: AppTypography.caption),
       ],
     );
   }
@@ -407,8 +392,8 @@ class ShareCard extends StatelessWidget {
         SizedBox(
           width: 40,
           child: Text(label,
-            style: AppTypography.caption.copyWith(
-              fontWeight: FontWeight.w500)),
+              style:
+                  AppTypography.caption.copyWith(fontWeight: FontWeight.w500)),
         ),
         Text(value, style: AppTypography.body),
       ],
@@ -421,29 +406,29 @@ class ShareCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('最近日记',
-          style: AppTypography.label.copyWith(
-            fontWeight: FontWeight.w600, color: AppColors.primary)),
+            style: AppTypography.label.copyWith(
+                fontWeight: FontWeight.w600, color: AppColors.primary)),
         const SizedBox(height: 8),
         ...recentDiaries.map((d) => Padding(
-          padding: const EdgeInsets.only(bottom: 6),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(fmt.format(d.createdAt),
-                style: AppTypography.caption.copyWith(
-                  fontFamily: 'NunitoSans', color: AppColors.textHint)),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  d.note ?? '记录了养护瞬间',
-                  style: AppTypography.body.copyWith(fontSize: 13),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(fmt.format(d.createdAt),
+                      style: AppTypography.caption
+                          .copyWith(color: AppColors.textHint)),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      d.note ?? '记录了养护瞬间',
+                      style: AppTypography.body.copyWith(fontSize: 13),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        )),
+            )),
       ],
     );
   }

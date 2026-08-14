@@ -17,7 +17,8 @@ class PlantTagWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Color(tag.color);
-    final isLight = ThemeData.estimateBrightnessForColor(color) == Brightness.light;
+    final isLight =
+        ThemeData.estimateBrightnessForColor(color) == Brightness.light;
     final textColor = isLight ? Colors.black87 : Colors.white;
 
     return Align(

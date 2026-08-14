@@ -102,8 +102,8 @@ class _AddEditPlantScreenState extends State<AddEditPlantScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('选择图片失败: $e'),
-              backgroundColor: AppColors.danger),
+          SnackBar(
+              content: Text('选择图片失败: $e'), backgroundColor: AppColors.danger),
         );
       }
     }
@@ -113,8 +113,7 @@ class _AddEditPlantScreenState extends State<AddEditPlantScreen> {
     final name = _nameController.text.trim();
     if (name.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('请输入植物名称'),
-            backgroundColor: AppColors.accent),
+        SnackBar(content: Text('请输入植物名称'), backgroundColor: AppColors.accent),
       );
       return;
     }
@@ -237,9 +236,7 @@ class _AddEditPlantScreenState extends State<AddEditPlantScreen> {
             color: AppColors.softCard,
             borderRadius: BorderRadius.circular(AppSpacing.radiusCard),
             border: Border.all(
-              color: _imagePath != null
-                  ? Colors.transparent
-                  : AppColors.border,
+              color: _imagePath != null ? Colors.transparent : AppColors.border,
               width: 1,
             ),
           ),
@@ -251,13 +248,11 @@ class _AddEditPlantScreenState extends State<AddEditPlantScreen> {
               : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.add_a_photo,
-                        size: 40, color: AppColors.primary),
+                    Icon(Icons.add_a_photo, size: 40, color: AppColors.primary),
                     const SizedBox(height: 8),
                     Text('添加植物照片', style: AppTypography.label),
                     const SizedBox(height: 4),
-                    Text('点击从相册选择（可选）',
-                        style: AppTypography.badge),
+                    Text('点击从相册选择（可选）', style: AppTypography.badge),
                   ],
                 ),
         ),
@@ -324,8 +319,8 @@ class _AddEditPlantScreenState extends State<AddEditPlantScreen> {
               if (required)
                 TextSpan(
                     text: ' *',
-                    style: AppTypography.label
-                        .copyWith(color: AppColors.danger)),
+                    style:
+                        AppTypography.label.copyWith(color: AppColors.danger)),
             ],
           ),
         ),
@@ -340,11 +335,11 @@ class _AddEditPlantScreenState extends State<AddEditPlantScreen> {
             style: AppTypography.body,
             decoration: InputDecoration(
               hintText: hint,
-              hintStyle: AppTypography.caption
-                  .copyWith(color: AppColors.textHint),
+              hintStyle:
+                  AppTypography.caption.copyWith(color: AppColors.textHint),
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16, vertical: 14),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             ),
           ),
         ),
@@ -388,8 +383,7 @@ class _AddEditPlantScreenState extends State<AddEditPlantScreen> {
             ),
             const SizedBox(width: 12),
             Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 16, vertical: 14),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               decoration: BoxDecoration(
                 color: AppColors.softCard,
                 borderRadius: BorderRadius.circular(AppSpacing.radiusCard),
@@ -417,16 +411,14 @@ class _AddEditPlantScreenState extends State<AddEditPlantScreen> {
                 : (status == '需关注' ? AppColors.accent : AppColors.danger);
             return Expanded(
               child: Padding(
-                padding: EdgeInsets.only(
-                    right: status != statuses.last ? 8 : 0),
+                padding:
+                    EdgeInsets.only(right: status != statuses.last ? 8 : 0),
                 child: GestureDetector(
                   onTap: () => setState(() => _healthStatus = status),
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     decoration: BoxDecoration(
-                      color: selected
-                          ? color
-                          : AppColors.softCard,
+                      color: selected ? color : AppColors.softCard,
                       borderRadius:
                           BorderRadius.circular(AppSpacing.radiusCard),
                     ),
@@ -438,9 +430,8 @@ class _AddEditPlantScreenState extends State<AddEditPlantScreen> {
                         fontSize: 13,
                         fontWeight:
                             selected ? FontWeight.w600 : FontWeight.w400,
-                        color: selected
-                            ? Colors.white
-                            : AppColors.textSecondary,
+                        color:
+                            selected ? Colors.white : AppColors.textSecondary,
                       ),
                     ),
                   ),

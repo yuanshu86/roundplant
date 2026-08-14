@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -6,10 +7,19 @@ import '../db/database_helper.dart';
 import '../repository/plant_repository.dart';
 import '../repository/diary_repository.dart';
 import '../services/notification_service.dart';
+import '../services/supabase_service.dart';
 import '../theme/app_colors.dart';
 
 /// 全局状态管理 — 管理植物列表、任务列表、日记列表、SQLite 持久化
-class AppStore extends ChangeNotifier {
+///
+/// 同时承担主题明暗的「唯一真相源」：把三态偏好（浅色 / 深色 / 跟随系统）
+/// 解析成实际生效的明暗，写入 [AppColors.mode]，并监听系统亮度变化。
+class AppStore extends ChangeNotifier with WidgetsBindingObserver {
+  AppStore() {
+    WidgetsBinding.instance.addObserver(this);
+    _applyEffectiveMode();
+  }
+
   final _db = DatabaseHelper();
   final _plantRepo = PlantRepository();
   final _diaryRepo = DiaryRepository();
@@ -21,9 +31,54 @@ class AppStore extends ChangeNotifier {
   bool _initialized = false;
   bool _isLoading = true;
 
-  /// 主题模式（浅色 / 深色）
-  ThemeMode _themeMode = ThemeMode.light;
+  /// 我的昵称（从 Supabase 拉，本地缓存，附近/我的/首页统一显示）
+  String? _myNickname;
+  String? get myNickname => _myNickname;
+
+  /// 我的头像 URL（Supabase Storage；未设置用植物图标 fallback）
+  String? _myAvatarUrl;
+  String? get myAvatarUrl => _myAvatarUrl;
+
+  /// 主题偏好（浅色 / 深色 / 跟随系统），首次安装默认跟随系统
+  ThemeMode _themeMode = ThemeMode.system;
   ThemeMode get themeMode => _themeMode;
+
+  /// 当前实际生效的是否为深色（把 system 解析成具体明暗后的结果）
+  bool get isDarkEffective => AppColors.isDark;
+
+  /// 主题偏好的中文名，用于「我的」页菜单副标题
+  String get themeModeLabel => switch (_themeMode) {
+        ThemeMode.dark => '深色',
+        ThemeMode.light => '浅色',
+        ThemeMode.system => '跟随系统',
+      };
+
+  /// 把三态偏好解析为实际明暗并写入 [AppColors]
+  void _applyEffectiveMode() {
+    final systemDark =
+        WidgetsBinding.instance.platformDispatcher.platformBrightness ==
+            Brightness.dark;
+    AppColors.mode = switch (_themeMode) {
+      ThemeMode.dark => ThemeMode.dark,
+      ThemeMode.light => ThemeMode.light,
+      ThemeMode.system => systemDark ? ThemeMode.dark : ThemeMode.light,
+    };
+  }
+
+  /// 系统深浅色切换时回调（仅「跟随系统」下需要重绘）
+  @override
+  void didChangePlatformBrightness() {
+    if (_themeMode == ThemeMode.system) {
+      _applyEffectiveMode();
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   List<Plant> get plants => List.of(_plants);
   List<CareTask> get tasks => List.of(_tasks);
@@ -35,19 +90,18 @@ class AppStore extends ChangeNotifier {
       _plants.where((p) => p.daysUntilWatering <= 0).length;
 
   /// 需要任意养护（浇水/施肥/修剪）的植物数量
-  int get dueCareCount =>
-      _plants.where((p) =>
+  int get dueCareCount => _plants
+      .where((p) =>
           p.daysUntilWatering <= 0 ||
           p.daysUntilFertilizing <= 0 ||
-          p.daysUntilPruning <= 0).length;
+          p.daysUntilPruning <= 0)
+      .length;
 
   /// 今日已完成任务数
-  int get completedTaskCount =>
-      _tasks.where((t) => t.isCompleted).length;
+  int get completedTaskCount => _tasks.where((t) => t.isCompleted).length;
 
   /// 总积分
-  int get totalPoints =>
-      _plants.fold(0, (sum, p) => sum + p.points);
+  int get totalPoints => _plants.fold(0, (sum, p) => sum + p.points);
 
   /// 养护植物总数
   int get totalPlants => _plants.length;
@@ -63,11 +117,14 @@ class AppStore extends ChangeNotifier {
     notifyListeners();
 
     try {
-      // 读取主题偏好（深色模式）
+      // 读取主题偏好（浅色 / 深色 / 跟随系统）
       final prefs = await SharedPreferences.getInstance();
-      final saved = prefs.getString('theme_mode');
-      _themeMode = saved == 'dark' ? ThemeMode.dark : ThemeMode.light;
-      AppColors.mode = _themeMode;
+      _themeMode = switch (prefs.getString('theme_mode')) {
+        'dark' => ThemeMode.dark,
+        'light' => ThemeMode.light,
+        _ => ThemeMode.light, // 未设置过 → 默认浅色（田园可爱风基调友好，避免手机系统深色时整 APP 跟着变深）
+      };
+      _applyEffectiveMode();
 
       // 首次启动插入示例数据
       await _plantRepo.seedIfEmpty();
@@ -85,6 +142,23 @@ class AppStore extends ChangeNotifier {
       } catch (e) {
         debugPrint('schedule reminder error: $e');
       }
+      // 拉取我的昵称（从 Supabase 同步到 "植物管家"/附近/消息页）
+      try {
+        _myNickname = await SupabaseService.fetchMyNickname();
+      } catch (e) {
+        debugPrint('fetch nickname error: $e');
+      }
+      // 拉取我的头像 URL
+      try {
+        final me = SupabaseService.isInitialized
+            ? SupabaseService.client.auth.currentUser
+            : null;
+        if (me != null) {
+          _myAvatarUrl = await SupabaseService.fetchUserAvatar(me.id);
+        }
+      } catch (e) {
+        debugPrint('fetch avatar error: $e');
+      }
     } catch (e) {
       debugPrint('AppStore init error: $e');
     }
@@ -94,26 +168,30 @@ class AppStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// 设置浅色 / 深色主题
+  /// 设置主题偏好（浅色 / 深色 / 跟随系统）
   void setThemeMode(ThemeMode mode) {
-    _themeMode = mode == ThemeMode.dark ? ThemeMode.dark : ThemeMode.light;
-    AppColors.mode = _themeMode;
+    _themeMode = mode;
+    _applyEffectiveMode();
     notifyListeners();
     () async {
       try {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString(
-            'theme_mode', _themeMode == ThemeMode.dark ? 'dark' : 'light');
+            'theme_mode',
+            switch (_themeMode) {
+              ThemeMode.dark => 'dark',
+              ThemeMode.light => 'light',
+              ThemeMode.system => 'system',
+            });
       } catch (e) {
         debugPrint('save theme error: $e');
       }
     }();
   }
 
-  /// 在浅色与深色之间切换
+  /// 在浅色与深色之间快速切换（跟随系统时按当前实际明暗取反）
   void toggleTheme() {
-    setThemeMode(
-        _themeMode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark);
+    setThemeMode(AppColors.isDark ? ThemeMode.light : ThemeMode.dark);
   }
 
   /// 从数据库重新加载全部数据（备份恢复后即时刷新内存，无需重启 App）
@@ -312,8 +390,8 @@ class AppStore extends ChangeNotifier {
     _plants[pIdx] = updated;
 
     // 标记对应类型的今日任务完成
-    final tIdx = _tasks.indexWhere(
-        (t) => t.plantId == plantId && t.taskType == taskType && !t.isCompleted);
+    final tIdx = _tasks.indexWhere((t) =>
+        t.plantId == plantId && t.taskType == taskType && !t.isCompleted);
     if (tIdx != -1) _tasks[tIdx].isCompleted = true;
 
     notifyListeners();
@@ -354,7 +432,8 @@ class AppStore extends ChangeNotifier {
         return (
           plant.copyWith(
             lastFertilized: now,
-            nextFertilizing: now.add(Duration(days: plant.fertilizingFrequency)),
+            nextFertilizing:
+                now.add(Duration(days: plant.fertilizingFrequency)),
             healthStatus: '健康',
             careDays: plant.careDays + 1,
             points: plant.points + 5,
@@ -456,5 +535,35 @@ class AppStore extends ChangeNotifier {
         debugPrint('removePlant persist error: $e');
       }
     }();
+  }
+
+  /// 拉取我的昵称（附近/我的/首页统一显示）
+  Future<void> refreshMyNickname() async {
+    if (!SupabaseService.isInitialized) return;
+    try {
+      _myNickname = await SupabaseService.fetchMyNickname();
+      notifyListeners();
+    } catch (_) {}
+  }
+
+  /// 设置我的昵称（同步到 Supabase + 本地）
+  Future<bool> setMyNickname(String nickname) async {
+    final ok = await SupabaseService.updateMyNickname(nickname);
+    if (ok) {
+      _myNickname = nickname.trim();
+      notifyListeners();
+    }
+    return ok;
+  }
+
+  /// 上传并设置我的头像
+  Future<bool> setMyAvatar(File file) async {
+    final url = await SupabaseService.uploadAvatar(file);
+    if (url != null) {
+      _myAvatarUrl = url;
+      notifyListeners();
+      return true;
+    }
+    return false;
   }
 }

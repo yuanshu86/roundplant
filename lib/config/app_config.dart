@@ -13,6 +13,4 @@ class AppConfig {
   );
 
   static String get identifyUrl => '$backendBaseUrl/api/identify';
-
-  static String get weatherUrl => '$backendBaseUrl/api/weather';
 }

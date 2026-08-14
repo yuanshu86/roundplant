@@ -89,8 +89,7 @@ class _TagEditorSheetState extends State<TagEditorSheet> {
           Text('给 ${widget.plant.name} 打标签',
               style: AppTypography.cardTitle.copyWith(fontSize: 18)),
           const SizedBox(height: 4),
-          Text('最多 3 个标签，会斜着挂在植物图片上',
-              style: AppTypography.caption),
+          Text('最多 3 个标签，会斜着挂在植物图片上', style: AppTypography.caption),
           const SizedBox(height: 20),
           // 当前标签
           if (_tags.isNotEmpty) ...[
@@ -218,7 +217,10 @@ class _TagEditorSheetState extends State<TagEditorSheet> {
             width: 2,
           ),
           boxShadow: selected
-              ? [BoxShadow(color: Color(color).withValues(alpha: 0.4), blurRadius: 8)]
+              ? [
+                  BoxShadow(
+                      color: Color(color).withValues(alpha: 0.4), blurRadius: 8)
+                ]
               : null,
         ),
       ),

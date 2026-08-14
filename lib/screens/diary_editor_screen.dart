@@ -67,8 +67,8 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('选择图片失败: $e'),
-            backgroundColor: AppColors.danger),
+          SnackBar(
+              content: Text('选择图片失败: $e'), backgroundColor: AppColors.danger),
         );
       }
     }
@@ -78,8 +78,8 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     final store = context.read<AppStore>();
     if (_selectedPlantId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('请选择一株植物'),
-          backgroundColor: AppColors.danger),
+        const SnackBar(
+            content: Text('请选择一株植物'), backgroundColor: AppColors.danger),
       );
       return;
     }
@@ -96,8 +96,8 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     );
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('日记已保存'),
-        backgroundColor: AppColors.success),
+      const SnackBar(
+          content: Text('日记已保存'), backgroundColor: AppColors.success),
     );
     Navigator.pop(context);
   }
@@ -121,13 +121,14 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
                 child: GestureDetector(
                   onTap: _isSaving ? null : _save,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       gradient: AppColors.primaryGradient,
                       borderRadius: BorderRadius.circular(18),
                     ),
                     child: Text('保存',
-                      style: AppTypography.buttonText.copyWith(fontSize: 13)),
+                        style: AppTypography.buttonText.copyWith(fontSize: 13)),
                   ),
                 ),
               ),
@@ -165,7 +166,8 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
             return GestureDetector(
               onTap: () => setState(() => _selectedPlantId = plant.id),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 decoration: BoxDecoration(
                   color: isSelected ? AppColors.primary : AppColors.cardWhite,
                   borderRadius: BorderRadius.circular(14),
@@ -185,10 +187,13 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
                     ),
                     const SizedBox(width: 8),
                     Text(plant.name,
-                      style: TextStyle(
-                        fontFamily: 'NunitoSans', fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isSelected ? Colors.white : AppColors.textPrimary)),
+                        style: TextStyle(
+                            fontFamily: 'NunitoSans',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: isSelected
+                                ? Colors.white
+                                : AppColors.textPrimary)),
                   ],
                 ),
               ),
@@ -253,11 +258,13 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
             errorBuilder: (_, __, ___) => _buildMiniPlaceholder(),
           ),
           Positioned(
-            top: 4, right: 4,
+            top: 4,
+            right: 4,
             child: GestureDetector(
               onTap: () => setState(() => _imagePaths.removeAt(index)),
               child: Container(
-                width: 24, height: 24,
+                width: 24,
+                height: 24,
                 decoration: const BoxDecoration(
                   color: Colors.black54,
                   shape: BoxShape.circle,
@@ -296,11 +303,9 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(Icons.camera_alt_outlined,
-          size: 40, color: AppColors.textHint),
+        Icon(Icons.camera_alt_outlined, size: 40, color: AppColors.textHint),
         const SizedBox(height: 8),
-        Text('点击选择照片',
-          style: AppTypography.caption),
+        Text('点击选择照片', style: AppTypography.caption),
       ],
     );
   }
@@ -324,8 +329,8 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
             style: AppTypography.body.copyWith(height: 1.6),
             decoration: InputDecoration(
               hintText: '记录一下今天的养护心得...',
-              hintStyle: AppTypography.caption.copyWith(
-                color: AppColors.textHint),
+              hintStyle:
+                  AppTypography.caption.copyWith(color: AppColors.textHint),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.all(16),
               counterStyle: AppTypography.caption,

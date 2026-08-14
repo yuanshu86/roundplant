@@ -66,5 +66,17 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<!-- 隐私权限描述（iOS 上架审核必备，对应 image_picker / geolocator / share_plus 等插件） -->
+	<key>NSCameraUsageDescription</key>
+	<string>圆形植物需要使用相机来拍摄你的植物、识别品种并记录养护瞬间</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>圆形植物需要访问相册以读取植物照片、生成分享图</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>圆形植物需要将成长对比图、植物身份证等分享图保存到你的相册</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>圆形植物需要你的位置来发现附近的养花同好与本地花友动态</string>
+	<!-- 出口合规：本 App 不使用加密（仅 HTTPS 通信），声明后可在 App Store 审核时跳过加密问卷 -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>

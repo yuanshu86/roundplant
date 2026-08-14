@@ -39,9 +39,8 @@ class NotificationService {
       ),
       iOS: DarwinNotificationDetails(),
     );
-    final body = dueCount > 0
-        ? '今天有 $dueCount 株植物在等你照顾~'
-        : '你的植物们都很好，有空去看看它们吧~';
+    final body =
+        dueCount > 0 ? '今天有 $dueCount 株植物在等你照顾~' : '你的植物们都很好，有空去看看它们吧~';
     await _plugin.periodicallyShow(
       0,
       '圆形植物 · 每日养护',

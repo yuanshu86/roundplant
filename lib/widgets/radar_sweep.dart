@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 
-/// 附近花友页顶部的极简弧形雷达扫描动效。
+/// 附近植友页顶部的极简弧形雷达扫描动效。
 class RadarSweep extends StatefulWidget {
   final double size;
   final Color color;
@@ -80,7 +80,9 @@ class _RadarPainter extends CustomPainter {
     canvas.drawLine(
       c,
       Offset(c.dx + r * math.cos(angle), c.dy + r * math.sin(angle)),
-      Paint()..strokeWidth = 1.5..color = color.withValues(alpha: 0.6),
+      Paint()
+        ..strokeWidth = 1.5
+        ..color = color.withValues(alpha: 0.6),
     );
   }
 

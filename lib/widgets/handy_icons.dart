@@ -55,15 +55,14 @@ class _AlarmPainter extends _LinePainter {
     canvas.drawLine(Offset(c.dx + s.width * 0.22, c.dy - s.height * 0.26),
         Offset(c.dx, c.dy - s.height * 0.40), pen);
     // 双腿
-    canvas.drawLine(
-        Offset(c.dx - s.width * 0.18, c.dy + s.height * 0.30),
+    canvas.drawLine(Offset(c.dx - s.width * 0.18, c.dy + s.height * 0.30),
         Offset(c.dx - s.width * 0.26, c.dy + s.height * 0.42), pen);
-    canvas.drawLine(
-        Offset(c.dx + s.width * 0.18, c.dy + s.height * 0.30),
+    canvas.drawLine(Offset(c.dx + s.width * 0.18, c.dy + s.height * 0.30),
         Offset(c.dx + s.width * 0.26, c.dy + s.height * 0.42), pen);
     // 指针
     canvas.drawLine(c, Offset(c.dx, c.dy - s.height * 0.20), pen);
-    canvas.drawLine(c, Offset(c.dx + s.width * 0.16, c.dy + s.height * 0.04), pen);
+    canvas.drawLine(
+        c, Offset(c.dx + s.width * 0.16, c.dy + s.height * 0.04), pen);
   }
 }
 
@@ -99,8 +98,7 @@ class _BrushPainter extends _LinePainter {
     canvas.drawLine(Offset(s.width * 0.40, s.height * 0.55),
         Offset(s.width * 0.52, s.height * 0.66), pen);
     // 笔尾小头
-    canvas.drawCircle(
-        Offset(s.width * 0.75, s.height * 0.085), 3, pen);
+    canvas.drawCircle(Offset(s.width * 0.75, s.height * 0.085), 3, pen);
   }
 }
 

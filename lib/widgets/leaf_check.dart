@@ -96,7 +96,8 @@ class _LeafCheckPainter extends CustomPainter {
 
     final len = size.width * 0.26 * progress;
     // 茎
-    canvas.drawLine(c, Offset(c.dx, c.dy - size.height * 0.30 * progress), stem);
+    canvas.drawLine(
+        c, Offset(c.dx, c.dy - size.height * 0.30 * progress), stem);
     // 两片舒展的叶
     _leaf(canvas, c, -0.55, -len, white, size);
     _leaf(canvas, c, 0.55, -len, white, size);
@@ -107,8 +108,10 @@ class _LeafCheckPainter extends CustomPainter {
       final path = Path();
       path.moveTo(size.width * 0.30, size.height * 0.55);
       path.quadraticBezierTo(
-        size.width * 0.46, size.height * 0.70,
-        size.width * 0.64, size.height * 0.40,
+        size.width * 0.46,
+        size.height * 0.70,
+        size.width * 0.64,
+        size.height * 0.40,
       );
       final m = path.computeMetrics().first;
       canvas.drawPath(
@@ -122,15 +125,16 @@ class _LeafCheckPainter extends CustomPainter {
     }
   }
 
-  void _leaf(Canvas canvas, Offset base, double dir, double len, Paint paint, Size size) {
+  void _leaf(Canvas canvas, Offset base, double dir, double len, Paint paint,
+      Size size) {
     if (len <= 0) return;
     final tip = Offset(base.dx + dir * len * 0.95, base.dy - len);
     final path = Path();
     path.moveTo(base.dx, base.dy);
     path.quadraticBezierTo(
-      base.dx + dir * len * 0.7, base.dy - len * 0.15, tip.dx, tip.dy);
+        base.dx + dir * len * 0.7, base.dy - len * 0.15, tip.dx, tip.dy);
     path.quadraticBezierTo(
-      base.dx + dir * len * 0.45, base.dy - len * 0.6, base.dx, base.dy);
+        base.dx + dir * len * 0.45, base.dy - len * 0.6, base.dx, base.dy);
     canvas.drawPath(path, paint);
   }
 

@@ -51,7 +51,9 @@ class _ChangelogScreenState extends State<ChangelogScreen> {
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
-        backgroundColor: AppColors.isDark ? AppColors.frostedTintDark : AppColors.frostedTint,
+        backgroundColor: AppColors.isDark
+            ? AppColors.frostedTintDark
+            : AppColors.frostedTint,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
@@ -62,7 +64,8 @@ class _ChangelogScreenState extends State<ChangelogScreen> {
         ),
       ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.primary))
+          ? const Center(
+              child: CircularProgressIndicator(color: AppColors.primary))
           : ListView.builder(
               padding: const EdgeInsets.all(AppSpacing.pagePadding),
               itemCount: _logs.length,
@@ -87,14 +90,17 @@ class _ChangelogScreenState extends State<ChangelogScreen> {
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Text('v${log['version']}', style: AppTypography.bodySemiBold.copyWith(
-                  color: AppColors.primary, fontSize: 13,
-                )),
+                child: Text('v${log['version']}',
+                    style: AppTypography.bodySemiBold.copyWith(
+                      color: AppColors.primary,
+                      fontSize: 13,
+                    )),
               ),
               const SizedBox(width: 8),
               Text('${log['date']}', style: AppTypography.badge),
@@ -105,16 +111,17 @@ class _ChangelogScreenState extends State<ChangelogScreen> {
           Text('${log['title']}', style: AppTypography.bodySemiBold),
           const SizedBox(height: 12),
           ...items.map((item) => Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Icon(Icons.check_circle, size: 16, color: AppColors.primary),
-                const SizedBox(width: 8),
-                Expanded(child: Text(item, style: AppTypography.body)),
-              ],
-            ),
-          )),
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(Icons.check_circle,
+                        size: 16, color: AppColors.primary),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text(item, style: AppTypography.body)),
+                  ],
+                ),
+              )),
           const SizedBox(height: 12),
           _buildFeedbackButton(),
         ],
@@ -126,7 +133,7 @@ class _ChangelogScreenState extends State<ChangelogScreen> {
     return GestureDetector(
       onTap: () {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('留言功能开发中，后续版本将支持直接反馈到官网')),
+          const SnackBar(content: Text('留言反馈功能打磨中，欢迎前往「关于」页扫码打赏支持我们～')),
         );
       },
       child: Container(
@@ -141,9 +148,10 @@ class _ChangelogScreenState extends State<ChangelogScreen> {
           children: [
             Icon(Icons.feedback_outlined, size: 18, color: AppColors.textHint),
             const SizedBox(width: 6),
-            Text('对这次更新有意见？留言告诉我们', style: AppTypography.caption.copyWith(
-              color: AppColors.textHint,
-            )),
+            Text('对这次更新有意见？留言告诉我们',
+                style: AppTypography.caption.copyWith(
+                  color: AppColors.textHint,
+                )),
           ],
         ),
       ),

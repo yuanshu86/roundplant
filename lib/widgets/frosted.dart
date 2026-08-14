@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
 
 /// 毛玻璃容器：在任意背景上叠加半透明材质 + 背景模糊（iOS 风格）
@@ -55,6 +56,65 @@ class FrostedGlass extends StatelessWidget {
   }
 }
 
+/// 田园可爱风玻璃卡（B 质感定稿）：半透磨砂 + 白描边 + 顶部高光条
+///
+/// 在 GardenBackground（奶油光斑）之上叠放时，透出背后景色，
+/// 呈现「阳光透过磨砂玻璃洒在奶油花园」的效果。
+class FrostedCard extends StatelessWidget {
+  final Widget child;
+  final EdgeInsetsGeometry? padding;
+  final double radius;
+  final double? height;
+  final double? width;
+
+  const FrostedCard({
+    super.key,
+    required this.child,
+    this.padding,
+    this.radius = AppSpacing.radiusCard,
+    this.height,
+    this.width,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FrostedGlass(
+      height: height,
+      width: width,
+      tint: AppColors.glassCardTint,
+      sigma: 20,
+      radius: BorderRadius.circular(radius),
+      padding: EdgeInsets.zero,
+      border: Border.all(color: AppColors.glassBorder, width: 1.5),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(radius),
+        child: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 46,
+                decoration: BoxDecoration(
+                  color: AppColors.glassHighlight,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(radius),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: padding ?? const EdgeInsets.all(AppSpacing.cardPadding),
+              child: child,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 /// 毛玻璃顶部导航栏（iOS 风格：半透明材质 + 底部发丝分隔线 + 居中标题）
 ///
 /// [dark] 为 true 时用于深色背景（如 AI 识别页），材质改为深色毛玻璃、文字白色。
@@ -90,21 +150,25 @@ class FrostedTopBar extends StatelessWidget {
           width: 0.5,
         ),
       ),
-      child: Row(
-        children: [
-          leading ?? const SizedBox(width: 32),
-          Expanded(
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: (dark ? AppTypography.pageTitle : AppTypography.cardTitle)
-                  .copyWith(color: contentColor, fontSize: titleFontSize),
+      child: SafeArea(
+        top: true,
+        bottom: false,
+        child: Row(
+          children: [
+            leading ?? const SizedBox(width: 32),
+            Expanded(
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: (dark ? AppTypography.pageTitle : AppTypography.cardTitle)
+                    .copyWith(color: contentColor, fontSize: titleFontSize),
+              ),
             ),
-          ),
-          trailing ?? const SizedBox(width: 32),
-        ],
+            trailing ?? const SizedBox(width: 32),
+          ],
+        ),
       ),
     );
   }

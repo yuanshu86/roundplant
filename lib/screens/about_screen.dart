@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 import '../theme/app_spacing.dart';
@@ -12,7 +13,9 @@ class AboutScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
-        backgroundColor: AppColors.isDark ? AppColors.frostedTintDark : AppColors.frostedTint,
+        backgroundColor: AppColors.isDark
+            ? AppColors.frostedTintDark
+            : AppColors.frostedTint,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
@@ -37,6 +40,9 @@ class AboutScreen extends StatelessWidget {
             const SizedBox(height: 28),
             _buildRewardSection(),
             const SizedBox(height: 32),
+            // 上架合规：Google Play / App Store 强制要求 APP 提供可访问的隐私政策链接
+            _buildPrivacyLink(),
+            const SizedBox(height: 16),
             Text('© 2026 圆形植物 Circle Plant', style: AppTypography.badge),
             const SizedBox(height: 8),
             Text('陪伴你的每一株植物健康成长', style: AppTypography.caption),
@@ -46,9 +52,42 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildPrivacyLink() {
+    return GestureDetector(
+      onTap: () async {
+        final uri = Uri.parse('https://roundplant.cn/privacy');
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        }
+      },
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.border),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.privacy_tip_outlined,
+                size: 14, color: AppColors.textSecondary),
+            const SizedBox(width: 6),
+            Text('隐私政策',
+                style: AppTypography.caption
+                    .copyWith(color: AppColors.textSecondary)),
+            const SizedBox(width: 4),
+            Icon(Icons.open_in_new, size: 12, color: AppColors.textHint),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildLogo() {
     return Container(
-      width: 80, height: 80,
+      width: 80,
+      height: 80,
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.12),
         shape: BoxShape.circle,
@@ -71,9 +110,11 @@ class AboutScreen extends StatelessWidget {
         children: [
           _highlightRow(Icons.block, '完全没有广告', '没有任何弹窗、开屏、插屏或横幅广告，只给你安静的陪伴。'),
           const SizedBox(height: 16),
-          _highlightRow(Icons.storage, '数据本地存储', '你的植物数据全部保存在手机本地，不上传任何云端，隐私由你掌握。'),
+          _highlightRow(
+              Icons.storage, '数据本地存储', '你的植物数据全部保存在手机本地，不上传任何云端，隐私由你掌握。'),
           const SizedBox(height: 16),
-          _highlightRow(Icons.favorite_outline, '自愿打赏支持', '如果圆形植物帮你照顾好了花草，欢迎扫码打赏，支持我继续做下去。'),
+          _highlightRow(Icons.favorite_outline, '自愿打赏支持',
+              '如果圆形植物帮你照顾好了花草，欢迎扫码打赏，支持我继续做下去。'),
         ],
       ),
     );
@@ -84,7 +125,8 @@ class AboutScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 36, height: 36,
+          width: 36,
+          height: 36,
           decoration: BoxDecoration(
             color: AppColors.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
@@ -137,10 +179,16 @@ class AboutScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.qr_code_2, size: 48, color: AppColors.primary.withValues(alpha: 0.5)),
+                    Icon(Icons.qr_code_2,
+                        size: 48,
+                        color: AppColors.primary.withValues(alpha: 0.5)),
                     const SizedBox(height: 8),
-                    Text('收款二维码', style: AppTypography.caption.copyWith(color: AppColors.textHint)),
-                    Text('（待添加图片）', style: AppTypography.badge.copyWith(color: AppColors.textHint)),
+                    Text('收款二维码',
+                        style: AppTypography.caption
+                            .copyWith(color: AppColors.textHint)),
+                    Text('（待添加图片）',
+                        style: AppTypography.badge
+                            .copyWith(color: AppColors.textHint)),
                   ],
                 ),
               );

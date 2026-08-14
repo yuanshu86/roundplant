@@ -27,12 +27,13 @@ class DetailScreen extends StatelessWidget {
         final p = store.getPlant(plant.id) ?? plant;
         return Scaffold(
           body: Container(
-        color: AppColors.bg,
-        child: SafeArea(
-          top: true, bottom: false,
-          child: Column(
-            children: [
-              _buildNavBar(context),
+            color: AppColors.bg,
+            child: SafeArea(
+              top: true,
+              bottom: false,
+              child: Column(
+                children: [
+                  _buildNavBar(context),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
@@ -108,14 +109,17 @@ class DetailScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(p.name, style: AppTypography.pageTitle.copyWith(fontSize: 22)),
+              Text(p.name,
+                  style: AppTypography.pageTitle.copyWith(fontSize: 22)),
               HealthBadge(text: p.healthStatus),
             ],
           ),
           const SizedBox(height: 4),
-          Text(p.scientificName, style: AppTypography.caption.copyWith(
-            fontSize: 13, fontStyle: FontStyle.italic,
-          )),
+          Text(p.scientificName,
+              style: AppTypography.caption.copyWith(
+                fontSize: 13,
+                fontStyle: FontStyle.italic,
+              )),
         ],
       ),
     );
@@ -132,10 +136,20 @@ class DetailScreen extends StatelessWidget {
         mainAxisSpacing: 12,
         childAspectRatio: 1.8,
         children: [
-          CareParamCard(icon: Icons.wb_sunny_outlined, label: '光照', value: p.lightRequirement),
-          CareParamCard(icon: Icons.water_drop_outlined, label: '浇水', value: '每${p.wateringFrequency}天一次'),
-          CareParamCard(icon: Icons.thermostat_outlined, label: '温度', value: p.temperatureRange),
-          CareParamCard(icon: Icons.water_outlined, label: '湿度', value: p.humidityRange),
+          CareParamCard(
+              icon: Icons.wb_sunny_outlined,
+              label: '光照',
+              value: p.lightRequirement),
+          CareParamCard(
+              icon: Icons.water_drop_outlined,
+              label: '浇水',
+              value: '每${p.wateringFrequency}天一次'),
+          CareParamCard(
+              icon: Icons.thermostat_outlined,
+              label: '温度',
+              value: p.temperatureRange),
+          CareParamCard(
+              icon: Icons.water_outlined, label: '湿度', value: p.humidityRange),
         ],
       ),
     );
@@ -147,7 +161,8 @@ class DetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('养护提醒', style: AppTypography.sectionTitle.copyWith(fontSize: 16)),
+          Text('养护提醒',
+              style: AppTypography.sectionTitle.copyWith(fontSize: 16)),
           const SizedBox(height: 12),
           _careRow(
             icon: Icons.water_drop,
@@ -207,8 +222,10 @@ class DetailScreen extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 40, height: 40,
-            decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(12)),
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+                color: color, borderRadius: BorderRadius.circular(12)),
             child: Icon(icon, color: Colors.white, size: 20),
           ),
           const SizedBox(width: 12),
@@ -219,8 +236,10 @@ class DetailScreen extends StatelessWidget {
                 Text(label, style: AppTypography.bodySemiBold),
                 const SizedBox(height: 2),
                 Text('$cycle · ${needsNow ? "今天该做啦" : "$daysLeft天后"}',
-                  style: AppTypography.caption.copyWith(
-                    color: needsNow ? AppColors.accent : AppColors.textSecondary)),
+                    style: AppTypography.caption.copyWith(
+                        color: needsNow
+                            ? AppColors.accent
+                            : AppColors.textSecondary)),
               ],
             ),
           ),
@@ -228,18 +247,30 @@ class DetailScreen extends StatelessWidget {
             GestureDetector(
               onTap: onTap,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(18)),
-                child: const Text('完成', style: TextStyle(
-                  fontFamily: 'NunitoSans', fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white)),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                    color: color, borderRadius: BorderRadius.circular(18)),
+                child: const Text('完成',
+                    style: TextStyle(
+                        fontFamily: 'NunitoSans',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white)),
               ),
             )
           else
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              decoration: BoxDecoration(color: AppColors.softCard, borderRadius: BorderRadius.circular(18)),
-              child: Text('$daysLeft天后', style: TextStyle(
-                fontFamily: 'NunitoSans', fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.textSecondary)),
+              decoration: BoxDecoration(
+                  color: AppColors.softCard,
+                  borderRadius: BorderRadius.circular(18)),
+              child: Text('$daysLeft天后',
+                  style: TextStyle(
+                      fontFamily: 'NunitoSans',
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textSecondary)),
             ),
         ],
       ),
@@ -248,7 +279,10 @@ class DetailScreen extends StatelessWidget {
 
   void _careSnack(BuildContext context, String msg) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg), backgroundColor: AppColors.primary, duration: const Duration(seconds: 2)),
+      SnackBar(
+          content: Text(msg),
+          backgroundColor: AppColors.primary,
+          duration: const Duration(seconds: 2)),
     );
   }
 
@@ -262,7 +296,8 @@ class DetailScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('生长日记', style: AppTypography.sectionTitle.copyWith(fontSize: 16)),
+                Text('生长日记',
+                    style: AppTypography.sectionTitle.copyWith(fontSize: 16)),
                 const SizedBox(height: 12),
                 Container(
                   width: double.infinity,
@@ -274,14 +309,13 @@ class DetailScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Icon(Icons.book_outlined,
-                        size: 36, color: AppColors.textHint),
+                          size: 36, color: AppColors.textHint),
                       const SizedBox(height: 8),
-                      Text('还没有日记',
-                        style: AppTypography.caption),
+                      Text('还没有日记', style: AppTypography.caption),
                       const SizedBox(height: 4),
                       Text('浇水后会自动记录',
-                        style: AppTypography.caption.copyWith(
-                          fontSize: 10, color: AppColors.textHint)),
+                          style: AppTypography.caption.copyWith(
+                              fontSize: 10, color: AppColors.textHint)),
                     ],
                   ),
                 ),
@@ -298,7 +332,8 @@ class DetailScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('生长日记', style: AppTypography.sectionTitle.copyWith(fontSize: 16)),
+                  Text('生长日记',
+                      style: AppTypography.sectionTitle.copyWith(fontSize: 16)),
                   Row(
                     children: [
                       Text('${diaries.length}条', style: AppTypography.label),
@@ -306,7 +341,8 @@ class DetailScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () => _openDiaryEditor(context),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 4),
                           decoration: BoxDecoration(
                             color: AppColors.primary,
                             borderRadius: BorderRadius.circular(12),
@@ -316,8 +352,11 @@ class DetailScreen extends StatelessWidget {
                               Icon(Icons.add, color: Colors.white, size: 14),
                               SizedBox(width: 2),
                               Text('记一笔',
-                                style: TextStyle(fontFamily: 'NunitoSans', fontSize: 12,
-                                  fontWeight: FontWeight.w600, color: Colors.white)),
+                                  style: TextStyle(
+                                      fontFamily: 'NunitoSans',
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white)),
                             ],
                           ),
                         ),
@@ -329,56 +368,59 @@ class DetailScreen extends StatelessWidget {
               const SizedBox(height: 12),
               _buildGrowthComparison(context, diaries),
               ...diaries.take(3).map((d) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: AppColors.cardWhite,
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: AppColors.cardShadow,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 56, height: 56,
-                        decoration: BoxDecoration(
-                          color: AppColors.softCard,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: d.imagePath.isNotEmpty
-                          ? ClipRRect(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppColors.cardWhite,
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: AppColors.cardShadow,
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 56,
+                            height: 56,
+                            decoration: BoxDecoration(
+                              color: AppColors.softCard,
                               borderRadius: BorderRadius.circular(12),
-                              child: Image.file(
-                                File(d.imagePath),
-                                fit: BoxFit.cover,
-                                errorBuilder: (_, __, ___) =>
-                                  Icon(Icons.eco, color: AppColors.primary, size: 24),
-                              ),
-                            )
-                          : Icon(Icons.water_drop,
-                            color: AppColors.primary, size: 24),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(d.note ?? '养护瞬间',
-                              style: AppTypography.body,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis),
-                            const SizedBox(height: 4),
-                            Text(
-                              '${d.createdAt.month}月${d.createdAt.day}日 ${d.createdAt.hour}:${d.createdAt.minute.toString().padLeft(2, '0')}',
-                              style: AppTypography.caption,
                             ),
-                          ],
-                        ),
+                            child: d.imagePath.isNotEmpty
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.file(
+                                      File(d.imagePath),
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (_, __, ___) => Icon(
+                                          Icons.eco,
+                                          color: AppColors.primary,
+                                          size: 24),
+                                    ),
+                                  )
+                                : Icon(Icons.water_drop,
+                                    color: AppColors.primary, size: 24),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(d.note ?? '养护瞬间',
+                                    style: AppTypography.body,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '${d.createdAt.month}月${d.createdAt.day}日 ${d.createdAt.hour}:${d.createdAt.minute.toString().padLeft(2, '0')}',
+                                  style: AppTypography.caption,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              )),
+                    ),
+                  )),
             ],
           ),
         );
@@ -387,7 +429,8 @@ class DetailScreen extends StatelessWidget {
   }
 
   /// 成长对比拼图：取该植物所有日记中最早与最新两张照片做 Before/After
-  Widget _buildGrowthComparison(BuildContext context, List<DiaryEntry> diaries) {
+  Widget _buildGrowthComparison(
+      BuildContext context, List<DiaryEntry> diaries) {
     // 把每条日记的所有图片（主图 + 附加图）都展开
     final imageRecords = <({String path, DateTime createdAt, String? note})>[];
     for (final d in diaries) {
@@ -402,8 +445,10 @@ class DetailScreen extends StatelessWidget {
       return _buildGrowthComparisonHint(context, imageRecords.length);
     }
 
-    final newest = imageRecords.reduce((a, b) => a.createdAt.isAfter(b.createdAt) ? a : b);
-    final oldest = imageRecords.reduce((a, b) => a.createdAt.isBefore(b.createdAt) ? a : b);
+    final newest =
+        imageRecords.reduce((a, b) => a.createdAt.isAfter(b.createdAt) ? a : b);
+    final oldest = imageRecords
+        .reduce((a, b) => a.createdAt.isBefore(b.createdAt) ? a : b);
 
     final fmt = (DateTime d) => '${d.month}月${d.day}日';
     return Padding(
@@ -415,10 +460,11 @@ class DetailScreen extends StatelessWidget {
             children: [
               Icon(Icons.auto_awesome, size: 16, color: AppColors.primary),
               const SizedBox(width: 6),
-              Text('成长对比', style: AppTypography.sectionTitle.copyWith(fontSize: 16)),
+              Text('成长对比',
+                  style: AppTypography.sectionTitle.copyWith(fontSize: 16)),
               const Spacer(),
               Text('${fmt(oldest.createdAt)} → ${fmt(newest.createdAt)}',
-                style: AppTypography.caption),
+                  style: AppTypography.caption),
             ],
           ),
           const SizedBox(height: 12),
@@ -435,9 +481,11 @@ class DetailScreen extends StatelessWidget {
                 const SizedBox(width: 8),
                 Column(
                   children: [
-                    Icon(Icons.arrow_forward_rounded, color: AppColors.primary, size: 22),
+                    Icon(Icons.arrow_forward_rounded,
+                        color: AppColors.primary, size: 22),
                     const SizedBox(height: 4),
-                    Text('成长', style: AppTypography.caption.copyWith(fontSize: 10)),
+                    Text('成长',
+                        style: AppTypography.caption.copyWith(fontSize: 10)),
                   ],
                 ),
                 const SizedBox(width: 8),
@@ -465,12 +513,14 @@ class DetailScreen extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 44, height: 44,
+              width: 44,
+              height: 44,
               decoration: BoxDecoration(
                 color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(Icons.auto_awesome, color: AppColors.primary, size: 24),
+              child: const Icon(Icons.auto_awesome,
+                  color: AppColors.primary, size: 24),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -491,14 +541,18 @@ class DetailScreen extends StatelessWidget {
             GestureDetector(
               onTap: () => _openDiaryEditor(context),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                 decoration: BoxDecoration(
                   color: AppColors.primary,
                   borderRadius: BorderRadius.circular(18),
                 ),
                 child: const Text('记一笔',
-                  style: TextStyle(fontFamily: 'NunitoSans', fontSize: 13,
-                    fontWeight: FontWeight.w600, color: Colors.white)),
+                    style: TextStyle(
+                        fontFamily: 'NunitoSans',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white)),
               ),
             ),
           ],
@@ -507,7 +561,8 @@ class DetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _compareImage(({String path, DateTime createdAt, String? note}) record) {
+  Widget _compareImage(
+      ({String path, DateTime createdAt, String? note}) record) {
     return Expanded(
       child: Column(
         children: [
@@ -528,7 +583,9 @@ class DetailScreen extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             record.note != null && record.note!.isNotEmpty
-                ? (record.note!.length > 12 ? '${record.note!.substring(0, 12)}…' : record.note!)
+                ? (record.note!.length > 12
+                    ? '${record.note!.substring(0, 12)}…'
+                    : record.note!)
                 : '养护瞬间',
             style: AppTypography.caption.copyWith(fontSize: 11),
             maxLines: 1,
@@ -589,17 +646,20 @@ class DetailScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(height: 16),
-              Container(width: 40, height: 4,
-                decoration: BoxDecoration(color: AppColors.border,
-                  borderRadius: BorderRadius.circular(2))),
+              Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                      color: AppColors.border,
+                      borderRadius: BorderRadius.circular(2))),
               const SizedBox(height: 20),
               ListTile(
                 leading: Icon(Icons.share, color: AppColors.primary),
                 title: const Text('分享植物'),
                 onTap: () {
                   Navigator.pop(ctx);
-                  ShareCardService.sharePlantCard(context, plant,
-                    context.read<AppStore>());
+                  ShareCardService.sharePlantCard(
+                      context, plant, context.read<AppStore>());
                 },
               ),
               ListTile(

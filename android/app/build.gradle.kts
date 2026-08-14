@@ -27,7 +27,9 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        // 显式锁定 targetSdk=35：Google Play 自 2025 年起要求上架应用 targetSdk >= 35，
+        // 取 Flutter 默认（34）会被新版本 Flutter 升到 34 而不够；显式锁定免得自动升降。
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
@@ -53,11 +55,20 @@ android {
 
     buildTypes {
         release {
+            // 正式签名（有 key.properties 时用 release 密钥，否则 fallback debug）
             signingConfig = if (useReleaseKey) {
                 signingConfigs.getByName("release")
             } else {
                 signingConfigs.getByName("debug")
             }
+            // 启用 R8：代码混淆 + 死代码移除 + 资源压缩
+            // Google Play 推荐，能显著减小 APK 体积并保护代码不裸露
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 }

@@ -1,9 +1,15 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 import '../widgets/plant_card.dart';
+import '../widgets/avatar_image.dart';
 import '../services/notification_service.dart';
+import '../services/supabase_service.dart';
+import 'package:provider/provider.dart';
+import '../store/app_store.dart';
 
 /// 首次启动引导页
 /// 3 屏品牌介绍 + 在最后一屏自然请求通知权限，全程无弹窗、不打扰。
@@ -16,6 +22,7 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
+  final TextEditingController _nickname = TextEditingController();
   int _page = 0;
   bool _reminderOn = false;
 
@@ -72,18 +79,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             shape: BoxShape.circle,
                             boxShadow: AppColors.buttonShadow,
                           ),
-                          child: Icon(p.icon, size: 56, color: AppColors.primary),
+                          child:
+                              Icon(p.icon, size: 56, color: AppColors.primary),
                         ),
                         const SizedBox(height: 32),
                         Text(p.title,
-                            style: AppTypography.pageTitle.copyWith(fontSize: 22)),
+                            style:
+                                AppTypography.pageTitle.copyWith(fontSize: 22)),
                         const SizedBox(height: 16),
                         Text(p.desc,
                             style: AppTypography.caption.copyWith(fontSize: 15),
                             textAlign: TextAlign.center),
                         if (isLast) ...[
-                          const SizedBox(height: 28),
-                          _buildReminderToggle(),
+                          const SizedBox(height: 24),
+                          _buildProfileSetup(),
                         ],
                       ],
                     ),
@@ -111,30 +120,104 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget _buildReminderToggle() {
-    return GestureDetector(
-      onTap: () async {
-        await NotificationService.requestPermission();
-        if (mounted) setState(() => _reminderOn = true);
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: _reminderOn ? AppColors.softCard : AppColors.cardWhite,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.border),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.notifications_active, color: AppColors.primary, size: 18),
-            const SizedBox(width: 8),
-            Text(
-              _reminderOn ? '每日提醒已开启 ✓' : '开启每日养护提醒',
-              style: AppTypography.bodySemiBold,
+  /// 最后一步：起昵称（同步到 Supabase，附近/我的/首页统一显示）+ 提醒开关
+  Widget _buildProfileSetup() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.cardWhite,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.border),
+        boxShadow: AppColors.cardShadow,
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              // 头像：点击可从相册选图（上传 Supabase Storage 云端同步）
+              GestureDetector(
+                onTap: () => _pickAvatar(),
+                behavior: HitTestBehavior.opaque,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Consumer<AppStore>(
+                      builder: (context, store, _) => AvatarImage(
+                        url: store.myAvatarUrl,
+                        color: AppColors.primary,
+                        size: 52,
+                      ),
+                    ),
+                    Positioned(
+                      right: -2,
+                      bottom: -2,
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.18),
+                              blurRadius: 5,
+                            ),
+                          ],
+                        ),
+                        child: const Icon(Icons.photo_camera,
+                            size: 12, color: AppColors.primary),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: TextField(
+                  controller: _nickname,
+                  maxLength: 12,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    hintText: '如：爱养花的阿绿',
+                    hintStyle: AppTypography.caption,
+                    isDense: true,
+                    filled: true,
+                    fillColor: AppColors.bg,
+                    counterText: '',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          GestureDetector(
+            onTap: () async {
+              await NotificationService.requestPermission();
+              if (mounted) setState(() => _reminderOn = true);
+            },
+            behavior: HitTestBehavior.opaque,
+            child: Row(
+              children: [
+                Icon(
+                  _reminderOn
+                      ? Icons.notifications_active
+                      : Icons.notifications_none,
+                  color: AppColors.primary,
+                  size: 18,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  _reminderOn ? '每日提醒已开启 ✓' : '开启每日养护提醒',
+                  style: AppTypography.bodySemiBold.copyWith(fontSize: 13),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -157,9 +240,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
+    /// 相册选头像并上传（保存时同步到 Supabase）
+  Future<void> _pickAvatar() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 512,
+      maxHeight: 512,
+      imageQuality: 85,
+    );
+    if (picked == null) return;
+    await context.read<AppStore>().setMyAvatar(File(picked.path));
+  }
+
   Future<void> _finish() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('onboarded', true);
+    // 保存昵称到 Supabase（附近/我的/首页统一用这一份）
+    final n = _nickname.text.trim();
+    if (n.isNotEmpty && mounted) {
+      try {
+        await context.read<AppStore>().setMyNickname(n);
+      } catch (_) {}
+    }
     if (mounted) Navigator.pushReplacementNamed(context, '/');
   }
 }
