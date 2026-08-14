@@ -1,0 +1,33 @@
+name: Keep Supabase Alive
+
+# 目的：防止 Supabase 免费版项目因「7 天不活跃」被自动暂停。
+# 原理：定期向 Supabase REST API 发真实外部请求 → 暂停检测器记录为活跃。
+# 频率：每 12 小时一次（远小于 7 天阈值，双保险）。
+on:
+  schedule:
+    - cron: '0 */12 * * *' # 每 12 小时（UTC），即北京 08:00 / 20:00
+  workflow_dispatch: {} # 支持手动触发测试
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "❌ 未配置 SUPABASE_URL / SUPABASE_ANON_KEY secrets（仓库 Settings → Secrets and variables → Actions）"
+            exit 1
+          fi
+          code=$(curl -sS -o /dev/null -w "%{http_code}" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
+            "${SUPABASE_URL}/rest/v1/profiles?select=id&limit=1")
+          echo "Supabase ping -> HTTP ${code}"
+          # 200/4xx 都算项目活跃（有请求到达）；只有 5xx/超时才告警
+          if [ "$code" -ge 500 ] || [ "$code" = "000" ]; then
+            echo "❌ Supabase 可能不可达（HTTP ${code}）"
+            exit 1
+          fi
