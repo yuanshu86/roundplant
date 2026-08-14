@@ -34,7 +34,15 @@ app.post('/api/identify', upload.single('image'), async (req, res) => {
     );
     fd.append('organs', organ);
 
-    const r = await fetch(url, { method: 'POST', body: fd });
+    // Pl@ntNet 国际 API 偶尔很慢：30 秒超时快速失败，不再让 APP 干等
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 30000);
+    let r;
+    try {
+      r = await fetch(url, { method: 'POST', body: fd, signal: controller.signal });
+    } finally {
+      clearTimeout(timer);
+    }
     if (!r.ok) {
       const text = await r.text();
       console.error('[Pl@ntNet error]', r.status, text.slice(0, 500));
@@ -60,6 +68,12 @@ app.post('/api/identify', upload.single('image'), async (req, res) => {
     res.json({ success: true, results });
   } catch (e) {
     console.error('[Proxy exception]', e);
+    // 超时（AbortError）给 APP 明确的"服务繁忙"而不是让前端干等
+    if (e.name === 'AbortError') {
+      return res
+        .status(504)
+        .json({ success: false, error: '识别服务繁忙，请稍后再试' });
+    }
     res.status(500).json({ success: false, error: String(e) });
   }
 });
