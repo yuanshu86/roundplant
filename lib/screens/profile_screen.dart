@@ -9,6 +9,7 @@ import '../theme/app_typography.dart';
 import '../theme/app_spacing.dart';
 import '../store/app_store.dart';
 import '../widgets/avatar_image.dart';
+import '../widgets/frosted.dart';
 import 'about_screen.dart';
 import 'changelog_screen.dart';
 import '../services/backup_service.dart';
@@ -154,8 +155,30 @@ class _ProfileScreenState extends State<ProfileScreen>
               ),
             ),
             const SizedBox(height: 14),
-            Text(store.myNickname ?? '植物管家',
-                style: AppTypography.onDarkTitle),
+            // 昵称：点击可改（重装 APK/换账号后随时改回）
+            GestureDetector(
+              onTap: () => _editNickname(store),
+              behavior: HitTestBehavior.opaque,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 14, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.18),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      store.myNickname ?? '点此设置昵称',
+                      style: AppTypography.onDarkTitle.copyWith(fontSize: 17),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(Icons.edit, size: 14, color: Colors.white70),
+                  ],
+                ),
+              ),
+            ),
             const SizedBox(height: 6),
             Text(
               '已守护 ${store.maxCareDays} 天 · 养护 ${store.totalPlants} 株植物',
@@ -407,6 +430,94 @@ class _ProfileScreenState extends State<ProfileScreen>
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else if (context.mounted) {
       _toast(context, '打开链接失败，请检查网络');
+    }
+  }
+
+  /// 修改昵称（随时点"我的"页名字都能改，重装 APP 后一键恢复）
+  Future<void> _editNickname(AppStore store) async {
+    final controller = TextEditingController(text: store.myNickname ?? '');
+    final name = await showModalBottomSheet<String>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => FrostedGlass(
+        tint: AppColors.frostedTint,
+        radius: const BorderRadius.vertical(top: Radius.circular(28)),
+        padding: EdgeInsets.fromLTRB(
+            20, 16, 20, 24 + MediaQuery.of(ctx).viewInsets.bottom),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.border,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            const SizedBox(height: 14),
+            Text('修改昵称', style: AppTypography.cardTitle.copyWith(fontSize: 16)),
+            const SizedBox(height: 4),
+            Text('起一个昵称才能出现在附近页，让同城植友找到你',
+                style: AppTypography.caption),
+            const SizedBox(height: 12),
+            TextField(
+              controller: controller,
+              maxLength: 12,
+              autofocus: true,
+              decoration: InputDecoration(
+                hintText: '如：爱养花的阿绿',
+                hintStyle: AppTypography.caption,
+                isDense: true,
+                filled: true,
+                fillColor: AppColors.bg,
+                counterText: '',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(14),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            GestureDetector(
+              onTap: () => Navigator.pop(ctx, controller.text.trim()),
+              behavior: HitTestBehavior.opaque,
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                decoration: BoxDecoration(
+                  gradient: AppColors.primaryGradient,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Text('保存',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'NunitoSans',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (name != null && name.isNotEmpty && mounted) {
+      final ok = await store.setMyNickname(name);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(ok
+                ? '昵称已更新，现在能被同城植友看到啦'
+                : '昵称保存失败，请稍后再试'),
+            backgroundColor: ok ? AppColors.primary : AppColors.danger,
+          ),
+        );
+      }
     }
   }
 

@@ -147,7 +147,8 @@ class _ScanScreenState extends State<ScanScreen> {
         ),
       );
 
-      final streamed = await req.send().timeout(const Duration(seconds: 25));
+      final streamed =
+          await req.send().timeout(const Duration(seconds: 40));
       final resp = await http.Response.fromStream(streamed);
 
       if (resp.statusCode == 200) {
@@ -181,23 +182,24 @@ class _ScanScreenState extends State<ScanScreen> {
 
   void _addPlant(PlantMatch m) {
     final now = DateTime.now();
+    final care = _careSuggestion(m); // 按科属给专业养护参数
     final newPlant = Plant(
       id: const Uuid().v4(),
       name: m.name,
       scientificName: m.scientificName,
       healthStatus: '健康',
-      wateringFrequency: 7,
+      wateringFrequency: care.water,
       lastWatered: now,
-      nextWatering: now.add(const Duration(days: 7)),
-      fertilizingFrequency: 14,
+      nextWatering: now.add(Duration(days: care.water)),
+      fertilizingFrequency: care.fert,
       lastFertilized: now,
-      nextFertilizing: now.add(const Duration(days: 14)),
+      nextFertilizing: now.add(Duration(days: care.fert)),
       pruningFrequency: 30,
       lastPruned: now,
       nextPruning: now.add(const Duration(days: 30)),
-      lightRequirement: '明亮散射光',
-      temperatureRange: '18-28°C',
-      humidityRange: '60-80%',
+      lightRequirement: care.light,
+      temperatureRange: care.temp,
+      humidityRange: care.hum,
     );
     context.read<AppStore>().addPlant(newPlant);
     Navigator.pop(context);
@@ -207,6 +209,40 @@ class _ScanScreenState extends State<ScanScreen> {
         backgroundColor: AppColors.primary,
       ),
     );
+  }
+
+  /// 按科属给养护建议：识别 → 建档 → 参数一步到位（告别"所有植物都一样"）
+  _PlantCare _careSuggestion(PlantMatch m) {
+    final n = m.name;
+    final f = m.family;
+    // 多肉 / 仙人掌 / 芦荟：耐旱喜光
+    if (n.contains('多肉') ||
+        n.contains('仙人') ||
+        n.contains('芦荟') ||
+        f.contains('Cactaceae') ||
+        f.contains('Crassulaceae')) {
+      return const _PlantCare(
+          water: 10, fert: 30, light: '充足阳光', temp: '18-30°C', hum: '30-50%');
+    }
+    // 蕨类 / 兰科：喜湿喜阴
+    if (n.contains('蕨') ||
+        n.contains('兰') ||
+        f.contains('Polypodi') ||
+        f.contains('Orchidaceae')) {
+      return const _PlantCare(
+          water: 3, fert: 20, light: '半阴环境', temp: '18-26°C', hum: '70-90%');
+    }
+    // 天南星科（绿萝/龟背竹/滴水观音等）：常见观叶
+    if (n.contains('绿萝') ||
+        n.contains('龟背竹') ||
+        n.contains('滴水观音') ||
+        f.contains('Araceae')) {
+      return const _PlantCare(
+          water: 5, fert: 20, light: '明亮散射光', temp: '18-28°C', hum: '60-80%');
+    }
+    // 默认
+    return const _PlantCare(
+        water: 7, fert: 14, light: '明亮散射光', temp: '18-28°C', hum: '60-80%');
   }
 
   /// 解析植友头像颜色（十六进制 #RRGGBB → Color；失败回退主色）
@@ -731,4 +767,20 @@ class _ScanScreenState extends State<ScanScreen> {
       ),
     );
   }
+}
+
+/// 识别后按科属生成的养护建议参数
+class _PlantCare {
+  final int water; // 浇水间隔（天）
+  final int fert; // 施肥间隔（天）
+  final String light; // 光照需求
+  final String temp; // 适宜温度
+  final String hum; // 适宜湿度
+  const _PlantCare({
+    required this.water,
+    required this.fert,
+    required this.light,
+    required this.temp,
+    required this.hum,
+  });
 }

@@ -300,7 +300,7 @@ class SupabaseService {
       if (peerIds.isEmpty) return const [];
       final profiles = await client
           .from('profiles')
-          .select('id, nickname, avatar_color, plant_icon, tag')
+          .select('id, nickname, avatar_color, plant_icon, tag, avatar_url')
           .inFilter('id', peerIds.toList());
       return List<Map<String, dynamic>>.from(profiles as List);
     } catch (_) {

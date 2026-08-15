@@ -5,6 +5,11 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+# 国内镜像：pub get 走 pub.flutter-io.cn，否则 GitHub runner 拉 pub.dev 依赖不稳定
+env:
+  PUB_HOSTED_URL: https://pub.flutter-io.cn
+  FLUTTER_STORAGE_BASE_URL: https://storage.flutter-io.cn
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,6 +32,7 @@ jobs:
         with:
           flutter-version: '3.44.8'
           channel: 'stable'
+          cache: true
 
       - name: Create local.properties
         run: |

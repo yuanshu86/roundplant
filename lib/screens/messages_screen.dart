@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 import '../services/supabase_service.dart';
+import '../widgets/avatar_image.dart';
 import '../models/plant.dart';
 import 'chat_screen.dart';
 import 'nearby_screen.dart';
@@ -104,6 +105,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
               : '植友',
           avatarColor:
               NearbyUserFactory.parseColor(p?['avatar_color'] as String?),
+          avatarUrl: (p?['avatar_url'] as String?)?.isNotEmpty == true
+              ? p!['avatar_url'] as String
+              : null,
           plantIcon: (p?['plant_icon'] as String?) ?? 'leaf',
           tag: (p?['tag'] as String?) ?? '养花爱好者',
           lastContent: e.value['content'] as String? ?? '',
@@ -284,14 +288,11 @@ class _MessagesScreenState extends State<MessagesScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: Color(c.avatarColor),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(_iconFor(c.plantIcon), color: Colors.white, size: 22),
+            AvatarImage(
+              url: c.avatarUrl,
+              plantIcon: c.plantIcon,
+              color: Color(c.avatarColor),
+              size: 44,
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -356,6 +357,7 @@ class _ConvSummary {
   final String peerId;
   final String peerName;
   final int avatarColor;
+  final String? avatarUrl;
   final String plantIcon;
   final String tag;
   final String lastContent;
@@ -365,6 +367,7 @@ class _ConvSummary {
     required this.peerId,
     required this.peerName,
     required this.avatarColor,
+    this.avatarUrl,
     required this.plantIcon,
     required this.tag,
     required this.lastContent,

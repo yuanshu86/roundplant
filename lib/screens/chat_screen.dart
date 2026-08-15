@@ -132,19 +132,48 @@ class _ChatScreenState extends State<ChatScreen> {
       );
       return;
     }
-    setState(() => _sending = true);
+    final me = _myId;
+    if (me == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('登录状态失效，请重启应用再试'),
+          backgroundColor: AppColors.accent,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+    // 乐观更新：立即本地显示，不等网络回环（弱网也不卡顿）
+    final temp = _Msg(
+      id: 'local-${DateTime.now().microsecondsSinceEpoch}',
+      senderId: me,
+      receiverId: widget.peer.serverId,
+      content: txt,
+      createdAt: DateTime.now(),
+    );
+    setState(() {
+      _msgs.add(temp);
+      _input.clear();
+      _sending = true;
+    });
+    _scrollToBottom();
+
     final ok = await SupabaseService.sendMessage(
       receiverId: widget.peer.serverId,
       content: txt,
     );
     if (!mounted) return;
-    setState(() => _sending = false);
+    setState(() {
+      _sending = false;
+      // 移除本地乐观条目：真实消息由 Realtime / 轮询回灌
+      _msgs.removeWhere((m) => m.id == temp.id);
+    });
     if (ok) {
-      _input.clear();
-      // Realtime 会自己回灌，UI 也会刷新；保险起见手动滚到底
-      WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+      _scrollToBottom();
     } else {
-      // 发送失败：输入内容保留，浮层提供「重试」按钮
+      // 失败：内容回填输入框 + 重试按钮
+      _input.text = txt;
+      _input.selection = TextSelection.collapsed(offset: txt.length);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('发送失败，网络开小差了'),
@@ -370,26 +399,42 @@ class _ChatScreenState extends State<ChatScreen> {
               size: 28,
             ),
           Flexible(
-            child: Container(
-              constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.66,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: mine ? AppColors.primary : AppColors.cardWhite,
-                borderRadius: BorderRadius.circular(14),
-                border: mine
-                    ? null
-                    : Border.all(color: AppColors.border),
-              ),
-              child: Text(
-                m.content,
-                style: TextStyle(
-                  fontFamily: 'NunitoSans',
-                  fontSize: 14,
-                  color: mine ? Colors.white : AppColors.textPrimary,
+            child: Column(
+              crossAxisAlignment:
+                  mine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _formatTime(m.createdAt),
+                  style: TextStyle(
+                    fontFamily: 'NunitoSans',
+                    fontSize: 10,
+                    color: AppColors.textHint,
+                  ),
                 ),
-              ),
+                const SizedBox(height: 2),
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.66,
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: mine ? AppColors.primary : AppColors.cardWhite,
+                    borderRadius: BorderRadius.circular(14),
+                    border: mine
+                        ? null
+                        : Border.all(color: AppColors.border),
+                  ),
+                  child: Text(
+                    m.content,
+                    style: TextStyle(
+                      fontFamily: 'NunitoSans',
+                      fontSize: 14,
+                      color: mine ? Colors.white : AppColors.textPrimary,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           if (mine)
@@ -406,6 +451,17 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
     );
+  }
+
+  /// 气泡时间：今天显示时分，更早显示"月/日 时分"
+  String _formatTime(DateTime t) {
+    final now = DateTime.now();
+    final hm =
+        '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
+    if (t.year == now.year && t.month == now.month && t.day == now.day) {
+      return hm;
+    }
+    return '${t.month}/${t.day} $hm';
   }
 
   Widget _buildInput() {

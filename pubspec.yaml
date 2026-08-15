@@ -15,10 +15,13 @@ dependencies:
   # 分享 (调系统Share Sheet)
   # 锁定 7.x：12.x 的 Android Kotlin 源码在 AGP9+新Kotlin 工具链下编译不过(ShareSuccessManager 等未解析符号)
   share_plus: ^7.2.0
+  # 分享时把带水印的 PNG 作为文件发出去（XFile）
+  cross_file: ^0.3.4
+  # 真存相册（保存图片按钮）：Android 11+ 免权限，iOS 走 PHPhotoLibrary
+  image_gallery_saver_plus: ^5.1.1
   # 本地存储 (用户设置缓存)
   shared_preferences: ^2.2.2
-  # Google字体 (Varela Round + Nunito Sans)
-  google_fonts: ^6.2.1
+  # 标题字体 ZCOOLKuaiLe（站酷快乐体）本地打包，已移除 google_fonts 运行时下载
   # 格式化日期
   intl: ^0.19.0
   # SQLite 本地数据库 (植物/浇水记录/日记/任务持久化)
@@ -40,6 +43,11 @@ dependencies:
   http_parser: ^4.1.2
   # 定位（天气联动，后台不持续定位，仅启动时获取一次）
   geolocator: ^13.0.0
+  # 后端即服务（P3 真实社交+云端同步：Auth/Postgres/Realtime）
+  # URL 与 anon key 通过 --dart-define 构建注入，不进源码、不进 git
+  supabase_flutter: ^2.0.0
+  # 打开外部链接（首页官网入口跳转 roundplant.com）
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   flutter_test:
@@ -52,5 +60,9 @@ flutter:
     - assets/images/roundplant_logo.png
     - assets/images/reward_qr.png
     - assets/changelog.json
+  fonts:
+    - family: ZCOOLKuaiLe
+      fonts:
+        - asset: assets/fonts/ZCOOLKuaiLe-Regular.ttf
   # v1 不需要外部图片资源 — 所有视觉用 Flutter Widget + Canvas 绘制
   # 用户添加的植物照片存储在 app 文件目录，不打包进 assets

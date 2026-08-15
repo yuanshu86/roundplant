@@ -36,6 +36,10 @@ class AvatarImage extends StatelessWidget {
         width: size,
         height: size,
         fit: BoxFit.cover,
+        // 限制解码尺寸（头像渲染尺寸很小，按 3x 解码即可），
+        // 同一 URL 会命中 Flutter 内置 ImageCache，进出页面不再重复下载
+        cacheWidth: (size * 3).round(),
+        cacheHeight: (size * 3).round(),
         errorBuilder: (_, __, ___) => fallback,
         loadingBuilder: (ctx, child, progress) =>
             progress == null ? child : fallback,
